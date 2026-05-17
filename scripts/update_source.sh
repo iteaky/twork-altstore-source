@@ -29,7 +29,7 @@ cat > "${ROOT_DIR}/source.json" <<EOF
       "screenshotURLs": [],
       "versions": [
         {
-          "version": "1.0.0-beta.1",
+          "version": "1.0.1",
           "date": "2026-05-17",
           "localizedDescription": "Initial beta build for testers.",
           "downloadURL": "${DOWNLOAD_URL}",
