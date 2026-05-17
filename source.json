@@ -1,0 +1,30 @@
+{
+  "name": "Twork Beta",
+  "identifier": "com.iteaky.twork.source",
+  "subtitle": "Private beta builds for testers",
+  "description": "Beta versions of Twork for testing via AltStore Classic.",
+  "iconURL": "https://iteaky.github.io/twork-altstore-source/icon.png",
+  "website": "https://github.com/iteaky/twork-altstore-source",
+  "apps": [
+    {
+      "name": "Twork",
+      "bundleIdentifier": "com.trainercrm.app",
+      "developerName": "Konstantin E",
+      "subtitle": "CRM app for fitness trainers",
+      "localizedDescription": "Twork helps manage clients, trainings, subscriptions and balances.",
+      "iconURL": "https://iteaky.github.io/twork-altstore-source/icon.png",
+      "screenshotURLs": [],
+      "versions": [
+        {
+          "version": "1.0.0-beta.1",
+          "date": "2026-05-17",
+          "localizedDescription": "Initial beta build for testers.",
+          "downloadURL": "https://github.com/iteaky/twork-altstore-source/releases/download/v1.0.0-beta.1/Twork.ipa",
+          "size": 5737465,
+          "minOSVersion": "16.0"
+        }
+      ]
+    }
+  ],
+  "news": []
+}
