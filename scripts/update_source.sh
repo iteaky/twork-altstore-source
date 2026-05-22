@@ -6,8 +6,8 @@ ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 : "${ICON_URL:=https://iteaky.github.io/twork-altstore-source/icon.png}"
 : "${REPO_URL:=https://github.com/iteaky/twork-altstore-source}"
-: "${DOWNLOAD_URL:=https://github.com/iteaky/twork-altstore-source/releases/download/v1.0.0-beta.1/Twork.ipa}"
-: "${IPA_SIZE_BYTES:=5737465}"
+: "${DOWNLOAD_URL:=https://github.com/iteaky/twork-altstore-source/releases/download/v1.0.1/Twork.ipa}"
+: "${IPA_SIZE_BYTES:=8349205}"
 : "${BUNDLE_IDENTIFIER:=com.trainercrm.app}"
 
 cat > "${ROOT_DIR}/source.json" <<EOF
@@ -29,8 +29,8 @@ cat > "${ROOT_DIR}/source.json" <<EOF
       "screenshotURLs": [],
       "versions": [
         {
-          "version": "1.0.1",
-          "date": "2026-05-17",
+      "version": "1.0.1",
+          "date": "2026-05-22",
           "localizedDescription": "Initial beta build for testers.",
           "downloadURL": "${DOWNLOAD_URL}",
           "size": ${IPA_SIZE_BYTES},

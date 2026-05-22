@@ -17,10 +17,10 @@
       "versions": [
         {
           "version": "1.0.1",
-          "date": "2026-05-17",
+          "date": "2026-05-22",
           "localizedDescription": "Initial beta build for testers.",
-          "downloadURL": "https://github.com/iteaky/twork-altstore-source/releases/download/v1.0.0-beta.1/Twork.ipa",
-          "size": 5737465,
+          "downloadURL": "https://github.com/iteaky/twork-altstore-source/releases/download/v1.0.1/Twork.ipa",
+          "size": 8349205,
           "minOSVersion": "16.0"
         }
       ]
