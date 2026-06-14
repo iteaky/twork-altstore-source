@@ -1,0 +1,17 @@
+/* Safari fix: render the original transparent PNG normally.
+   The previous luminance mask exposed RGB data hidden in fully transparent pixels. */
+html[data-theme="brand-dark"] .brand-wordmark,
+html[data-theme="brand-dark"] .hero-wordmark,
+html[data-theme="brand-dark"] .final-wordmark{
+  background-color:transparent!important;
+  background-image:var(--twork-wordmark)!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:contain!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+  filter:none!important;
+  opacity:1!important;
+  transform:none!important;
+  backface-visibility:visible!important;
+}
