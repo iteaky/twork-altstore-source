@@ -1,11 +1,12 @@
 (() => {
-  const root = document.querySelector('#home-content');
-  if (!root) return;
+  const homeRoot = document.querySelector('#home-content');
+  const detailRoot = document.querySelector('#detail-screen');
+  if (!homeRoot || !detailRoot) return;
 
   function fixCards() {
-    root.querySelectorAll(':scope > .mini-circle, :scope > .special-trailing, :scope > .chevron').forEach(el => el.remove());
+    homeRoot.querySelectorAll(':scope > .mini-circle, :scope > .special-trailing, :scope > .chevron').forEach(el => el.remove());
 
-    [...root.querySelectorAll('.home-action')].forEach(button => {
+    [...homeRoot.querySelectorAll('.home-action')].forEach(button => {
       let card = button;
       if (button.tagName === 'BUTTON') {
         card = document.createElement('div');
@@ -38,6 +39,24 @@
     });
   }
 
-  new MutationObserver(fixCards).observe(root, { childList: true });
+  function fixMonthTail() {
+    const grid = detailRoot.querySelector('.calendar-grid:not(.week-strip)');
+    if (!grid) return;
+    const cells = [...grid.querySelectorAll('.calendar-cell')];
+    if (cells.length !== 35) return;
+
+    cells.slice(30).forEach((cell, index) => {
+      const julyDay = index + 1;
+      cell.classList.add('muted');
+      cell.dataset.date = `2026-07-${String(julyDay).padStart(2, '0')}`;
+      const number = cell.querySelector('.n');
+      if (number) number.textContent = String(julyDay);
+      cell.querySelectorAll('.train-count,.line-marker').forEach(marker => marker.remove());
+    });
+  }
+
+  new MutationObserver(fixCards).observe(homeRoot, { childList: true });
+  new MutationObserver(fixMonthTail).observe(detailRoot, { childList: true, subtree: true });
   fixCards();
+  fixMonthTail();
 })();
