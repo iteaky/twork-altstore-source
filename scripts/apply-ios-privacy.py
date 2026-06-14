@@ -58,13 +58,13 @@ else:
         html,
     )
 
-mobile_script = '  <script src="site/mobile-polish.js?v=20260614-1" defer></script>'
+mobile_script = '  <script src="site/mobile-polish.js?v=20260614-2" defer></script>'
 if 'site/mobile-polish.js' not in html:
     html = html.replace('</body>', mobile_script + '\n</body>')
 else:
     html = re.sub(
         r'site/mobile-polish\.js\?v=[^"]+',
-        'site/mobile-polish.js?v=20260614-1',
+        'site/mobile-polish.js?v=20260614-2',
         html,
     )
 
