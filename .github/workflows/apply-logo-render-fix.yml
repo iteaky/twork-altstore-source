@@ -15,6 +15,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Apply iOS and offline privacy content
         run: python3 scripts/apply-ios-privacy.py
+      - name: Connect cinematic theme transition
+        run: python3 scripts/apply-theme-cinematic.py
       - name: Refresh mobile header stylesheet
         run: |
           python3 - <<'PY'
@@ -61,5 +63,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Apply enlarged mobile header"
+          git commit -m "Apply cinematic theme transition"
           git push
