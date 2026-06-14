@@ -1,0 +1,534 @@
+/* Dedicated styles for the three showcase sections.
+   Kept separate so branding changes cannot break their layout. */
+
+#calendar-sync{
+  isolation:isolate;
+}
+#calendar-sync .calendar-share{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);
+  gap:18px;
+  align-items:start;
+  min-width:0;
+}
+#calendar-sync .calendar-share:before{
+  position:absolute;
+  inset:8% 2% auto;
+  height:78%;
+  border-radius:44px;
+  background:radial-gradient(circle at 50% 35%,rgba(var(--accent-rgb),.16),transparent 68%);
+  content:"";
+  pointer-events:none;
+}
+#calendar-sync .calendar-card{
+  position:relative;
+  z-index:1;
+  min-width:0;
+  min-height:396px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:linear-gradient(160deg,var(--surface),var(--bg-soft));
+  box-shadow:0 24px 64px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+#calendar-sync .calendar-card.personal{
+  margin-top:38px;
+}
+#calendar-sync .calendar-card-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+#calendar-sync .calendar-card-head b{
+  color:var(--ink);
+  font-size:15px;
+  letter-spacing:-.02em;
+}
+#calendar-sync .calendar-card-head small{
+  color:var(--muted);
+  font-size:9px;
+  text-align:right;
+}
+#calendar-sync .share-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  margin-top:16px;
+  padding:0 10px;
+  border:1px solid rgba(var(--accent-rgb),.15);
+  border-radius:999px;
+  background:rgba(var(--accent-rgb),.10);
+  color:var(--accent);
+  font-size:9px;
+  font-weight:820;
+}
+#calendar-sync .week-mini{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px;
+  margin-top:24px;
+}
+#calendar-sync .week-mini span{
+  display:grid;
+  place-items:center;
+  min-width:0;
+  min-height:56px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface);
+  color:var(--muted);
+  font-size:9px;
+}
+#calendar-sync .week-mini span.busy{
+  border-color:rgba(var(--accent-rgb),.18);
+  background:rgba(var(--accent-rgb),.12);
+  color:var(--accent);
+  font-weight:850;
+}
+#calendar-sync .calendar-list{
+  display:grid;
+  gap:10px;
+  margin-top:19px;
+}
+#calendar-sync .calendar-list>div{
+  padding:12px 13px;
+  border:1px solid var(--line);
+  border-left:4px solid var(--training);
+  border-radius:13px;
+  background:var(--surface);
+}
+#calendar-sync .calendar-list>div.duty{border-left-color:var(--duty)}
+#calendar-sync .calendar-list>div.event{border-left-color:var(--event)}
+#calendar-sync .calendar-list b,
+#calendar-sync .personal-event b{
+  display:block;
+  color:var(--ink);
+  font-size:10px;
+}
+#calendar-sync .calendar-list small,
+#calendar-sync .personal-event small{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+}
+#calendar-sync .personal-event{
+  margin-top:44px;
+  padding:18px;
+  border:1px solid rgba(var(--accent-rgb),.18);
+  border-radius:20px;
+  background:rgba(var(--accent-rgb),.10);
+}
+#calendar-sync .personal-event time{
+  display:block;
+  margin-bottom:9px;
+  color:var(--accent);
+  font-size:10px;
+  font-weight:840;
+}
+#calendar-sync .privacy-note{
+  margin-top:18px;
+  padding:13px 14px;
+  border:1px dashed var(--line);
+  border-radius:15px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.45;
+}
+
+.club-section{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 88% 18%,rgba(var(--accent-rgb),.16),transparent 30%),
+    linear-gradient(180deg,var(--bg-soft),var(--bg));
+  color:var(--ink);
+}
+.club-section:before{
+  position:absolute;
+  left:-220px;
+  bottom:-280px;
+  width:620px;
+  height:620px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.12),transparent 70%);
+  content:"";
+  pointer-events:none;
+}
+.club-layout{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(420px,1.1fr);
+  gap:72px;
+  align-items:center;
+}
+.club-copy h2{
+  margin:18px 0 24px;
+  color:var(--ink);
+  font-size:clamp(58px,7vw,104px);
+  font-weight:760;
+  letter-spacing:-.07em;
+  line-height:.9;
+}
+.club-copy>p:not(.overline){
+  max-width:620px;
+  margin:0;
+  color:var(--muted);
+  font-size:19px;
+  line-height:1.58;
+}
+.club-rules{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:32px;
+}
+.club-rules span{
+  display:flex;
+  align-items:center;
+  min-height:58px;
+  padding:14px 15px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:var(--surface-2);
+  color:var(--muted);
+  font-size:12px;
+  font-weight:680;
+  line-height:1.35;
+  box-shadow:0 12px 30px rgba(0,0,0,.035);
+}
+.club-rules span:before{
+  display:grid;
+  place-items:center;
+  flex:0 0 22px;
+  width:22px;
+  height:22px;
+  margin-right:10px;
+  border-radius:8px;
+  background:rgba(var(--accent-rgb),.12);
+  color:var(--accent);
+  content:"✓";
+  font-size:10px;
+  font-weight:900;
+}
+.club-ledger{
+  position:relative;
+  padding:34px;
+  border:1px solid var(--line);
+  border-radius:36px;
+  background:linear-gradient(155deg,var(--surface),var(--bg-soft));
+  box-shadow:0 34px 90px rgba(0,0,0,.12);
+  overflow:hidden;
+}
+.club-ledger:before{
+  position:absolute;
+  right:-80px;
+  top:-100px;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.20),transparent 68%);
+  content:"";
+}
+.ledger-head,
+.ledger-line,
+.ledger-total{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+.ledger-head{
+  margin-bottom:26px;
+}
+.ledger-head small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+}
+.ledger-head h3{
+  margin:4px 0 0;
+  color:var(--ink);
+  font-size:31px;
+  letter-spacing:-.045em;
+}
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  min-height:34px;
+  padding:0 13px;
+  border-radius:999px;
+  background:rgba(var(--accent-rgb),.12);
+  color:var(--accent);
+  font-size:10px;
+  font-weight:850;
+}
+.ledger-line{
+  min-height:62px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:13px;
+}
+.ledger-line strong{
+  flex:0 0 auto;
+  color:var(--ink);
+  font-size:16px;
+  letter-spacing:-.02em;
+}
+.ledger-total{
+  margin-top:10px;
+  padding:24px;
+  border-radius:22px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:var(--on-accent);
+}
+.ledger-total span{
+  font-size:12px;
+  font-weight:720;
+}
+.ledger-total strong{
+  font-size:32px;
+  letter-spacing:-.05em;
+}
+.ledger-button{
+  position:relative;
+  z-index:1;
+  width:100%;
+  min-height:54px;
+  margin-top:14px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:var(--surface);
+  color:var(--ink);
+  font-weight:800;
+  cursor:pointer;
+}
+
+.message-section{
+  position:relative;
+  overflow:hidden;
+  background:var(--bg);
+}
+.message-section:after{
+  position:absolute;
+  right:-160px;
+  top:80px;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.13),transparent 70%);
+  content:"";
+  pointer-events:none;
+}
+.message-layout{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:minmax(320px,.78fr) minmax(0,1.22fr);
+  gap:92px;
+  align-items:center;
+}
+.phone-message{
+  position:relative;
+  width:min(390px,100%);
+  min-height:690px;
+  margin:auto;
+  padding:76px 22px 24px;
+  border:10px solid #0a0b0e;
+  border-radius:55px;
+  background:linear-gradient(180deg,var(--surface),var(--bg-soft));
+  box-shadow:0 42px 90px rgba(0,0,0,.20);
+  overflow:hidden;
+}
+.phone-message:before{
+  position:absolute;
+  top:17px;
+  left:50%;
+  width:104px;
+  height:28px;
+  transform:translateX(-50%);
+  border-radius:999px;
+  background:#020304;
+  content:"";
+}
+.chat-top{
+  display:grid;
+  grid-template-columns:32px 1fr 32px;
+  align-items:center;
+  text-align:center;
+}
+.chat-top>span{
+  color:var(--accent);
+  font-size:20px;
+}
+.chat-top b{
+  display:block;
+  color:var(--ink);
+  font-size:13px;
+}
+.chat-top small{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:9px;
+}
+.chat-date{
+  margin:30px 0 18px;
+  color:var(--muted);
+  font-size:9px;
+  text-align:center;
+}
+.bubble{
+  max-width:82%;
+  margin-top:12px;
+  padding:13px 15px;
+  border-radius:19px;
+  font-size:11px;
+  line-height:1.45;
+  box-shadow:0 8px 22px rgba(0,0,0,.04);
+}
+.bubble.incoming{
+  border-bottom-left-radius:7px;
+  background:var(--surface);
+  color:var(--ink);
+}
+.bubble.outgoing{
+  margin-left:auto;
+  border-bottom-right-radius:7px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:var(--on-accent);
+}
+.chat-compose{
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:18px;
+  display:grid;
+  grid-template-columns:28px 1fr 32px;
+  gap:8px;
+  align-items:center;
+}
+.chat-compose span,
+.chat-compose b{
+  display:grid;
+  place-items:center;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  color:var(--accent);
+}
+.chat-compose b{
+  background:var(--accent);
+  color:var(--on-accent);
+}
+.chat-compose i{
+  min-height:42px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--surface);
+  color:var(--muted);
+  font-size:10px;
+  font-style:normal;
+}
+.message-copy h2{
+  margin:18px 0 24px;
+  color:var(--ink);
+  font-size:clamp(62px,8vw,112px);
+  font-weight:760;
+  letter-spacing:-.07em;
+  line-height:.88;
+}
+.message-copy>p:not(.overline){
+  max-width:680px;
+  margin:0;
+  color:var(--muted);
+  font-size:20px;
+  line-height:1.58;
+}
+.message-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:30px;
+}
+.message-tags span{
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--surface);
+  color:var(--muted);
+  font-size:11px;
+  font-weight:720;
+}
+
+@media(max-width:980px){
+  #calendar-sync .calendar-share,
+  .club-layout,
+  .message-layout{
+    grid-template-columns:1fr;
+  }
+  #calendar-sync .calendar-card.personal{
+    margin-top:0;
+  }
+  .club-layout,
+  .message-layout{
+    gap:48px;
+  }
+  .club-ledger{
+    width:min(680px,100%);
+    margin:auto;
+  }
+  .message-copy{
+    order:-1;
+  }
+}
+
+@media(max-width:680px){
+  #calendar-sync .calendar-share{
+    grid-template-columns:1fr;
+  }
+  #calendar-sync .calendar-card{
+    min-height:auto;
+    padding:19px;
+    border-radius:23px;
+  }
+  .club-copy h2,
+  .message-copy h2{
+    font-size:52px;
+  }
+  .club-copy>p:not(.overline),
+  .message-copy>p:not(.overline){
+    font-size:16px;
+  }
+  .club-rules{
+    grid-template-columns:1fr;
+  }
+  .club-ledger{
+    padding:23px 18px;
+    border-radius:28px;
+  }
+  .ledger-head h3{
+    font-size:26px;
+  }
+  .ledger-line{
+    align-items:flex-start;
+    min-height:66px;
+    padding:14px 0;
+  }
+  .ledger-total{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:8px;
+  }
+  .phone-message{
+    min-height:620px;
+    border-width:8px;
+    border-radius:45px;
+  }
+}
