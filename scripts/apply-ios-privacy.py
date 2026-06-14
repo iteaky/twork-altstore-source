@@ -38,6 +38,16 @@ html = re.sub(
     html,
 )
 
+shape_script = '  <script src="site/global-icon-shape-fix.js?v=20260614-1" defer></script>'
+if 'site/global-icon-shape-fix.js' not in html:
+    html = html.replace('</body>', shape_script + '\n</body>')
+else:
+    html = re.sub(
+        r'site/global-icon-shape-fix\.js\?v=[^"]+',
+        'site/global-icon-shape-fix.js?v=20260614-1',
+        html,
+    )
+
 trust = '<div class="platform-trust" aria-label="Платформа и приватность"><span class="platform-ios">Только iOS</span><span class="platform-offline">Работает офлайн</span><span class="platform-local">Без сервера TWORK</span></div>'
 if 'class="platform-trust"' not in html:
     hero_actions = '<div class="hero-actions"><button class="primary-button js-access" type="button">Запросить ранний доступ</button><a class="text-link" href="#essentials">Увидеть возможности <span>↓</span></a></div>'
