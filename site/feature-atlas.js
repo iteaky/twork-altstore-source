@@ -97,7 +97,13 @@
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         return response.json();
       })
-      .then(render)
+      .then(manifest => Promise.all((manifest.parts || []).map(part =>
+        fetch(`site/feature-catalog-${part}.json?v=v509-full`).then(response => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.json();
+        })
+      )))
+      .then(parts => render({ modules: parts.flatMap(part => part.modules || []) }))
       .catch(() => {
         grid.innerHTML = '<div class="atlas-loading">Не удалось загрузить каталог функций. Обновите страницу.</div>';
         resultCount.textContent = '—';
