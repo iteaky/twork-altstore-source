@@ -13,6 +13,7 @@
   ensureStylesheet('mode-toggle.css', 'site/mode-toggle.css?v=20260614-3');
   ensureStylesheet('branding.css', 'site/branding.css?v=20260614-2');
   ensureStylesheet('wordmark.css', 'site/wordmark.css?v=20260614-1');
+  ensureStylesheet('brand-fixes.css', 'site/brand-fixes.css?v=20260614-1');
 
   const oldPicker = $('.theme-picker');
   if (oldPicker) {
@@ -27,7 +28,7 @@
 
   const applyBranding = () => {
     $$('.brand').forEach(link => {
-      link.innerHTML = '<span class="brand-wordmark" aria-hidden="true"></span><span class="sr-only">TWORK</span>';
+      link.innerHTML = '<span class="brand-wordmark" aria-hidden="true"></span>';
     });
 
     $$('.hero-brand-logo, .final-brand-logo').forEach(element => element.remove());
@@ -49,6 +50,12 @@
       wordmark.setAttribute('aria-label', 'TWORK');
       const overline = $('.overline', finalCard);
       finalCard.insertBefore(wordmark, overline || finalCard.firstChild);
+    }
+
+    const globalCenter = $('.global-center');
+    if (globalCenter) {
+      globalCenter.innerHTML = '<img src="icon.png" alt="">';
+      globalCenter.setAttribute('aria-hidden', 'true');
     }
   };
   applyBranding();
