@@ -179,12 +179,56 @@
   font-size:13px;
   line-height:1.48;
 }
+.android-interest{
+  grid-column:2;
+  grid-row:4;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px 10px;
+  margin-top:13px;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+}
+.android-interest-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:0 14px;
+  border:1px solid rgba(var(--accent-rgb),.28);
+  border-radius:12px;
+  background:rgba(var(--accent-rgb),.08);
+  color:var(--accent);
+  font:inherit;
+  font-size:11px;
+  font-weight:820;
+  cursor:pointer;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease;
+}
+.android-interest-button:hover{
+  transform:translateY(-1px);
+  border-color:rgba(var(--accent-rgb),.42);
+  background:rgba(var(--accent-rgb),.13);
+}
+.android-interest-button:active{transform:translateY(0)}
+.android-interest small{
+  flex:1 1 170px;
+  margin:0;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:650;
+  letter-spacing:0;
+  line-height:1.35;
+  text-transform:none;
+}
 html[data-theme="brand-dark"] .privacy-section{
   background:
     radial-gradient(circle at 10% 14%,rgba(var(--accent-rgb),.12),transparent 30%),
     linear-gradient(180deg,#07100f,#0b1716);
 }
 html[data-theme="brand-dark"] .platform-trust span{background:rgba(14,27,26,.78)}
+html[data-theme="brand-dark"] .android-interest-button{background:rgba(var(--accent-rgb),.10)}
 
 @media(max-width:900px){
   .privacy-layout{grid-template-columns:1fr;gap:36px}
@@ -212,4 +256,11 @@ html[data-theme="brand-dark"] .platform-trust span{background:rgba(14,27,26,.78)
   .privacy-icon:before{width:19px;height:19px}
   .privacy-card h3{margin:4px 0 6px;font-size:18px;line-height:1.12}
   .privacy-card p{font-size:12px;line-height:1.42}
+  .android-interest{
+    grid-column:1/-1;
+    margin-top:12px;
+    padding-top:12px;
+  }
+  .android-interest-button{width:100%;min-height:40px}
+  .android-interest small{flex-basis:100%;text-align:center}
 }
