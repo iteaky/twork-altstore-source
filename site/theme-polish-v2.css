@@ -13,30 +13,18 @@ html[data-theme="brand-light"] .final-card{
   box-shadow:0 32px 90px rgba(var(--accent-rgb),.12)!important;
 }
 html[data-theme="brand-light"] .final-card:before,
-html[data-theme="brand-light"] .final-card:after{
-  opacity:.42!important;
-}
-html[data-theme="brand-light"] .final-card .overline{
-  color:var(--accent)!important;
-}
-html[data-theme="brand-light"] .final-card h2{
-  color:#161217!important;
-}
+html[data-theme="brand-light"] .final-card:after{opacity:.42!important}
+html[data-theme="brand-light"] .final-card .overline{color:var(--accent)!important}
+html[data-theme="brand-light"] .final-card h2{color:#161217!important}
 html[data-theme="brand-light"] .final-card p,
-html[data-theme="brand-light"] .final-card small{
-  color:#756972!important;
-}
+html[data-theme="brand-light"] .final-card small{color:#756972!important}
 html[data-theme="brand-light"] .final-card .primary-button.light{
   border-color:transparent!important;
   background:linear-gradient(135deg,var(--accent),var(--accent-2))!important;
   color:var(--on-accent)!important;
   box-shadow:0 16px 34px rgba(var(--accent-rgb),.24)!important;
 }
-html[data-theme="brand-light"] .final-card .primary-button.light:hover{
-  box-shadow:0 20px 42px rgba(var(--accent-rgb),.31)!important;
-}
-
-/* Keep the final action and its explanatory note visually grouped. */
+html[data-theme="brand-light"] .final-card .primary-button.light:hover{box-shadow:0 20px 42px rgba(var(--accent-rgb),.31)!important}
 .final-card .primary-button.light{
   display:flex!important;
   width:max-content;
@@ -51,165 +39,225 @@ html[data-theme="brand-light"] .final-card .primary-button.light:hover{
   line-height:1.45;
 }
 
-/* Message templates mockup: TWORK prepares text, it does not contain a chat. */
-.phone-message.template-phone{
+/* The landing-page phone reproduces the real NotificationsView hierarchy. */
+.phone-message.reminder-app-phone{
   display:flex;
   flex-direction:column;
-  min-height:690px;
-  padding:72px 18px 20px;
+  width:min(390px,100%);
+  min-height:710px;
+  padding:49px 0 18px;
+  background:
+    radial-gradient(circle at 16% 3%,rgba(var(--accent-rgb),.10),transparent 28%),
+    linear-gradient(180deg,var(--bg-soft),var(--bg));
+  color:var(--ink);
 }
-.template-app-header{
-  display:grid;
-  grid-template-columns:30px 1fr 30px;
+.reminder-statusbar{
+  position:absolute;
+  top:17px;
+  left:24px;
+  right:24px;
+  z-index:2;
+  display:flex;
   align-items:center;
-  min-height:44px;
-  text-align:center;
-}
-.template-app-header>span{
-  color:var(--accent);
-  font-size:20px;
+  justify-content:space-between;
+  color:var(--ink);
+  font-size:9px;
   font-weight:780;
 }
-.template-app-header b{
+.reminder-statusbar span:last-child{
+  font-size:7px;
+  letter-spacing:2px;
+}
+.reminder-nav{
+  display:grid;
+  grid-template-columns:38px 1fr 38px;
+  align-items:center;
+  min-height:48px;
+  padding:0 17px;
+}
+.reminder-nav strong{
+  color:var(--ink);
+  font-size:16px;
+  font-weight:760;
+  letter-spacing:-.025em;
+  text-align:center;
+}
+.reminder-nav span{
+  display:grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:var(--surface);
+  color:var(--ink);
+  font-size:18px;
+  font-weight:430;
+  box-shadow:0 5px 16px rgba(0,0,0,.05);
+}
+.reminder-nav span:last-child{
+  color:var(--accent);
+  font-size:21px;
+}
+.reminder-scroll{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  gap:11px;
+  padding:10px 16px 4px;
+  overflow:hidden;
+}
+.reminder-summary-card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--surface);
+  box-shadow:0 10px 28px rgba(0,0,0,.045);
+}
+.reminder-bell{
+  display:grid;
+  place-items:center;
+  flex:0 0 48px;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:linear-gradient(145deg,var(--accent),var(--accent-2));
+  color:var(--on-accent);
+  box-shadow:0 10px 24px rgba(var(--accent-rgb),.22);
+}
+.reminder-bell svg{width:22px;height:22px;fill:currentColor}
+.reminder-summary-copy{min-width:0}
+.reminder-summary-copy strong{
   display:block;
   color:var(--ink);
-  font-size:14px;
-  letter-spacing:-.02em;
+  font-size:15px;
+  font-weight:760;
 }
-.template-app-header small{
+.reminder-summary-copy small{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+}
+.reminder-summary-count{
+  flex:0 0 auto;
+  margin-left:auto;
+  color:var(--muted);
+  font-size:9px;
+}
+.reminder-segmented{
+  display:grid;
+  grid-template-columns:1.05fr 1fr .86fr;
+  gap:2px;
+  padding:3px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(120,120,128,.12);
+}
+.reminder-segmented span{
+  display:grid;
+  place-items:center;
+  min-height:30px;
+  padding:0 4px;
+  border-radius:7px;
+  color:var(--muted);
+  font-size:7.5px;
+  font-weight:680;
+  text-align:center;
+}
+.reminder-segmented span.active{
+  background:var(--surface);
+  color:var(--ink);
+  box-shadow:0 2px 7px rgba(0,0,0,.12);
+}
+.reminder-draft-card{
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--surface);
+  box-shadow:0 10px 26px rgba(0,0,0,.045);
+}
+.reminder-draft-card.secondary{
+  margin-bottom:-72px;
+  opacity:.96;
+}
+.reminder-draft-head{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.reminder-draft-identity{min-width:0}
+.reminder-draft-identity strong{
+  display:block;
+  overflow:hidden;
+  color:var(--ink);
+  font-size:12px;
+  font-weight:780;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.reminder-draft-identity>small{
   display:block;
   margin-top:3px;
   color:var(--muted);
   font-size:9px;
 }
-.template-category-row{
-  display:flex;
-  gap:7px;
-  margin:20px -2px 0;
-  overflow:hidden;
-}
-.template-category-row span{
-  flex:0 0 auto;
-  padding:8px 10px;
-  border:1px solid var(--line);
+.reminder-ready-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:20px;
+  margin-top:7px;
+  padding:0 7px;
   border-radius:999px;
-  background:var(--surface);
-  color:var(--muted);
-  font-size:9px;
-  font-weight:760;
-}
-.template-category-row span.active{
-  border-color:rgba(var(--accent-rgb),.22);
   background:rgba(var(--accent-rgb),.12);
   color:var(--accent);
-}
-.template-list-label{
-  margin:20px 2px 8px;
-  color:var(--muted);
-  font-size:9px;
+  font-size:7px;
   font-weight:800;
-  letter-spacing:.09em;
-  text-transform:uppercase;
 }
-.template-option{
-  margin-top:8px;
-  padding:13px 14px;
-  border:1px solid var(--line);
-  border-radius:17px;
-  background:var(--surface);
-  box-shadow:0 8px 22px rgba(0,0,0,.035);
-}
-.template-option.selected{
-  border-color:rgba(var(--accent-rgb),.30);
-  background:rgba(var(--accent-rgb),.075);
-}
-.template-option-head{
+.reminder-action{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-.template-option-head b{
-  color:var(--ink);
-  font-size:10px;
-}
-.template-option-head span{
-  flex:0 0 auto;
-  padding:4px 7px;
-  border-radius:999px;
-  background:rgba(var(--accent-rgb),.13);
-  color:var(--accent);
-  font-size:7px;
-  font-weight:850;
-}
-.template-option p{
-  margin:7px 0 0;
-  color:var(--muted);
-  font-size:9px;
-  line-height:1.42;
-}
-.template-generated{
-  margin-top:13px;
-  padding:14px;
-  border:1px solid rgba(var(--accent-rgb),.18);
-  border-radius:18px;
-  background:linear-gradient(150deg,var(--surface),rgba(var(--accent-rgb),.075));
-}
-.template-generated>small{
-  display:block;
-  color:var(--accent);
-  font-size:8px;
-  font-weight:850;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-}
-.template-generated p{
-  margin:8px 0 0;
-  color:var(--ink);
-  font-size:10px;
-  line-height:1.48;
-}
-.template-generated .auto-values{
-  display:flex;
-  flex-wrap:wrap;
+  justify-content:center;
   gap:5px;
-  margin-top:10px;
-}
-.template-generated .auto-values span{
-  padding:4px 6px;
-  border-radius:7px;
-  background:var(--bg-soft);
-  color:var(--muted);
-  font-size:7px;
-  font-weight:720;
-}
-.template-actions{
-  display:grid;
-  grid-template-columns:1fr 1.2fr;
-  gap:8px;
-  margin-top:auto;
-  padding-top:14px;
-}
-.template-action{
-  display:grid;
-  place-items:center;
-  min-height:45px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:var(--surface);
-  color:var(--ink);
-  font-size:10px;
-  font-weight:820;
-}
-.template-action.send{
-  border-color:transparent;
+  flex:0 0 auto;
+  min-height:34px;
+  margin-left:auto;
+  padding:0 11px;
+  border-radius:9px;
   background:linear-gradient(135deg,var(--accent),var(--accent-2));
   color:var(--on-accent);
-  box-shadow:0 12px 24px rgba(var(--accent-rgb),.22);
+  font-size:8px;
+  font-weight:800;
+  box-shadow:0 8px 18px rgba(var(--accent-rgb),.20);
+}
+.reminder-action.copy{
+  border:1px solid var(--line);
+  background:var(--bg-soft);
+  color:var(--ink);
+  box-shadow:none;
+}
+.reminder-action svg{
+  width:12px;
+  height:12px;
+  fill:currentColor;
+}
+.reminder-draft-text{
+  margin:12px 0 0;
+  color:var(--ink);
+  font-size:9.5px;
+  line-height:1.46;
+}
+.reminder-draft-date{
+  display:block;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:8px;
 }
 
-/* Render the night wordmark as a monochrome mask.
-   This discards RGB fringes and other bitmap colour artefacts. */
+/* Render the night wordmark as a monochrome mask. */
 html[data-theme="brand-dark"] .brand-wordmark,
 html[data-theme="brand-dark"] .hero-wordmark,
 html[data-theme="brand-dark"] .final-wordmark{
@@ -235,11 +283,11 @@ html[data-theme="brand-dark"] .final-wordmark{
     border-radius:30px!important;
     box-shadow:0 24px 64px rgba(var(--accent-rgb),.11)!important;
   }
-  .final-card .primary-button.light{
-    width:min(100%,320px);
+  .final-card .primary-button.light{width:min(100%,320px)}
+  .phone-message.reminder-app-phone{
+    min-height:665px;
+    padding-top:47px;
   }
-  .phone-message.template-phone{
-    min-height:630px;
-    padding:68px 15px 16px;
-  }
+  .reminder-scroll{padding-inline:13px}
+  .reminder-draft-card.secondary{margin-bottom:-90px}
 }
