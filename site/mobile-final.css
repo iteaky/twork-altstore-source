@@ -1,0 +1,47 @@
+/* Final mobile clarity pass: remove duplication, improve readability, prevent clipping. */
+@media(max-width:680px){
+  /* Give the single hero phone enough room without returning to an oversized hero. */
+  .product-theater{height:600px!important}
+  .device-main{width:min(286px,80vw)!important}
+  .app-screen{min-height:555px!important}
+  .theater-halo{bottom:10px!important}
+
+  /* These formats are already explained by the feature sections below. */
+  .format-strip{display:none!important}
+
+  /* Keep the workflow explanation, but make it lighter and faster to scan. */
+  .connection-rail{margin-top:36px!important}
+  .connection-rail span{min-height:42px!important;padding:9px 10px!important;font-size:10.5px!important}
+
+  /* Mobile examples must be readable, not merely decorative. */
+  .global-client{width:152px!important;padding:12px!important}
+  .global-client b{font-size:12px!important;line-height:1.2!important}
+  .global-client small{font-size:10px!important;line-height:1.3!important}
+  .global-client span{font-size:9px!important}
+
+  /* Four points are enough in desktop, three scan better on a phone. */
+  .essential-points span:nth-child(n+4){display:none!important}
+
+  /* The client calendar carries the strongest mobile message. */
+  #calendar-sync .essential-copy{padding-bottom:0!important}
+  #calendar-sync .calendar-share{margin-top:0!important}
+  #calendar-sync .client-event-card{box-shadow:0 18px 48px rgba(0,0,0,.08)!important}
+  #calendar-sync .client-note-line{font-size:10px!important}
+  #calendar-sync .client-note-extra{font-size:10px!important}
+  #calendar-sync .client-event-meta span{font-size:8.5px!important}
+  #calendar-sync .mobile-calendar-cta{margin-top:14px!important}
+
+  /* The first four message cases communicate the feature; the rest duplicate it. */
+  .message-tags span:nth-child(n+5){display:none!important}
+
+  /* Keep privacy compact after the long feature story. */
+  .privacy-section{padding-top:68px!important;padding-bottom:68px!important}
+  .privacy-card p{max-width:31em}
+}
+
+@media(max-width:390px){
+  .product-theater{height:580px!important}
+  .device-main{width:min(278px,80vw)!important}
+  .app-screen{min-height:540px!important}
+  .global-client{width:145px!important}
+}
