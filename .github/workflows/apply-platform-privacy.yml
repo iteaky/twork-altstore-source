@@ -1,0 +1,64 @@
+name: Apply iOS offline privacy landing updates
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add platform and privacy content
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text()
+
+          css = '  <link rel="stylesheet" href="site/platform-privacy.css?v=20260614-1">'
+          if 'site/platform-privacy.css' not in s:
+              s = s.replace('</head>', css + '\n</head>')
+          else:
+              s = re.sub(r'site/platform-privacy\.css\?v=[^"]+', 'site/platform-privacy.css?v=20260614-1', s)
+
+          s = re.sub(
+              r'<meta name="description" content="[^"]*">',
+              '<meta name="description" content="TWORK — офлайн-приложение для тренеров на iPhone. Расписание, клиенты, абонементы, деньги, клубы, Apple Calendar и готовые сообщения без собственной серверной базы TWORK.">',
+              s,
+              count=1,
+          )
+          s = re.sub(
+              r'<meta property="og:description" content="[^"]*">',
+              '<meta property="og:description" content="Только iOS. Работает офлайн, хранит основные данные на iPhone и объединяет расписание, клиентов, деньги, клубы и сообщения.">',
+              s,
+              count=1,
+          )
+
+          trust = '<div class="platform-trust" aria-label="Платформа и приватность"><span class="platform-ios">Только для iPhone</span><span class="platform-offline">Работает офлайн</span><span class="platform-local">Без серверов TWORK</span></div>'
+          if 'class="platform-trust"' not in s:
+              marker = '<div class="hero-actions"><button class="primary-button js-access" type="button">Запросить ранний доступ</button><a class="text-link" href="#essentials">Увидеть возможности <span>↓</span></a></div>'
+              s = s.replace(marker, marker + '\n        ' + trust)
+
+          privacy = '''    <section class="privacy-section section-pad" id="privacy"><div class="container privacy-layout"><div class="privacy-copy reveal"><p class="overline">Приватность по умолчанию</p><h2>Ваш бизнес остаётся на вашем iPhone.</h2><p>Основные данные TWORK хранятся локально на устройстве. У приложения нет собственной серверной базы с вашими клиентами, тренировками, абонементами и оплатами.</p><p class="privacy-apple-note"><strong>Сервисы Apple — по вашему выбору.</strong> При включении резервных копий iCloud или синхронизации Apple Calendar информация передаётся через сервисы Apple.</p></div><div class="privacy-cards"><article class="privacy-card reveal"><div class="privacy-icon"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M10 5h4M11 19h2"/></svg></div><small>Только iOS</small><h3>Создано специально для iPhone</h3><p>Нативный интерфейс iOS, системные календари и привычное поведение приложения без компромиссов между платформами.</p></article><article class="privacy-card reveal"><div class="privacy-icon"><svg viewBox="0 0 24 24"><path d="M3 11a14 14 0 0 1 18 0M6.5 14.5a9 9 0 0 1 11 0M10 18a3.5 3.5 0 0 1 4 0M4 4l16 16"/></svg></div><small>Offline</small><h3>Работает без интернета</h3><p>Расписание, балансы и основные ежедневные функции доступны даже без подключения к сети.</p></article><article class="privacy-card reveal"><div class="privacy-icon"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></div><small>Local</small><h3>Без серверов TWORK</h3><p>Клиентская база не загружается в собственное облако TWORK и остаётся под вашим контролем.</p></article></div></div></section>\n\n'''
+          if 'id="privacy"' not in s:
+              s = s.replace('    <section class="final-section section-pad">', privacy + '    <section class="final-section section-pad">')
+
+          s = s.replace('Система для персональных и онлайн-тренеров · 2026', 'Только iOS · Работает офлайн · 2026')
+
+          p.write_text(s)
+          PY
+      - name: Commit changes
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Highlight iOS offline and local-first privacy"
+          git push
