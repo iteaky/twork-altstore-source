@@ -18,6 +18,7 @@
   ensureStylesheet('sections.css', 'site/sections.css?v=20260614-3');
   ensureStylesheet('brand-fixes.css', 'site/brand-fixes.css?v=20260614-2');
   ensureStylesheet('platform-privacy.css', 'site/platform-privacy.css?v=20260614-4');
+  ensureStylesheet('client-calendar-insight.css', 'site/client-calendar-insight.css?v=20260614-1');
 
   const oldPicker = $('.theme-picker');
   if (oldPicker) {
@@ -74,6 +75,38 @@
     platformCard.appendChild(interest);
   };
   setupAndroidInterest();
+
+  const setupClientCalendarInsight = () => {
+    const panel = $('#calendar-sync');
+    if (!panel || panel.dataset.clientInsightReady === 'true') return;
+    panel.dataset.clientInsightReady = 'true';
+
+    const copy = $('.essential-copy', panel);
+    const title = $('h3', copy);
+    const description = copy ? Array.from(copy.children).find(element => element.tagName === 'P') : null;
+    const points = $('.essential-points', copy);
+
+    if (title) title.textContent = 'Календарь клиента — не только расписание.';
+    if (description) {
+      description.textContent = 'Для каждого клиента создаётся отдельный календарь только с его тренировками. В комментарии к событию TWORK показывает актуальную информацию, которую клиент обычно ищет в личном кабинете.';
+    }
+    if (points) {
+      points.innerHTML = '<span>Номер занятия в абонементе: например, 7 из 8</span><span>Предупреждение, когда после тренировки останется 1 или 0 занятий</span><span>Сумма долга, постоянная информация и комментарий тренера</span><span>Текст на языке клиента и синхронизация при переносе или отмене</span>';
+    }
+    if (copy && !$('.client-calendar-benefit', copy)) {
+      const benefit = document.createElement('div');
+      benefit.className = 'client-calendar-benefit';
+      benefit.innerHTML = '<strong>Клиенту не нужен отдельный личный кабинет</strong><span>Он открывает привычное событие в Apple Calendar и видит время, остаток абонемента, предупреждения и ваши инструкции.</span>';
+      copy.appendChild(benefit);
+    }
+
+    const personalCard = $('.calendar-card.personal', panel);
+    if (personalCard) {
+      personalCard.classList.add('client-event-card');
+      personalCard.innerHTML = '<div class="calendar-card-head"><b>Календарь Анны</b><small>Только её занятия</small></div><span class="share-badge">Apple Calendar · только просмотр</span><div class="client-event-summary"><time>18 июня · 18:00</time><b>Тренировка с Константином</b><small>Iron Club · 60 минут</small></div><div class="client-event-comment"><div class="client-note-line">Абонемент: 7 из 8.</div><div class="client-note-line warning">После этой тренировки останется: 1.</div><div class="client-note-line debt">Долг: €35.</div><div class="client-note-line">Свяжитесь с тренером, если нужно перенести тренировку.</div><div class="client-note-separator"></div><div class="client-note-extra"><strong>Комментарий тренера</strong>Возьмите полотенце.</div></div><div class="client-event-meta"><span>Язык клиента</span><span>Авто + свой текст</span><span>Обновляется вместе с событием</span></div>';
+    }
+  };
+  setupClientCalendarInsight();
 
   const legacyThemes = { rose: 'brand-light', tiffany: 'brand-dark', classic: 'brand-light', 'classic-light': 'brand-light', 'classic-dark': 'brand-dark' };
   const updateModeButton = theme => {
