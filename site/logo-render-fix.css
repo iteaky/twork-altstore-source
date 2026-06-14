@@ -1,17 +1,22 @@
-/* Safari fix: render the original transparent PNG normally.
-   The previous luminance mask exposed RGB data hidden in fully transparent pixels. */
+/* Safari/iOS fix for all three TWORK wordmarks.
+   The source PNG contains RGB colour data in transparent and antialiased pixels.
+   Use only its alpha channel and paint the geometry pure white. */
 html[data-theme="brand-dark"] .brand-wordmark,
 html[data-theme="brand-dark"] .hero-wordmark,
 html[data-theme="brand-dark"] .final-wordmark{
-  background-color:transparent!important;
-  background-image:var(--twork-wordmark)!important;
-  background-repeat:no-repeat!important;
-  background-position:center!important;
-  background-size:contain!important;
-  -webkit-mask-image:none!important;
-  mask-image:none!important;
+  background-image:none!important;
+  background-color:#fff!important;
+
+  -webkit-mask:var(--twork-wordmark) center/contain no-repeat!important;
+  mask:var(--twork-wordmark) center/contain no-repeat!important;
+  -webkit-mask-mode:alpha!important;
+  mask-mode:alpha!important;
+
+  background-blend-mode:normal!important;
+  mix-blend-mode:normal!important;
   filter:none!important;
   opacity:1!important;
-  transform:none!important;
-  backface-visibility:visible!important;
+  transform:translateZ(0)!important;
+  backface-visibility:hidden!important;
+  image-rendering:auto!important;
 }
