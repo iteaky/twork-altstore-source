@@ -38,13 +38,13 @@ html = re.sub(
     html,
 )
 
-shape_script = '  <script src="site/global-icon-shape-fix.js?v=20260614-1" defer></script>'
+shape_script = '  <script src="site/global-icon-shape-fix.js?v=20260614-2" defer></script>'
 if 'site/global-icon-shape-fix.js' not in html:
     html = html.replace('</body>', shape_script + '\n</body>')
 else:
     html = re.sub(
         r'site/global-icon-shape-fix\.js\?v=[^"]+',
-        'site/global-icon-shape-fix.js?v=20260614-1',
+        'site/global-icon-shape-fix.js?v=20260614-2',
         html,
     )
 
