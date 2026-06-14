@@ -13,16 +13,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Connect theme polish stylesheet
+      - name: Apply message mockup and CTA alignment
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
+
           p = Path('index.html')
           s = p.read_text()
-          link = '  <link rel="stylesheet" href="site/theme-polish-v2.css?v=20260614-1">'
+
+          link = '  <link rel="stylesheet" href="site/theme-polish-v2.css?v=20260614-2">'
           if 'site/theme-polish-v2.css' not in s:
               marker = '  <link rel="stylesheet" href="site/brand-fixes.css?v=20260614-1">'
               s = s.replace(marker, marker + '\n' + link)
+          else:
+              s = re.sub(
+                  r'site/theme-polish-v2\.css\?v=[^"]+',
+                  'site/theme-polish-v2.css?v=20260614-2',
+                  s,
+              )
+
+          visual = '''<div class="phone-message template-phone reveal" aria-hidden="true"><div class="template-app-header"><span>‹</span><div><b>Шаблоны сообщений</b><small>Анна Ковалёва</small></div><span>•••</span></div><div class="template-category-row"><span class="active">Напоминание</span><span>Оплата</span><span>Перенос</span></div><div class="template-list-label">Выберите шаблон</div><div class="template-option selected"><div class="template-option-head"><b>Напоминание о тренировке</b><span>Выбран</span></div><p>Дата, время, место и имя клиента подставляются автоматически.</p></div><div class="template-option"><div class="template-option-head"><b>Остаток абонемента</b></div><p>Сообщить, сколько тренировок останется после занятия.</p></div><div class="template-generated"><small>Готовый текст</small><p>Анна, напоминаю: тренировка завтра, 15 июня, в 18:00 в Iron Club. После занятия останется 5 тренировок.</p><div class="auto-values"><span>Анна</span><span>15 июня</span><span>18:00</span><span>Iron Club</span><span>5 тренировок</span></div></div><div class="template-actions"><span class="template-action">Скопировать</span><span class="template-action send">Отправить</span></div></div>'''
+          marker = '<div class="message-copy reveal">'
+          pattern = r'<div class="phone-message(?: template-phone)? reveal" aria-hidden="true">.*?</div><div class="message-copy reveal">'
+          s, replacements = re.subn(pattern, visual + marker, s, count=1, flags=re.S)
+          if replacements != 1:
+              raise SystemExit('Message showcase block was not found')
+
           p.write_text(s)
           PY
       - name: Commit changes
@@ -31,5 +48,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Apply light final CTA and clean dark wordmark"
+          git commit -m "Show message templates instead of chat"
           git push
