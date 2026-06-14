@@ -27,7 +27,7 @@ jobs:
           s = p.read_text()
           s = re.sub(
               r'site/mobile-final\.css\?v=[^"]+',
-              'site/mobile-final.css?v=20260614-2',
+              'site/mobile-final.css?v=20260614-3',
               s,
           )
           p.write_text(s)
@@ -63,5 +63,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Apply cinematic theme transition"
+          git commit -m "Apply larger mobile header controls"
           git push
