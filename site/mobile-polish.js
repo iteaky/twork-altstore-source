@@ -1,6 +1,6 @@
 (() => {
   const addCalendarCta = () => {
-    const panel = document.querySelector('#calendar-sync .essential-panel');
+    const panel = document.querySelector('#calendar-sync');
     if (!panel || panel.querySelector('.mobile-calendar-cta')) return;
 
     const cta = document.createElement('div');
