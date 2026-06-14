@@ -12,11 +12,7 @@
   };
   ensureStylesheet('mode-toggle.css', 'site/mode-toggle.css?v=20260614-3');
   ensureStylesheet('branding.css', 'site/branding.css?v=20260614-2');
-
-  const setImportantStyles = (element, styles) => {
-    if (!element) return;
-    Object.entries(styles).forEach(([property, value]) => element.style.setProperty(property, value, 'important'));
-  };
+  ensureStylesheet('wordmark.css', 'site/wordmark.css?v=20260614-1');
 
   const oldPicker = $('.theme-picker');
   if (oldPicker) {
@@ -31,93 +27,29 @@
 
   const applyBranding = () => {
     $$('.brand').forEach(link => {
-      link.innerHTML = '<img class="brand-logo-image" src="icon.png" alt=""><span class="sr-only">TWORK</span>';
-      setImportantStyles(link, {
-        'display': 'inline-flex',
-        'align-items': 'center',
-        'flex': '0 0 auto',
-        'width': 'auto',
-        'min-width': '36px',
-        'height': '40px',
-        'overflow': 'visible'
-      });
-      const image = $('.brand-logo-image', link);
-      setImportantStyles(image, {
-        'display': 'block',
-        'width': '36px',
-        'min-width': '36px',
-        'max-width': '36px',
-        'height': '36px',
-        'min-height': '36px',
-        'max-height': '36px',
-        'object-fit': 'contain'
-      });
+      link.innerHTML = '<span class="brand-wordmark" aria-hidden="true"></span><span class="sr-only">TWORK</span>';
     });
+
+    $$('.hero-brand-logo, .final-brand-logo').forEach(element => element.remove());
 
     const heroCopy = $('.hero-copy');
-    if (heroCopy && !$('.hero-brand-logo', heroCopy)) {
-      const logo = document.createElement('div');
-      logo.className = 'hero-brand-logo';
-      logo.setAttribute('aria-hidden', 'true');
-      logo.innerHTML = '<img src="icon.png" alt="">';
-      heroCopy.prepend(logo);
+    if (heroCopy && !$('.hero-wordmark', heroCopy)) {
+      const wordmark = document.createElement('div');
+      wordmark.className = 'hero-wordmark';
+      wordmark.setAttribute('role', 'img');
+      wordmark.setAttribute('aria-label', 'TWORK');
+      heroCopy.prepend(wordmark);
     }
-    const heroLogo = $('.hero-brand-logo', heroCopy || document);
-    setImportantStyles(heroLogo, {
-      'display': 'grid',
-      'place-items': 'center',
-      'width': '92px',
-      'min-width': '92px',
-      'max-width': '92px',
-      'height': '92px',
-      'min-height': '92px',
-      'max-height': '92px',
-      'margin': '0 auto 26px',
-      'overflow': 'hidden'
-    });
-    setImportantStyles($('img', heroLogo || document), {
-      'display': 'block',
-      'width': '72px',
-      'min-width': '72px',
-      'max-width': '72px',
-      'height': '72px',
-      'min-height': '72px',
-      'max-height': '72px',
-      'object-fit': 'contain'
-    });
 
     const finalCard = $('.final-card');
-    if (finalCard && !$('.final-brand-logo', finalCard)) {
-      const logo = document.createElement('div');
-      logo.className = 'final-brand-logo';
-      logo.setAttribute('aria-hidden', 'true');
-      logo.innerHTML = '<img src="icon.png" alt="">';
+    if (finalCard && !$('.final-wordmark', finalCard)) {
+      const wordmark = document.createElement('div');
+      wordmark.className = 'final-wordmark';
+      wordmark.setAttribute('role', 'img');
+      wordmark.setAttribute('aria-label', 'TWORK');
       const overline = $('.overline', finalCard);
-      finalCard.insertBefore(logo, overline || finalCard.firstChild);
+      finalCard.insertBefore(wordmark, overline || finalCard.firstChild);
     }
-    const finalLogo = $('.final-brand-logo', finalCard || document);
-    setImportantStyles(finalLogo, {
-      'display': 'grid',
-      'place-items': 'center',
-      'width': '82px',
-      'min-width': '82px',
-      'max-width': '82px',
-      'height': '82px',
-      'min-height': '82px',
-      'max-height': '82px',
-      'margin': '0 auto 24px',
-      'overflow': 'hidden'
-    });
-    setImportantStyles($('img', finalLogo || document), {
-      'display': 'block',
-      'width': '64px',
-      'min-width': '64px',
-      'max-width': '64px',
-      'height': '64px',
-      'min-height': '64px',
-      'max-height': '64px',
-      'object-fit': 'contain'
-    });
   };
   applyBranding();
 
