@@ -7,6 +7,7 @@ html = path.read_text()
 styles = {
     "site/theme-cinematic.css": "20260614-1",
     "site/theme-cinematic-patch.css": "20260614-1",
+    "site/theme-cinematic-brand.css": "20260614-1",
 }
 for asset, version in styles.items():
     href = f"{asset}?v={version}"
@@ -17,7 +18,7 @@ for asset, version in styles.items():
         html = re.sub(rf"{re.escape(asset)}\?v=[^\"]+", href, html)
 
 script_asset = "site/theme-cinematic.js"
-script_version = "20260614-1"
+script_version = "20260614-2"
 script_src = f"{script_asset}?v={script_version}"
 script = f'  <script src="{script_src}" defer></script>'
 if script_asset not in html:
