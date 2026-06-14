@@ -2,6 +2,26 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const root = document.documentElement;
+
+  if (!$('link[href*="mode-toggle.css"]')) {
+    const modeStyles = document.createElement('link');
+    modeStyles.rel = 'stylesheet';
+    modeStyles.href = 'site/mode-toggle.css?v=20260614-3';
+    document.head.appendChild(modeStyles);
+  }
+
+  const oldPicker = $('.theme-picker');
+  if (oldPicker) {
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'mode-toggle';
+    toggle.dataset.modeToggle = '';
+    toggle.innerHTML = '<span class="mode-toggle-icon mode-toggle-sun" aria-hidden="true">☀︎</span><span class="mode-toggle-icon mode-toggle-moon" aria-hidden="true">☾</span><span class="mode-toggle-thumb" aria-hidden="true"></span>';
+    oldPicker.replaceWith(toggle);
+  }
+
+  $('.themes-section')?.remove();
+
   const legacyThemes = {
     rose: 'brand-light',
     tiffany: 'brand-dark',
