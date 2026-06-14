@@ -3,12 +3,15 @@
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const root = document.documentElement;
 
-  if (!$('link[href*="mode-toggle.css"]')) {
-    const modeStyles = document.createElement('link');
-    modeStyles.rel = 'stylesheet';
-    modeStyles.href = 'site/mode-toggle.css?v=20260614-3';
-    document.head.appendChild(modeStyles);
-  }
+  const ensureStylesheet = (match, href) => {
+    if ($(`link[href*="${match}"]`)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  };
+  ensureStylesheet('mode-toggle.css', 'site/mode-toggle.css?v=20260614-3');
+  ensureStylesheet('branding.css', 'site/branding.css?v=20260614-1');
 
   const oldPicker = $('.theme-picker');
   if (oldPicker) {
@@ -19,17 +22,33 @@
     toggle.innerHTML = '<span class="mode-toggle-icon mode-toggle-sun" aria-hidden="true">☀︎</span><span class="mode-toggle-icon mode-toggle-moon" aria-hidden="true">☾</span><span class="mode-toggle-thumb" aria-hidden="true"></span>';
     oldPicker.replaceWith(toggle);
   }
-
   $('.themes-section')?.remove();
 
-  const legacyThemes = {
-    rose: 'brand-light',
-    tiffany: 'brand-dark',
-    classic: 'brand-light',
-    'classic-light': 'brand-light',
-    'classic-dark': 'brand-dark'
+  const applyBranding = () => {
+    $$('.brand').forEach(link => {
+      link.innerHTML = '<img class="brand-logo-image" src="icon.png" alt=""><span class="sr-only">TWORK</span>';
+    });
+    const heroCopy = $('.hero-copy');
+    if (heroCopy && !$('.hero-brand-logo', heroCopy)) {
+      const logo = document.createElement('div');
+      logo.className = 'hero-brand-logo';
+      logo.setAttribute('aria-hidden', 'true');
+      logo.innerHTML = '<img src="icon.png" alt="">';
+      heroCopy.prepend(logo);
+    }
+    const finalCard = $('.final-card');
+    if (finalCard && !$('.final-brand-logo', finalCard)) {
+      const logo = document.createElement('div');
+      logo.className = 'final-brand-logo';
+      logo.setAttribute('aria-hidden', 'true');
+      logo.innerHTML = '<img src="icon.png" alt="">';
+      const overline = $('.overline', finalCard);
+      finalCard.insertBefore(logo, overline || finalCard.firstChild);
+    }
   };
+  applyBranding();
 
+  const legacyThemes = { rose: 'brand-light', tiffany: 'brand-dark', classic: 'brand-light', 'classic-light': 'brand-light', 'classic-dark': 'brand-dark' };
   const updateModeButton = theme => {
     const toggle = $('[data-mode-toggle]');
     if (!toggle) return;
@@ -39,7 +58,6 @@
     toggle.setAttribute('aria-label', dark ? 'Включить дневной режим' : 'Включить ночной режим');
     toggle.title = dark ? 'Дневной режим' : 'Ночной режим';
   };
-
   const setTheme = (theme, remember = true) => {
     const next = theme === 'brand-dark' ? 'brand-dark' : 'brand-light';
     root.dataset.theme = next;
@@ -48,15 +66,11 @@
     const meta = $('meta[name="theme-color"]');
     if (meta) meta.content = getComputedStyle(root).getPropertyValue('--bg').trim();
   };
-
   const savedTheme = localStorage.getItem('twork-theme');
   const normalizedSavedTheme = legacyThemes[savedTheme] || savedTheme;
   const systemTheme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'brand-dark' : 'brand-light';
   setTheme(normalizedSavedTheme === 'brand-dark' || normalizedSavedTheme === 'brand-light' ? normalizedSavedTheme : systemTheme, Boolean(savedTheme));
-
-  $('[data-mode-toggle]')?.addEventListener('click', () => {
-    setTheme(root.dataset.theme === 'brand-dark' ? 'brand-light' : 'brand-dark');
-  });
+  $('[data-mode-toggle]')?.addEventListener('click', () => setTheme(root.dataset.theme === 'brand-dark' ? 'brand-light' : 'brand-dark'));
 
   const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
