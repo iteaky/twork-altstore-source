@@ -17,6 +17,8 @@ jobs:
         run: python3 scripts/apply-ios-privacy.py
       - name: Connect cinematic theme transition
         run: python3 scripts/apply-theme-cinematic.py
+      - name: Connect web app entry
+        run: python3 scripts/apply-web-app-entry.py
       - name: Refresh mobile header stylesheet
         run: |
           python3 - <<'PY'
@@ -63,5 +65,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Apply larger mobile header controls"
+          git commit -m "Apply web app entry"
           git push
