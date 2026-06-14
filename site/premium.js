@@ -17,6 +17,7 @@
   ensureStylesheet('wordmark.css', 'site/wordmark.css?v=20260614-3');
   ensureStylesheet('sections.css', 'site/sections.css?v=20260614-3');
   ensureStylesheet('brand-fixes.css', 'site/brand-fixes.css?v=20260614-2');
+  ensureStylesheet('platform-privacy.css', 'site/platform-privacy.css?v=20260614-4');
 
   const oldPicker = $('.theme-picker');
   if (oldPicker) {
@@ -62,6 +63,17 @@
     }
   };
   applyBranding();
+
+  const setupAndroidInterest = () => {
+    const platformCard = $$('.privacy-card')[2];
+    if (!platformCard || $('.android-interest', platformCard)) return;
+
+    const interest = document.createElement('div');
+    interest.className = 'android-interest';
+    interest.innerHTML = '<button class="android-interest-button js-android-interest" type="button">Хочу TWORK для Android</button><small>Сообщим, если появится версия для Android.</small>';
+    platformCard.appendChild(interest);
+  };
+  setupAndroidInterest();
 
   const legacyThemes = { rose: 'brand-light', tiffany: 'brand-dark', classic: 'brand-light', 'classic-light': 'brand-light', 'classic-dark': 'brand-dark' };
   const updateModeButton = theme => {
@@ -116,20 +128,55 @@
   }
 
   const modal = $('#access-modal');
+  const accessForm = $('form', modal);
+  const modalTitle = $('#access-title', modal);
+  const modalIntro = $('.modal-intro', modal);
+  const modalOverline = $('.access-modal > .overline', modal);
+  const submitButton = $('button[type="submit"]', accessForm);
+  const subjectField = $('input[name="_subject"]', accessForm);
+  const nextField = $('input[name="_next"]', accessForm);
+
+  let platformField = $('input[name="Интересующая платформа"]', accessForm);
+  if (accessForm && !platformField) {
+    platformField = document.createElement('input');
+    platformField.type = 'hidden';
+    platformField.name = 'Интересующая платформа';
+    accessForm.prepend(platformField);
+  }
+
+  const setAccessContext = platform => {
+    const android = platform === 'Android';
+    if (modalOverline) modalOverline.textContent = android ? 'TWORK для Android' : 'TWORK Early Access';
+    if (modalTitle) modalTitle.textContent = android ? 'Сообщить о версии для Android' : 'Запросить ранний доступ';
+    if (modalIntro) {
+      modalIntro.innerHTML = android
+        ? 'Оставьте email — мы сообщим, если появится версия TWORK для Android.'
+        : 'Оставьте несколько деталей для раннего доступа к версии TWORK для iPhone. Заявка придёт на <b>twork.crm@gmail.com</b>.';
+    }
+    if (platformField) platformField.value = android ? 'Android' : 'iOS';
+    if (subjectField) subjectField.value = android ? 'Запрос версии TWORK для Android' : 'Новая заявка на ранний доступ TWORK';
+    if (nextField) nextField.value = android
+      ? 'https://iteaky.github.io/twork-altstore-source/?access=sent&platform=android'
+      : 'https://iteaky.github.io/twork-altstore-source/?access=sent&platform=ios';
+    if (submitButton) submitButton.textContent = android ? 'Отправить запрос' : 'Отправить заявку';
+  };
+
   const closeModal = () => {
     if (!modal) return;
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
   };
-  const openModal = () => {
+  const openModal = (platform = 'iOS') => {
     if (!modal) return;
+    setAccessContext(platform);
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
     window.setTimeout(() => $('input[name="Имя"]', modal)?.focus(), 100);
   };
-  $$('.js-access').forEach(button => button.addEventListener('click', openModal));
+  $$('.js-access').forEach(button => button.addEventListener('click', () => openModal('iOS')));
+  $$('.js-android-interest').forEach(button => button.addEventListener('click', () => openModal('Android')));
   $('.access-close')?.addEventListener('click', closeModal);
   modal?.addEventListener('click', event => { if (event.target === modal) closeModal(); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
@@ -137,6 +184,9 @@
   const params = new URLSearchParams(location.search);
   if (params.get('access') === 'sent') {
     const toast = $('#success-toast');
+    if (toast && params.get('platform') === 'android') {
+      toast.textContent = 'Запрос на Android-версию отправлен. Сообщим, если она появится.';
+    }
     toast?.classList.add('show');
     history.replaceState({}, '', location.pathname + location.hash);
     window.setTimeout(() => toast?.classList.remove('show'), 6000);
