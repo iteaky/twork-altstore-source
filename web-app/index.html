@@ -2,54 +2,35 @@
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#fff7fb">
-  <title>TWORK Web</title>
-  <meta name="description" content="Веб-версия TWORK — CRM для тренеров.">
-  <link rel="icon" href="../icon.png">
-  <link rel="stylesheet" href="app.css?v=20260614-1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#f64f93">
+  <title>TWORK — демо приложения</title>
+  <link rel="stylesheet" href="../site/wordmark.css?v=20260614-3">
+  <link rel="stylesheet" href="app.css?v=20260614-2">
 </head>
 <body>
-  <div class="app-shell" id="app-shell">
-    <aside class="sidebar" aria-label="Навигация">
-      <a class="wordmark" href="../" aria-label="TWORK — на лендинг">T W )( R K</a>
-      <span class="web-badge">WEB BETA</span>
-      <nav class="side-nav" id="side-nav"></nav>
-      <div class="side-footer">
-        <button class="theme-button" id="theme-button" type="button" aria-label="Сменить тему">
-          <span class="theme-sun">☀︎</span><span class="theme-moon">☾</span><i></i>
-        </button>
-        <a href="../" class="landing-link">← На лендинг</a>
-      </div>
-    </aside>
-
-    <main class="main-area">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow" id="page-eyebrow">Сегодня</p>
-          <h1 id="page-title">Главная</h1>
+  <div class="desktop-stage">
+    <main class="iphone-app" id="app" aria-live="polite">
+      <div class="app-background" aria-hidden="true"><i></i><i></i><b></b></div>
+      <section class="screen home-screen active" id="home-screen">
+        <div class="safe-top"></div>
+        <div class="home-scroll scroll-area">
+          <header class="home-header">
+            <div class="home-header-row">
+              <span class="home-logo brand-wordmark" role="img" aria-label="TWORK"></span>
+              <button class="circle-button" data-open="settings" aria-label="Настройки"><span data-icon="gear"></span></button>
+            </div>
+            <div class="today-label">Воскресенье, 14 июня</div>
+          </header>
+          <div class="home-content" id="home-content"></div>
+          <div class="demo-note"><span>Демо-версия</span><p>Данные созданы для знакомства с TWORK и сохраняются только в браузере.</p></div>
         </div>
-        <div class="topbar-actions">
-          <button class="icon-button mobile-theme" id="mobile-theme-button" type="button" aria-label="Сменить тему">◐</button>
-          <button class="icon-button" id="search-button" type="button" aria-label="Поиск">⌕</button>
-          <button class="primary-action" id="quick-add-button" type="button"><span>＋</span> Добавить</button>
-        </div>
-      </header>
-
-      <section class="page" id="page" aria-live="polite"></section>
+      </section>
+      <section class="screen detail-screen" id="detail-screen"></section>
+      <div class="sheet-layer" id="sheet-layer" aria-hidden="true"><div class="sheet-card" id="sheet-card"></div></div>
+      <div class="toast" id="toast"></div>
     </main>
-
-    <nav class="bottom-nav" id="bottom-nav" aria-label="Мобильная навигация"></nav>
   </div>
-
-  <div class="sheet-backdrop" id="sheet-backdrop" aria-hidden="true">
-    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-      <button class="sheet-close" id="sheet-close" type="button" aria-label="Закрыть">×</button>
-      <div id="sheet-content"></div>
-    </section>
-  </div>
-
-  <div class="toast" id="toast" role="status"></div>
-  <script src="app.js?v=20260614-1" defer></script>
+  <script src="app.js?v=20260614-2"></script>
 </body>
 </html>
