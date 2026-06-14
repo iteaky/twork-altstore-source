@@ -1,9 +1,9 @@
-/* Match the dark TWORK app icon to the light icon shape without cropping. */
+/* Match the dark TWORK app icon to the light icon shape without edge gaps. */
 html[data-theme="brand-dark"] .global-center{
   background-color:transparent!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
-  background-size:100% 100%!important;
+  background-size:100% 104%!important;
   border-radius:30px!important;
   overflow:hidden!important;
   box-shadow:0 18px 45px rgba(var(--accent-rgb),.28)!important;
@@ -15,7 +15,7 @@ html[data-theme="brand-dark"] .global-center img{
 
 @media(max-width:680px){
   html[data-theme="brand-dark"] .global-center{
-    background-size:100% 100%!important;
+    background-size:100% 104%!important;
     border-radius:27px!important;
   }
 }
