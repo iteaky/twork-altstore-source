@@ -1,0 +1,66 @@
+/* Final CTA: light and airy in the pink/day theme. */
+html[data-theme="brand-light"] .final-section{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(var(--accent-rgb),.11),transparent 32%),
+    linear-gradient(180deg,var(--bg),var(--bg-soft))!important;
+}
+html[data-theme="brand-light"] .final-card{
+  border:1px solid rgba(var(--accent-rgb),.16)!important;
+  background:
+    radial-gradient(circle at 86% 4%,rgba(var(--accent-rgb),.13),transparent 30%),
+    linear-gradient(145deg,#ffffff 0%,#fff9fc 54%,#ffeef5 100%)!important;
+  color:#161217!important;
+  box-shadow:0 32px 90px rgba(var(--accent-rgb),.12)!important;
+}
+html[data-theme="brand-light"] .final-card:before,
+html[data-theme="brand-light"] .final-card:after{
+  opacity:.42!important;
+}
+html[data-theme="brand-light"] .final-card .overline{
+  color:var(--accent)!important;
+}
+html[data-theme="brand-light"] .final-card h2{
+  color:#161217!important;
+}
+html[data-theme="brand-light"] .final-card p,
+html[data-theme="brand-light"] .final-card small{
+  color:#756972!important;
+}
+html[data-theme="brand-light"] .final-card .primary-button.light{
+  border-color:transparent!important;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2))!important;
+  color:var(--on-accent)!important;
+  box-shadow:0 16px 34px rgba(var(--accent-rgb),.24)!important;
+}
+html[data-theme="brand-light"] .final-card .primary-button.light:hover{
+  box-shadow:0 20px 42px rgba(var(--accent-rgb),.31)!important;
+}
+
+/* Render the night wordmark as a monochrome mask.
+   This discards RGB fringes and other bitmap colour artefacts. */
+html[data-theme="brand-dark"] .brand-wordmark,
+html[data-theme="brand-dark"] .hero-wordmark,
+html[data-theme="brand-dark"] .final-wordmark{
+  background-image:none!important;
+  background-color:#ffffff!important;
+  -webkit-mask-image:var(--twork-wordmark);
+  mask-image:var(--twork-wordmark);
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+  mask-mode:luminance;
+  filter:none!important;
+  opacity:1!important;
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+
+@media(max-width:680px){
+  html[data-theme="brand-light"] .final-card{
+    border-radius:30px!important;
+    box-shadow:0 24px 64px rgba(var(--accent-rgb),.11)!important;
+  }
+}
