@@ -34,7 +34,7 @@ else:
 
 html = re.sub(
     r'site/premium\.js\?v=[^"]+',
-    'site/premium.js?v=20260614-7',
+    'site/premium.js?v=20260614-8',
     html,
 )
 
