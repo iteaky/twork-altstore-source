@@ -18,10 +18,11 @@
   <link rel="stylesheet" href="site/branding.css?v=20260614-3">
   <link rel="stylesheet" href="site/wordmark.css?v=20260614-2">
   <link rel="stylesheet" href="site/sections.css?v=20260614-1">
+  <link rel="stylesheet" href="site/brand-fixes.css?v=20260614-1">
 </head>
 <body>
   <header class="site-nav" id="top">
-    <a class="brand" href="#top" aria-label="TWORK, наверх"><span class="brand-wordmark" aria-hidden="true"></span><span class="sr-only">TWORK</span></a>
+    <a class="brand" href="#top" aria-label="TWORK, наверх"><span class="brand-wordmark" aria-hidden="true"></span></a>
     <nav class="desktop-nav" aria-label="Основная навигация"><a href="#product">Продукт</a><a href="#essentials">Возможности</a><a href="#calendar-sync">Календари</a><a href="#clubs">Клубы</a><a href="#messages">Сообщения</a></nav>
     <div class="nav-actions">
       <div class="theme-picker" aria-label="Цветовая схема"><button type="button" data-theme-set="classic-light" aria-label="Classic Light" title="Classic Light"></button><button type="button" data-theme-set="classic-dark" aria-label="Classic Dark" title="Classic Dark"></button><button type="button" data-theme-set="brand-light" aria-label="Brand Light" title="Brand Light"></button><button type="button" data-theme-set="brand-dark" aria-label="Brand Dark" title="Brand Dark"></button></div>
@@ -66,7 +67,7 @@
       <div class="container essential-stack">
         <article class="essential-panel reveal">
           <div class="essential-copy"><span class="essential-number">01</span><h3>Онлайн без путаницы во времени и деньгах.</h3><p>У каждого клиента могут быть свои язык, валюта и часовой пояс. TWORK хранит их в карточке клиента и использует там, где это важно.</p><div class="essential-points"><span>Время тренировки понятно тренеру и клиенту</span><span>Оплаты и баланс ведутся в валюте клиента</span><span>Сообщения и комментарии календаря готовятся на языке клиента</span><span>Онлайн- и офлайн-цены можно настраивать отдельно</span></div></div>
-          <div class="essential-visual global-visual" aria-hidden="true"><div class="global-orbit"></div><div class="global-center">TWORK</div><div class="global-client client-eu"><b>Анна · Братислава</b><small>18:00 · EUR · Русский</small><span>Офлайн</span></div><div class="global-client client-uk"><b>Mark · London</b><small>17:00 · GBP · English</small><span>Online</span></div><div class="global-client client-kz"><b>Елена · Алматы</b><small>22:00 · KZT · Русский</small><span>Online</span></div></div>
+          <div class="essential-visual global-visual" aria-hidden="true"><div class="global-orbit"></div><div class="global-center"><img src="icon.png" alt=""></div><div class="global-client client-eu"><b>Анна · Братислава</b><small>18:00 · EUR · Русский</small><span>Офлайн</span></div><div class="global-client client-uk"><b>Mark · London</b><small>17:00 · GBP · English</small><span>Online</span></div><div class="global-client client-kz"><b>Елена · Алматы</b><small>22:00 · KZT · Русский</small><span>Online</span></div></div>
         </article>
 
         <article class="essential-panel reveal">
@@ -88,10 +89,10 @@
     <section class="final-section section-pad"><div class="container final-card reveal"><div class="final-wordmark" role="img" aria-label="TWORK"></div><p class="overline">Ранний доступ</p><h2>Оставьте таблицы<br>в прошлом.</h2><p>TWORK собирает работу тренера в одну систему — от первого клиента до расчётов с несколькими клубами.</p><button class="primary-button light js-access" type="button">Стать ранним пользователем</button><small>Мы свяжемся с вами и расскажем о запуске.</small></div></section>
   </main>
 
-  <footer class="site-footer container"><a class="brand footer-brand" href="#top"><span class="brand-wordmark" aria-hidden="true"></span><span class="sr-only">TWORK</span></a><p>Система для персональных и онлайн-тренеров · 2026</p><button type="button" class="footer-link js-access">Ранний доступ</button></footer>
+  <footer class="site-footer container"><a class="brand footer-brand" href="#top"><span class="brand-wordmark" aria-hidden="true"></span></a><p>Система для персональных и онлайн-тренеров · 2026</p><button type="button" class="footer-link js-access">Ранний доступ</button></footer>
 
   <div class="access-backdrop" id="access-modal" role="dialog" aria-modal="true" aria-labelledby="access-title" aria-hidden="true"><div class="access-modal"><button class="access-close" type="button" aria-label="Закрыть">×</button><p class="overline">TWORK Early Access</p><h2 id="access-title">Запросить ранний доступ</h2><p class="modal-intro">Оставьте несколько деталей. Заявка придёт на <b>twork.crm@gmail.com</b>.</p><form action="https://formsubmit.co/twork.crm@gmail.com" method="POST"><input type="hidden" name="_subject" value="Новая заявка на ранний доступ TWORK"><input type="hidden" name="_next" value="https://iteaky.github.io/twork-altstore-source/?access=sent"><input type="hidden" name="_template" value="table"><input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off"><label>Имя<input type="text" name="Имя" autocomplete="name" required placeholder="Как к вам обращаться"></label><label>Email<input type="email" name="email" autocomplete="email" required placeholder="name@example.com"></label><label>Кто вы?<select name="Тип пользователя" required><option value="" selected disabled>Выберите вариант</option><option>Персональный тренер</option><option>Тренер в нескольких клубах</option><option>Онлайн-тренер</option><option>Владелец студии или клуба</option><option>Другое</option></select></label><label>Telegram или Instagram<input type="text" name="Дополнительный контакт" placeholder="Необязательно"></label><label>Что важно для вас в TWORK?<textarea name="Комментарий" placeholder="Необязательно"></textarea></label><button class="primary-button" type="submit">Отправить заявку</button><small>Данные используются только для связи по поводу раннего доступа.</small></form></div></div>
   <div class="toast" id="success-toast" role="status">Заявка отправлена. Мы напишем вам на указанный email.</div>
-  <script src="site/premium.js?v=20260614-4" defer></script>
+  <script src="site/premium.js?v=20260614-5" defer></script>
 </body>
 </html>
