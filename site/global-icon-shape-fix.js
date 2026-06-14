@@ -6,7 +6,7 @@
     if (!icon) return;
 
     if (root.dataset.theme === 'brand-dark') {
-      icon.style.setProperty('background-size', '100% 100%', 'important');
+      icon.style.setProperty('background-size', '100% 104%', 'important');
       icon.style.setProperty('background-position', 'center', 'important');
       icon.style.setProperty('background-repeat', 'no-repeat', 'important');
       icon.style.setProperty('background-color', 'transparent', 'important');
