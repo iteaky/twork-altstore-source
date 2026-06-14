@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="site/logo-render-fix.css?v=20260614-3">
   <link rel="stylesheet" href="site/platform-privacy.css?v=20260614-4">
   <link rel="stylesheet" href="site/mobile-polish.css?v=20260614-1">
+  <link rel="stylesheet" href="site/mobile-final.css?v=20260614-1">
 </head>
 <body>
   <header class="site-nav" id="top">
@@ -80,9 +81,49 @@
           <div class="essential-visual balance-stage" aria-hidden="true"><div class="balance-card client-balance"><small>Анна Ковалёва</small><h4>Баланс клиента</h4><strong>+ €120</strong><span>Предоплата на будущие тренировки</span></div><div class="balance-card club-balance"><small>Iron Club</small><h4>Баланс клуба</h4><strong>€820</strong><span>К получению после удержаний</span></div><div class="balance-flow"><span>Оплата клиента</span><i>→</i><span>Стоимость тренировки</span><i>→</i><span>Комиссия клуба</span><i>→</i><span>Доход тренера</span></div></div>
         </article>
 
-        <article class="essential-panel reveal" id="calendar-sync">
-          <div class="essential-copy"><span class="essential-number">03</span><h3>Календарь для себя. И отдельный — для каждого клиента.</h3><p>Синхронизация с Apple Calendar работает на двух уровнях, поэтому вы делитесь ровно тем расписанием, которым нужно.</p><div class="essential-points"><span>Полный календарь со всеми тренировками, событиями и дежурствами</span><span>Его можно открыть супругу, супруге, ассистенту или коллеге</span><span>Персональный календарь содержит только тренировки конкретного клиента</span><span>При переносе или отмене изменения синхронизируются</span></div></div>
-          <div class="essential-visual calendar-share" aria-hidden="true"><div class="calendar-card"><div class="calendar-card-head"><b>Моё полное расписание</b><small>Apple Calendar</small></div><span class="share-badge">Доступ для семьи</span><div class="week-mini"><span>Пн</span><span class="busy">Вт</span><span class="busy">Ср</span><span>Чт</span><span class="busy">Пт</span></div><div class="calendar-list"><div><b>10:00 · Онлайн</b><small>Mark · London</small></div><div class="duty"><b>15:00 · Дежурство</b><small>Iron Club</small></div><div class="event"><b>20:00 · Личное событие</b><small>Весь день виден полностью</small></div></div></div><div class="calendar-card personal"><div class="calendar-card-head"><b>Календарь Анны</b><small>Только её занятия</small></div><span class="share-badge">Персональная ссылка</span><div class="personal-event"><time>18 июня · 18:00</time><b>Персональная тренировка</b><small>Iron Club · 60 минут</small></div><div class="privacy-note">Другие клиенты и личные события скрыты</div></div></div>
+        <article class="essential-panel reveal" id="calendar-sync" data-client-insight-ready="true">
+          <div class="essential-copy">
+            <span class="essential-number">03</span>
+            <h3>Календарь клиента — не только расписание.</h3>
+            <p>Для каждого клиента создаётся отдельный календарь только с его тренировками. В комментарии к событию TWORK показывает актуальную информацию, которую клиент обычно ищет в личном кабинете.</p>
+            <div class="essential-points">
+              <span>Номер занятия в абонементе: например, 7 из 8</span>
+              <span>Предупреждение, когда после тренировки останется 1 или 0 занятий</span>
+              <span>Сумма долга, постоянная информация и комментарий тренера</span>
+              <span>Текст на языке клиента и синхронизация при переносе или отмене</span>
+            </div>
+            <div class="client-calendar-benefit">
+              <strong>Клиенту не нужен отдельный личный кабинет</strong>
+              <span>Он открывает привычное событие в Apple Calendar и видит время, остаток абонемента, предупреждения и ваши инструкции.</span>
+            </div>
+          </div>
+          <div class="essential-visual calendar-share" aria-hidden="true">
+            <div class="calendar-card">
+              <div class="calendar-card-head"><b>Моё полное расписание</b><small>Apple Calendar</small></div>
+              <span class="share-badge">Доступ для семьи</span>
+              <div class="week-mini"><span>Пн</span><span class="busy">Вт</span><span class="busy">Ср</span><span>Чт</span><span class="busy">Пт</span></div>
+              <div class="calendar-list"><div><b>10:00 · Онлайн</b><small>Mark · London</small></div><div class="duty"><b>15:00 · Дежурство</b><small>Iron Club</small></div><div class="event"><b>20:00 · Личное событие</b><small>Весь день виден полностью</small></div></div>
+            </div>
+            <div class="calendar-card personal client-event-card">
+              <div class="calendar-card-head"><b>Календарь Анны</b><small>Только её занятия</small></div>
+              <span class="share-badge">Apple Calendar · только просмотр</span>
+              <div class="client-event-summary"><time>18 июня · 18:00</time><b>Тренировка с Константином</b><small>Iron Club · 60 минут</small></div>
+              <div class="client-event-comment">
+                <div class="client-note-line">Абонемент: 7 из 8.</div>
+                <div class="client-note-line warning">После этой тренировки останется: 1.</div>
+                <div class="client-note-line debt">Долг: €35.</div>
+                <div class="client-note-line">Свяжитесь с тренером, если нужно перенести тренировку.</div>
+                <div class="client-note-separator"></div>
+                <div class="client-note-extra"><strong>Комментарий тренера</strong>Возьмите полотенце.</div>
+              </div>
+              <div class="client-event-meta"><span>Язык клиента</span><span>Авто + свой текст</span><span>Обновляется вместе с событием</span></div>
+            </div>
+          </div>
+          <div class="mobile-calendar-cta">
+            <strong>Клиент видит остаток тренировок прямо в календаре</strong>
+            <p>Покажите расписание, долг и комментарии без отдельного личного кабинета.</p>
+            <button class="js-access" type="button">Запросить ранний доступ</button>
+          </div>
         </article>
       </div>
     </section>
@@ -116,6 +157,5 @@
   <div class="toast" id="success-toast" role="status">Заявка отправлена. Мы напишем вам на указанный email.</div>
   <script src="site/premium.js?v=20260614-8" defer></script>
   <script src="site/global-icon-shape-fix.js?v=20260614-2" defer></script>
-  <script src="site/mobile-polish.js?v=20260614-2" defer></script>
 </body>
 </html>
