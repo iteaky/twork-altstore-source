@@ -3,18 +3,15 @@
   let toggle = document.querySelector('[data-mode-toggle]');
   if (!toggle) return;
 
-  /* Remove the ordinary click handler installed by premium.js. */
+  /* Remove the direct theme handler installed by premium.js. */
   const cleanToggle = toggle.cloneNode(true);
   toggle.replaceWith(cleanToggle);
   toggle = cleanToggle;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const mobile = window.matchMedia('(max-width: 680px)');
   let running = false;
-  let switchTimer = 0;
-  let cleanupTimer = 0;
-
-  const duration = () => mobile.matches ? 2050 : 1900;
+  let fallbackSwitchTimer = 0;
+  let fallbackCleanupTimer = 0;
 
   const updateToggle = theme => {
     const dark = theme === 'brand-dark';
@@ -39,37 +36,7 @@
     updateThemeColor();
   };
 
-  const createFlight = targetTheme => {
-    const flight = document.createElement('div');
-    flight.className = `theme-liquid-flight ${targetTheme === 'brand-dark' ? 'to-dark' : 'to-light'}`;
-    flight.setAttribute('aria-hidden', 'true');
-    flight.innerHTML = `
-      <div class="theme-liquid-lens">
-        <div class="theme-liquid-tint"></div>
-        <div class="theme-liquid-caustic a"></div>
-        <div class="theme-liquid-caustic b"></div>
-        <div class="theme-liquid-specular"></div>
-      </div>
-      <div class="theme-liquid-ripple"></div>`;
-    return flight;
-  };
-
-  const clearTimers = () => {
-    window.clearTimeout(switchTimer);
-    window.clearTimeout(cleanupTimer);
-  };
-
-  const finish = flight => {
-    clearTimers();
-    flight?.remove();
-    toggle.classList.remove('liquid-switching');
-    toggle.disabled = false;
-    toggle.removeAttribute('aria-busy');
-    root.removeAttribute('data-theme-flight');
-    running = false;
-  };
-
-  const positionFlight = () => {
+  const setTransitionOrigin = () => {
     const rect = toggle.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
@@ -78,11 +45,33 @@
     const radius = Math.hypot(
       Math.max(x, viewportWidth - x),
       Math.max(y, viewportHeight - y)
-    ) + 96;
+    ) + 110;
 
     root.style.setProperty('--liquid-x', `${Math.round(x)}px`);
     root.style.setProperty('--liquid-y', `${Math.round(y)}px`);
-    root.style.setProperty('--liquid-diameter', `${Math.ceil(radius * 2)}px`);
+    root.style.setProperty('--liquid-radius', `${Math.ceil(radius)}px`);
+  };
+
+  const finish = () => {
+    window.clearTimeout(fallbackSwitchTimer);
+    window.clearTimeout(fallbackCleanupTimer);
+    document.querySelector('.theme-liquid-fallback')?.remove();
+    root.classList.remove('theme-liquid-transitioning', 'theme-liquid-snapshotting');
+    toggle.classList.remove('liquid-switching');
+    toggle.disabled = false;
+    toggle.removeAttribute('aria-busy');
+    running = false;
+  };
+
+  const runFallback = targetTheme => {
+    const veil = document.createElement('div');
+    veil.className = 'theme-liquid-fallback';
+    veil.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(veil);
+    requestAnimationFrame(() => veil.classList.add('is-running'));
+
+    fallbackSwitchTimer = window.setTimeout(() => applyTheme(targetTheme), 465);
+    fallbackCleanupTimer = window.setTimeout(finish, 1080);
   };
 
   const run = () => {
@@ -100,22 +89,29 @@
     toggle.disabled = true;
     toggle.setAttribute('aria-busy', 'true');
     toggle.classList.add('liquid-switching');
-    root.dataset.themeFlight = targetTheme === 'brand-dark' ? 'to-dark' : 'to-light';
+    root.classList.add('theme-liquid-transitioning');
+    setTransitionOrigin();
 
-    positionFlight();
-    const flight = createFlight(targetTheme);
-    document.body.appendChild(flight);
+    if (typeof document.startViewTransition !== 'function') {
+      runFallback(targetTheme);
+      return;
+    }
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => flight.classList.add('is-running'));
+    /* Disable ordinary CSS transitions while the browser captures the final
+       target palette. The new theme then reveals continuously from the toggle. */
+    root.classList.add('theme-liquid-snapshotting');
+
+    const transition = document.startViewTransition(() => {
+      applyTheme(targetTheme);
     });
 
-    const total = duration();
-    switchTimer = window.setTimeout(() => applyTheme(targetTheme), Math.round(total * .515));
-    cleanupTimer = window.setTimeout(() => finish(flight), total + 140);
+    transition.ready
+      .then(() => root.classList.remove('theme-liquid-snapshotting'))
+      .catch(() => root.classList.remove('theme-liquid-snapshotting'));
 
-    const lens = flight.querySelector('.theme-liquid-lens');
-    lens?.addEventListener('animationend', () => finish(flight), { once:true });
+    transition.finished
+      .then(finish)
+      .catch(finish);
   };
 
   updateToggle(root.dataset.theme === 'brand-dark' ? 'brand-dark' : 'brand-light');
