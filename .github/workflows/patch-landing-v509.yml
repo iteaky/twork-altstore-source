@@ -1,0 +1,32 @@
+name: Patch TWORK landing
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply current app themes and calendar
+        run: python3 scripts/patch_landing_v509.py
+
+      - name: Commit patched landing
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Landing is already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Match landing to TWORK v509"
+          git push
