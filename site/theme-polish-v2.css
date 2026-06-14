@@ -36,6 +36,178 @@ html[data-theme="brand-light"] .final-card .primary-button.light:hover{
   box-shadow:0 20px 42px rgba(var(--accent-rgb),.31)!important;
 }
 
+/* Keep the final action and its explanatory note visually grouped. */
+.final-card .primary-button.light{
+  display:flex!important;
+  width:max-content;
+  max-width:100%;
+  margin:32px auto 0!important;
+}
+.final-card>small{
+  display:block!important;
+  width:100%;
+  margin:12px auto 0!important;
+  text-align:center!important;
+  line-height:1.45;
+}
+
+/* Message templates mockup: TWORK prepares text, it does not contain a chat. */
+.phone-message.template-phone{
+  display:flex;
+  flex-direction:column;
+  min-height:690px;
+  padding:72px 18px 20px;
+}
+.template-app-header{
+  display:grid;
+  grid-template-columns:30px 1fr 30px;
+  align-items:center;
+  min-height:44px;
+  text-align:center;
+}
+.template-app-header>span{
+  color:var(--accent);
+  font-size:20px;
+  font-weight:780;
+}
+.template-app-header b{
+  display:block;
+  color:var(--ink);
+  font-size:14px;
+  letter-spacing:-.02em;
+}
+.template-app-header small{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+}
+.template-category-row{
+  display:flex;
+  gap:7px;
+  margin:20px -2px 0;
+  overflow:hidden;
+}
+.template-category-row span{
+  flex:0 0 auto;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--surface);
+  color:var(--muted);
+  font-size:9px;
+  font-weight:760;
+}
+.template-category-row span.active{
+  border-color:rgba(var(--accent-rgb),.22);
+  background:rgba(var(--accent-rgb),.12);
+  color:var(--accent);
+}
+.template-list-label{
+  margin:20px 2px 8px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.template-option{
+  margin-top:8px;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:var(--surface);
+  box-shadow:0 8px 22px rgba(0,0,0,.035);
+}
+.template-option.selected{
+  border-color:rgba(var(--accent-rgb),.30);
+  background:rgba(var(--accent-rgb),.075);
+}
+.template-option-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.template-option-head b{
+  color:var(--ink);
+  font-size:10px;
+}
+.template-option-head span{
+  flex:0 0 auto;
+  padding:4px 7px;
+  border-radius:999px;
+  background:rgba(var(--accent-rgb),.13);
+  color:var(--accent);
+  font-size:7px;
+  font-weight:850;
+}
+.template-option p{
+  margin:7px 0 0;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.42;
+}
+.template-generated{
+  margin-top:13px;
+  padding:14px;
+  border:1px solid rgba(var(--accent-rgb),.18);
+  border-radius:18px;
+  background:linear-gradient(150deg,var(--surface),rgba(var(--accent-rgb),.075));
+}
+.template-generated>small{
+  display:block;
+  color:var(--accent);
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.template-generated p{
+  margin:8px 0 0;
+  color:var(--ink);
+  font-size:10px;
+  line-height:1.48;
+}
+.template-generated .auto-values{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:10px;
+}
+.template-generated .auto-values span{
+  padding:4px 6px;
+  border-radius:7px;
+  background:var(--bg-soft);
+  color:var(--muted);
+  font-size:7px;
+  font-weight:720;
+}
+.template-actions{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:8px;
+  margin-top:auto;
+  padding-top:14px;
+}
+.template-action{
+  display:grid;
+  place-items:center;
+  min-height:45px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface);
+  color:var(--ink);
+  font-size:10px;
+  font-weight:820;
+}
+.template-action.send{
+  border-color:transparent;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:var(--on-accent);
+  box-shadow:0 12px 24px rgba(var(--accent-rgb),.22);
+}
+
 /* Render the night wordmark as a monochrome mask.
    This discards RGB fringes and other bitmap colour artefacts. */
 html[data-theme="brand-dark"] .brand-wordmark,
@@ -62,5 +234,12 @@ html[data-theme="brand-dark"] .final-wordmark{
   html[data-theme="brand-light"] .final-card{
     border-radius:30px!important;
     box-shadow:0 24px 64px rgba(var(--accent-rgb),.11)!important;
+  }
+  .final-card .primary-button.light{
+    width:min(100%,320px);
+  }
+  .phone-message.template-phone{
+    min-height:630px;
+    padding:68px 15px 16px;
   }
 }
