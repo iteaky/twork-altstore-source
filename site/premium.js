@@ -4,16 +4,19 @@
   const root = document.documentElement;
 
   const ensureStylesheet = (match, href) => {
-    if ($(`link[href*="${match}"]`)) return;
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    document.head.appendChild(link);
+    let link = $(`link[href*="${match}"]`);
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }
+    if (link.getAttribute('href') !== href) link.setAttribute('href', href);
   };
-  ensureStylesheet('mode-toggle.css', 'site/mode-toggle.css?v=20260614-3');
-  ensureStylesheet('branding.css', 'site/branding.css?v=20260614-2');
-  ensureStylesheet('wordmark.css', 'site/wordmark.css?v=20260614-1');
-  ensureStylesheet('brand-fixes.css', 'site/brand-fixes.css?v=20260614-1');
+  ensureStylesheet('mode-toggle.css', 'site/mode-toggle.css?v=20260614-4');
+  ensureStylesheet('branding.css', 'site/branding.css?v=20260614-4');
+  ensureStylesheet('wordmark.css', 'site/wordmark.css?v=20260614-3');
+  ensureStylesheet('sections.css', 'site/sections.css?v=20260614-3');
+  ensureStylesheet('brand-fixes.css', 'site/brand-fixes.css?v=20260614-2');
 
   const oldPicker = $('.theme-picker');
   if (oldPicker) {
