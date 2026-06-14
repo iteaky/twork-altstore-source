@@ -19,6 +19,31 @@ jobs:
         run: python3 scripts/apply-theme-cinematic.py
       - name: Keep web demo hidden from landing
         run: python3 scripts/apply-web-app-entry.py
+      - name: Connect real TWORK hero screen
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text()
+
+          css = 'site/hero-real-home.css?v=20260614-1'
+          css_link = f'  <link rel="stylesheet" href="{css}">'
+          if 'site/hero-real-home.css' not in s:
+              s = s.replace('</head>', css_link + '\n</head>')
+          else:
+              s = re.sub(r'site/hero-real-home\.css\?v=[^"]+', css, s)
+
+          js = 'site/hero-real-home.js?v=20260614-1'
+          js_tag = f'  <script src="{js}" defer></script>'
+          if 'site/hero-real-home.js' not in s:
+              s = s.replace('</body>', js_tag + '\n</body>')
+          else:
+              s = re.sub(r'site/hero-real-home\.js\?v=[^"]+', js, s)
+
+          p.write_text(s)
+          PY
       - name: Refresh mobile header stylesheet
         run: |
           python3 - <<'PY'
