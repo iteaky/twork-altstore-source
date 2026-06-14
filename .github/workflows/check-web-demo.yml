@@ -1,0 +1,33 @@
+name: Check TWORK web demo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web-app/**'
+  pull_request:
+    paths:
+      - 'web-app/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check web-app/app-v528.js
+          node --check web-app/app-v528-fix.js
+      - name: Check required demo assets
+        run: |
+          test -s web-app/index.html
+          test -s web-app/app-v528.css
+          test -s web-app/app-v528.js
+          grep -q 'app-v528.css' web-app/index.html
+          grep -q 'app-v528.js' web-app/index.html
