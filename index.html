@@ -12,12 +12,16 @@
   <meta property="og:image" content="https://iteaky.github.io/twork-altstore-source/icon.png">
   <link rel="canonical" href="https://iteaky.github.io/twork-altstore-source/">
   <link rel="icon" href="icon.png">
-  <link rel="stylesheet" href="site/premium.css?v=20260614-2">
-  <link rel="stylesheet" href="site/essentials.css?v=20260614-2">
+  <link rel="stylesheet" href="site/premium.css?v=20260614-4">
+  <link rel="stylesheet" href="site/essentials.css?v=20260614-4">
+  <link rel="stylesheet" href="site/mode-toggle.css?v=20260614-4">
+  <link rel="stylesheet" href="site/branding.css?v=20260614-3">
+  <link rel="stylesheet" href="site/wordmark.css?v=20260614-2">
+  <link rel="stylesheet" href="site/sections.css?v=20260614-1">
 </head>
 <body>
   <header class="site-nav" id="top">
-    <a class="brand" href="#top" aria-label="TWORK, наверх"><span class="brand-mark">T</span><span>TWORK</span></a>
+    <a class="brand" href="#top" aria-label="TWORK, наверх"><span class="brand-wordmark" aria-hidden="true"></span><span class="sr-only">TWORK</span></a>
     <nav class="desktop-nav" aria-label="Основная навигация"><a href="#product">Продукт</a><a href="#essentials">Возможности</a><a href="#calendar-sync">Календари</a><a href="#clubs">Клубы</a><a href="#messages">Сообщения</a></nav>
     <div class="nav-actions">
       <div class="theme-picker" aria-label="Цветовая схема"><button type="button" data-theme-set="classic-light" aria-label="Classic Light" title="Classic Light"></button><button type="button" data-theme-set="classic-dark" aria-label="Classic Dark" title="Classic Dark"></button><button type="button" data-theme-set="brand-light" aria-label="Brand Light" title="Brand Light"></button><button type="button" data-theme-set="brand-dark" aria-label="Brand Dark" title="Brand Dark"></button></div>
@@ -29,6 +33,7 @@
     <section class="hero section-pad">
       <div class="hero-glow hero-glow-a"></div><div class="hero-glow hero-glow-b"></div>
       <div class="container hero-copy reveal">
+        <div class="hero-wordmark" role="img" aria-label="TWORK"></div>
         <p class="overline">Для персональных, клубных и онлайн-тренеров</p>
         <h1>Вся работа.<br><span>В одном ритме.</span></h1>
         <p class="hero-lead">TWORK связывает расписание, клиентов, абонементы, деньги, клубы и сообщения. Создаёте тренировку один раз — всё остальное обновляется вместе с ней.</p>
@@ -80,13 +85,13 @@
 
     <section class="message-section section-pad" id="messages"><div class="container message-layout"><div class="phone-message reveal" aria-hidden="true"><div class="chat-top"><span>‹</span><div><b>Анна Ковалёва</b><small>Сообщения TWORK</small></div><span>•••</span></div><div class="chat-date">Сегодня</div><div class="bubble incoming">Здравствуйте! Напоминаем о тренировке завтра в 18:00 в Iron Club.</div><div class="bubble outgoing">Спасибо, буду!</div><div class="bubble incoming">После занятия останется 5 тренировок по абонементу.</div><div class="chat-compose"><span>＋</span><i>Сообщение</i><b>↑</b></div></div><div class="message-copy reveal"><p class="overline">Сообщения без ручной рутины</p><h2>Готовый текст.<br>В нужный момент.</h2><p>Выберите шаблон — TWORK подставит имя клиента, дату, время, адрес, остаток тренировок и другие данные. Сообщение можно проверить и отправить через привычный мессенджер.</p><div class="message-tags"><span>Напоминание</span><span>Перенос</span><span>Отмена</span><span>Остаток абонемента</span><span>Оплата</span><span>Свободное окно</span></div></div></div></section>
 
-    <section class="final-section section-pad"><div class="container final-card reveal"><p class="overline">Ранний доступ</p><h2>Оставьте таблицы<br>в прошлом.</h2><p>TWORK собирает работу тренера в одну систему — от первого клиента до расчётов с несколькими клубами.</p><button class="primary-button light js-access" type="button">Стать ранним пользователем</button><small>Мы свяжемся с вами и расскажем о запуске.</small></div></section>
+    <section class="final-section section-pad"><div class="container final-card reveal"><div class="final-wordmark" role="img" aria-label="TWORK"></div><p class="overline">Ранний доступ</p><h2>Оставьте таблицы<br>в прошлом.</h2><p>TWORK собирает работу тренера в одну систему — от первого клиента до расчётов с несколькими клубами.</p><button class="primary-button light js-access" type="button">Стать ранним пользователем</button><small>Мы свяжемся с вами и расскажем о запуске.</small></div></section>
   </main>
 
-  <footer class="site-footer container"><a class="brand footer-brand" href="#top"><span class="brand-mark">T</span><span>TWORK</span></a><p>Система для персональных и онлайн-тренеров · 2026</p><button type="button" class="footer-link js-access">Ранний доступ</button></footer>
+  <footer class="site-footer container"><a class="brand footer-brand" href="#top"><span class="brand-wordmark" aria-hidden="true"></span><span class="sr-only">TWORK</span></a><p>Система для персональных и онлайн-тренеров · 2026</p><button type="button" class="footer-link js-access">Ранний доступ</button></footer>
 
   <div class="access-backdrop" id="access-modal" role="dialog" aria-modal="true" aria-labelledby="access-title" aria-hidden="true"><div class="access-modal"><button class="access-close" type="button" aria-label="Закрыть">×</button><p class="overline">TWORK Early Access</p><h2 id="access-title">Запросить ранний доступ</h2><p class="modal-intro">Оставьте несколько деталей. Заявка придёт на <b>twork.crm@gmail.com</b>.</p><form action="https://formsubmit.co/twork.crm@gmail.com" method="POST"><input type="hidden" name="_subject" value="Новая заявка на ранний доступ TWORK"><input type="hidden" name="_next" value="https://iteaky.github.io/twork-altstore-source/?access=sent"><input type="hidden" name="_template" value="table"><input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off"><label>Имя<input type="text" name="Имя" autocomplete="name" required placeholder="Как к вам обращаться"></label><label>Email<input type="email" name="email" autocomplete="email" required placeholder="name@example.com"></label><label>Кто вы?<select name="Тип пользователя" required><option value="" selected disabled>Выберите вариант</option><option>Персональный тренер</option><option>Тренер в нескольких клубах</option><option>Онлайн-тренер</option><option>Владелец студии или клуба</option><option>Другое</option></select></label><label>Telegram или Instagram<input type="text" name="Дополнительный контакт" placeholder="Необязательно"></label><label>Что важно для вас в TWORK?<textarea name="Комментарий" placeholder="Необязательно"></textarea></label><button class="primary-button" type="submit">Отправить заявку</button><small>Данные используются только для связи по поводу раннего доступа.</small></form></div></div>
   <div class="toast" id="success-toast" role="status">Заявка отправлена. Мы напишем вам на указанный email.</div>
-  <script src="site/premium.js?v=20260614-3" defer></script>
+  <script src="site/premium.js?v=20260614-4" defer></script>
 </body>
 </html>
