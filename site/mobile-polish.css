@@ -1,0 +1,251 @@
+/* Mobile-first refinement for TWORK landing. Desktop remains unchanged. */
+.mobile-calendar-cta{display:none}
+
+@media(max-width:680px){
+  html{scroll-padding-top:78px}
+  body{overflow-x:clip}
+  .container,.narrow{width:calc(100% - 32px)!important}
+  .section-pad{padding:78px 0!important}
+  .overline{font-size:10px!important;letter-spacing:.12em!important}
+
+  /* Compact, usable mobile navigation. */
+  .site-nav{
+    top:max(8px,env(safe-area-inset-top))!important;
+    grid-template-columns:auto 1fr!important;
+    width:calc(100% - 16px)!important;
+    min-height:56px!important;
+    padding:6px 7px 6px 12px!important;
+    border-radius:18px!important;
+  }
+  .desktop-nav{display:none!important}
+  .brand-wordmark{width:92px!important;height:24px!important}
+  .nav-actions{grid-column:2!important;justify-self:end!important;gap:6px!important}
+  .mode-toggle{transform:scale(.9);transform-origin:right center}
+  .nav-cta{
+    width:64px!important;
+    height:42px!important;
+    padding:0!important;
+    border-radius:13px!important;
+    font-size:0!important;
+  }
+  .nav-cta:after{content:"Доступ";font-size:11px;font-weight:820}
+
+  /* First screen: one message, one CTA, one product visual. */
+  .hero{
+    min-height:auto!important;
+    padding:122px 0 68px!important;
+    background:radial-gradient(circle at 50% 0,rgba(var(--accent-rgb),.12),transparent 28%),linear-gradient(180deg,var(--bg),var(--bg-soft) 68%,var(--bg))!important;
+  }
+  .hero-glow-a{width:300px!important;height:300px!important;left:-150px!important;top:110px!important;opacity:.38!important}
+  .hero-glow-b{width:320px!important;height:320px!important;right:-170px!important;top:360px!important;opacity:.28!important}
+  .hero-wordmark{margin-bottom:18px!important}
+  .hero h1{
+    margin:16px auto 18px!important;
+    font-size:clamp(49px,14.2vw,60px)!important;
+    line-height:.88!important;
+    letter-spacing:-.065em!important;
+  }
+  .hero-lead{max-width:350px!important;font-size:16px!important;line-height:1.48!important}
+  .hero-actions{flex-direction:column!important;gap:12px!important;margin-top:26px!important}
+  .hero-actions .primary-button{width:100%!important;max-width:350px!important;min-height:50px!important}
+  .hero-actions .text-link{min-height:44px!important;display:inline-flex!important;align-items:center!important}
+  .platform-trust{gap:7px!important;margin-top:18px!important}
+  .platform-trust span{min-height:32px!important;padding:0 9px!important;font-size:8.5px!important}
+  .hero-proof{display:none!important}
+  .product-theater{height:565px!important;margin-top:48px!important}
+  .floating-card,.device-back{display:none!important}
+  .device-main{top:0!important;width:min(292px,82vw)!important;filter:drop-shadow(0 28px 34px rgba(0,0,0,.19))!important}
+  .device-frame{border-radius:45px!important}
+  .app-screen{min-height:570px!important;border-radius:37px!important}
+  .dashboard-screen{padding:17px 15px!important}
+  .income-card strong{font-size:31px!important}
+  .timeline-item{padding:10px 9px!important}
+  .theater-halo{bottom:0!important;height:150px!important;width:92%!important;opacity:.72!important}
+
+  /* Reduce long-scroll fatigue while keeping the premium visual language. */
+  .manifesto h2,
+  .essentials-head h2,
+  .club-copy h2,
+  .message-copy h2,
+  .privacy-copy h2,
+  .final-card h2{
+    font-size:clamp(40px,12vw,48px)!important;
+    line-height:.94!important;
+    letter-spacing:-.055em!important;
+  }
+  .manifesto .narrow>p:last-child,
+  .essentials-head>p:last-child,
+  .club-copy>p:not(.overline),
+  .message-copy>p:not(.overline),
+  .privacy-copy>p:not(.overline),
+  .final-card>p:not(.overline){font-size:15.5px!important;line-height:1.52!important}
+
+  .connection-rail{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    margin-top:44px!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+  }
+  .connection-rail i{display:none!important}
+  .connection-rail span{
+    display:flex!important;
+    align-items:center!important;
+    min-height:46px!important;
+    padding:10px 12px!important;
+    border:1px solid color-mix(in srgb,var(--bg) 14%,transparent)!important;
+    border-radius:14px!important;
+    font-size:10px!important;
+    line-height:1.25!important;
+  }
+  .format-strip{
+    justify-content:flex-start!important;
+    flex-wrap:nowrap!important;
+    gap:8px!important;
+    margin-top:28px!important;
+    padding-bottom:4px!important;
+    overflow-x:auto!important;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+  }
+  .format-strip::-webkit-scrollbar{display:none}
+  .format-strip span{flex:0 0 auto!important;scroll-snap-align:start;white-space:nowrap}
+
+  .essentials-head{text-align:left!important}
+  .essential-stack{gap:18px!important;margin-top:40px!important}
+  .essential-panel,
+  .essential-panel:nth-child(even){
+    grid-template-columns:1fr!important;
+    gap:28px!important;
+    min-height:0!important;
+    padding:22px 18px!important;
+    border-radius:26px!important;
+  }
+  .essential-panel:nth-child(even) .essential-copy{order:0!important}
+  .essential-number{width:32px!important;height:32px!important;border-radius:10px!important}
+  .essential-copy h3{
+    margin:16px 0 14px!important;
+    font-size:clamp(34px,9.4vw,39px)!important;
+    line-height:.98!important;
+    letter-spacing:-.05em!important;
+  }
+  .essential-copy>p{font-size:15px!important;line-height:1.52!important}
+  .essential-points{gap:9px!important;margin-top:21px!important}
+  .essential-points span{font-size:12px!important;line-height:1.42!important}
+
+  /* Compact online visual while preserving all three client examples. */
+  .global-visual{min-height:330px!important}
+  .global-orbit{width:230px!important;height:230px!important}
+  .global-center{width:82px!important;height:82px!important;border-radius:27px!important}
+  .global-client{width:148px!important;padding:11px!important;border-radius:16px!important}
+  .global-client b{font-size:11px!important}
+  .global-client small{font-size:8.5px!important;line-height:1.25!important}
+  .global-client span{margin-top:7px!important;padding:5px 7px!important;font-size:8px!important}
+  .client-eu{left:-3px!important;top:22px!important}
+  .client-uk{right:-3px!important;top:106px!important}
+  .client-kz{left:20px!important;bottom:8px!important}
+
+  .balance-stage{grid-template-columns:1fr!important;gap:10px!important}
+  .balance-card{padding:18px!important;border-radius:20px!important}
+  .balance-card>strong{margin:18px 0 5px!important;font-size:36px!important}
+  .balance-flow{padding:15px!important;border-radius:16px!important}
+
+  /* On mobile, focus the calendar visual on the client's event and comment. */
+  #calendar-sync .calendar-share{grid-template-columns:1fr!important;gap:0!important}
+  #calendar-sync .calendar-share>.calendar-card:not(.personal){display:none!important}
+  #calendar-sync .calendar-card.personal,
+  #calendar-sync .calendar-card.personal.client-event-card{
+    margin-top:0!important;
+    min-height:0!important;
+    padding:18px!important;
+    border-radius:23px!important;
+    transform:none!important;
+  }
+  .client-calendar-benefit{margin-top:18px!important}
+  .client-event-summary{margin-top:14px!important}
+  .client-event-comment{margin-top:9px!important}
+  .client-event-meta{gap:5px!important}
+  .mobile-calendar-cta{
+    grid-column:1/-1;
+    display:block;
+    margin-top:4px;
+    padding:18px;
+    border:1px solid rgba(var(--accent-rgb),.18);
+    border-radius:20px;
+    background:linear-gradient(145deg,rgba(var(--accent-rgb),.13),rgba(var(--accent-rgb),.055));
+    text-align:left;
+  }
+  .mobile-calendar-cta strong{display:block;color:var(--ink);font-size:17px;line-height:1.2;letter-spacing:-.025em}
+  .mobile-calendar-cta p{margin:6px 0 14px;color:var(--muted);font-size:12px;line-height:1.42}
+  .mobile-calendar-cta button{width:100%;min-height:46px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--on-accent);font-weight:820}
+
+  .club-layout,.message-layout{grid-template-columns:1fr!important;gap:34px!important}
+  .club-rules{grid-template-columns:1fr!important;gap:8px!important;margin-top:24px!important}
+  .club-rules span{min-height:50px!important;padding:12px 13px!important;border-radius:15px!important;font-size:11.5px!important}
+  .club-ledger{width:100%!important;padding:21px 17px!important;border-radius:27px!important}
+  .ledger-head{margin-bottom:18px!important}
+  .ledger-head h3{font-size:27px!important}
+  .ledger-line{min-height:54px!important;font-size:11.5px!important}
+  .ledger-line strong{font-size:14px!important}
+  .ledger-total{padding:18px!important;border-radius:18px!important}
+  .ledger-total strong{font-size:27px!important}
+  .ledger-button{min-height:48px!important}
+
+  .message-copy{order:-1!important}
+  .message-tags{gap:7px!important;margin-top:22px!important}
+  .message-tags span{padding:8px 10px!important;font-size:9.5px!important}
+  .phone-message{
+    width:min(330px,100%)!important;
+    min-height:520px!important;
+    padding:68px 17px 18px!important;
+    border-width:8px!important;
+    border-radius:45px!important;
+  }
+  .reminder-scroll{padding-bottom:0!important}
+  .reminder-draft-card.secondary{display:none!important}
+  .reminder-draft-text{font-size:10px!important;line-height:1.43!important}
+
+  .privacy-copy{text-align:left!important}
+  .privacy-copy h2,.privacy-copy>p:not(.overline){margin-left:0!important;margin-right:0!important}
+  .privacy-copy .privacy-apple-note{margin-top:15px!important}
+  .privacy-layout{gap:24px!important}
+  .privacy-cards{gap:9px!important}
+
+  .final-card{padding:32px 19px!important;border-radius:28px!important}
+  .final-card .primary-button{width:100%!important;min-height:50px!important}
+  .site-footer{gap:14px!important;padding-top:28px!important;padding-bottom:calc(28px + env(safe-area-inset-bottom))!important;text-align:center!important}
+
+  .access-backdrop{padding:12px!important}
+  .access-modal{
+    width:100%!important;
+    max-height:calc(100dvh - 24px)!important;
+    padding:27px 18px calc(22px + env(safe-area-inset-bottom))!important;
+    border-radius:26px!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain;
+  }
+  .access-modal h2{font-size:35px!important;line-height:.98!important}
+  .access-modal input,.access-modal select,.access-modal textarea{font-size:16px!important}
+  .access-modal .primary-button{width:100%!important;min-height:48px!important}
+
+  button,a{touch-action:manipulation}
+  .primary-button,.nav-cta,.ledger-button,.android-interest-button{min-height:44px}
+}
+
+@media(max-width:390px){
+  .container,.narrow{width:calc(100% - 28px)!important}
+  .brand-wordmark{width:84px!important}
+  .mode-toggle{transform:scale(.82)}
+  .nav-cta{width:60px!important}
+  .hero h1{font-size:48px!important}
+  .global-client{width:140px!important}
+  .client-kz{left:10px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal,.reveal.visible{opacity:1!important;transform:none!important;transition:none!important}
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
