@@ -10,21 +10,33 @@ html = html.replace(
 )
 html = re.sub(
     r'<meta name="description" content="[^"]*">',
-    '<meta name="description" content="TWORK — приложение для тренеров на iPhone. Работает офлайн, хранит клиентскую базу локально и объединяет расписание, абонементы, деньги, клубы, Apple Calendar и сообщения.">',
+    '<meta name="description" content="TWORK — приложение для тренеров на iPhone. Работает офлайн, хранит данные локально и создаёт отдельные клиентские календари с расписанием, остатком абонемента, долгом и комментариями тренера.">',
     html,
     count=1,
 )
 html = re.sub(
     r'<meta property="og:description" content="[^"]*">',
-    '<meta property="og:description" content="Только iOS. Работает офлайн. Клиентская база не загружается на серверы TWORK.">',
+    '<meta property="og:description" content="Клиент видит своё расписание, остаток абонемента и комментарии тренера прямо в Apple Calendar — без отдельного личного кабинета.">',
     html,
     count=1,
 )
 
-css_link = '  <link rel="stylesheet" href="site/platform-privacy.css?v=20260614-1">'
+css_link = '  <link rel="stylesheet" href="site/platform-privacy.css?v=20260614-4">'
 if "site/platform-privacy.css" not in html:
     marker = '  <link rel="stylesheet" href="site/logo-render-fix.css?v=20260614-3">'
     html = html.replace(marker, marker + "\n" + css_link)
+else:
+    html = re.sub(
+        r'site/platform-privacy\.css\?v=[^"]+',
+        'site/platform-privacy.css?v=20260614-4',
+        html,
+    )
+
+html = re.sub(
+    r'site/premium\.js\?v=[^"]+',
+    'site/premium.js?v=20260614-7',
+    html,
+)
 
 trust = '<div class="platform-trust" aria-label="Платформа и приватность"><span class="platform-ios">Только iOS</span><span class="platform-offline">Работает офлайн</span><span class="platform-local">Без сервера TWORK</span></div>'
 if 'class="platform-trust"' not in html:
