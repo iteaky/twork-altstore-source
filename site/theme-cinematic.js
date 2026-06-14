@@ -10,8 +10,8 @@
   toggle = cleanToggle;
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const duration = 1180;
-  const switchAt = 535;
+  const duration = 2200;
+  const switchAt = 1080;
   let running = false;
   let cleanupTimer = 0;
 
@@ -108,7 +108,7 @@
     requestAnimationFrame(() => overlay.classList.add('is-running'));
 
     window.setTimeout(() => applyTheme(targetTheme), switchAt);
-    cleanupTimer = window.setTimeout(() => finish(overlay), duration + 90);
+    cleanupTimer = window.setTimeout(() => finish(overlay), duration + 120);
     overlay.addEventListener('animationend', event => {
       if (event.target === overlay) finish(overlay);
     }, { once:true });
