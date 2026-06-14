@@ -19,6 +19,9 @@ jobs:
       - name: Apply current app themes and calendar
         run: python3 scripts/patch_landing_v509.py
 
+      - name: Add early access request form
+        run: python3 scripts/patch_early_access.py
+
       - name: Commit patched landing
         run: |
           if git diff --quiet -- index.html; then
@@ -28,5 +31,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Match landing to TWORK v509"
+          git commit -m "Add TWORK early access form"
           git push
