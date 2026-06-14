@@ -7,13 +7,26 @@
     border-radius:20px!important;
   }
   .brand-wordmark{
-    width:104px!important;
-    height:28px!important;
+    width:118px!important;
+    height:31px!important;
   }
   .nav-actions{gap:8px!important}
   .mode-toggle{
+    width:76px!important;
+    height:42px!important;
+    padding:4px!important;
     transform:none!important;
     transform-origin:center!important;
+  }
+  .mode-toggle-icon{font-size:16px!important}
+  .mode-toggle-thumb{
+    left:4px!important;
+    top:4px!important;
+    width:34px!important;
+    height:34px!important;
+  }
+  .mode-toggle[data-mode="dark"] .mode-toggle-thumb{
+    transform:translateX(34px)!important;
   }
   .nav-cta{
     width:70px!important;
@@ -68,10 +81,25 @@
     padding:6px 7px 6px 12px!important;
   }
   .brand-wordmark{
-    width:96px!important;
-    height:26px!important;
+    width:108px!important;
+    height:29px!important;
   }
-  .mode-toggle{transform:scale(.94)!important;transform-origin:right center!important}
+  .mode-toggle{
+    width:72px!important;
+    height:40px!important;
+    padding:4px!important;
+    transform:none!important;
+  }
+  .mode-toggle-icon{font-size:15px!important}
+  .mode-toggle-thumb{
+    left:4px!important;
+    top:4px!important;
+    width:32px!important;
+    height:32px!important;
+  }
+  .mode-toggle[data-mode="dark"] .mode-toggle-thumb{
+    transform:translateX(32px)!important;
+  }
   .nav-cta{width:66px!important;height:44px!important}
   .hero{padding-top:128px!important}
   .product-theater{height:580px!important}
