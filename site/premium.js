@@ -19,6 +19,7 @@
   ensureStylesheet('brand-fixes.css', 'site/brand-fixes.css?v=20260614-2');
   ensureStylesheet('platform-privacy.css', 'site/platform-privacy.css?v=20260614-4');
   ensureStylesheet('client-calendar-insight.css', 'site/client-calendar-insight.css?v=20260614-1');
+  ensureStylesheet('global-icon-fix.css', 'site/global-icon-fix.css?v=20260614-1');
 
   const oldPicker = $('.theme-picker');
   if (oldPicker) {
