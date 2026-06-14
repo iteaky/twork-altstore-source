@@ -1,5 +1,28 @@
 /* Final mobile clarity pass: remove duplication, improve readability, prevent clipping. */
 @media(max-width:680px){
+  /* Larger mobile header, balanced against the large landing typography. */
+  .site-nav{
+    min-height:62px!important;
+    padding:7px 8px 7px 14px!important;
+    border-radius:20px!important;
+  }
+  .brand-wordmark{
+    width:104px!important;
+    height:28px!important;
+  }
+  .nav-actions{gap:8px!important}
+  .mode-toggle{
+    transform:none!important;
+    transform-origin:center!important;
+  }
+  .nav-cta{
+    width:70px!important;
+    height:46px!important;
+    border-radius:14px!important;
+  }
+  .nav-cta:after{font-size:12px!important}
+  .hero{padding-top:132px!important}
+
   /* Give the single hero phone enough room without returning to an oversized hero. */
   .product-theater{height:600px!important}
   .device-main{width:min(286px,80vw)!important}
@@ -40,6 +63,17 @@
 }
 
 @media(max-width:390px){
+  .site-nav{
+    min-height:60px!important;
+    padding:6px 7px 6px 12px!important;
+  }
+  .brand-wordmark{
+    width:96px!important;
+    height:26px!important;
+  }
+  .mode-toggle{transform:scale(.94)!important;transform-origin:right center!important}
+  .nav-cta{width:66px!important;height:44px!important}
+  .hero{padding-top:128px!important}
   .product-theater{height:580px!important}
   .device-main{width:min(278px,80vw)!important}
   .app-screen{min-height:540px!important}
