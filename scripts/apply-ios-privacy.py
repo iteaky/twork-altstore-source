@@ -32,6 +32,16 @@ else:
         html,
     )
 
+mobile_css = '  <link rel="stylesheet" href="site/mobile-polish.css?v=20260614-1">'
+if 'site/mobile-polish.css' not in html:
+    html = html.replace('</head>', mobile_css + '\n</head>')
+else:
+    html = re.sub(
+        r'site/mobile-polish\.css\?v=[^"]+',
+        'site/mobile-polish.css?v=20260614-1',
+        html,
+    )
+
 html = re.sub(
     r'site/premium\.js\?v=[^"]+',
     'site/premium.js?v=20260614-8',
@@ -45,6 +55,16 @@ else:
     html = re.sub(
         r'site/global-icon-shape-fix\.js\?v=[^"]+',
         'site/global-icon-shape-fix.js?v=20260614-2',
+        html,
+    )
+
+mobile_script = '  <script src="site/mobile-polish.js?v=20260614-1" defer></script>'
+if 'site/mobile-polish.js' not in html:
+    html = html.replace('</body>', mobile_script + '\n</body>')
+else:
+    html = re.sub(
+        r'site/mobile-polish\.js\?v=[^"]+',
+        'site/mobile-polish.js?v=20260614-1',
         html,
     )
 
