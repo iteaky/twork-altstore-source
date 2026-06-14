@@ -116,8 +116,7 @@
 .privacy-icon{
   grid-column:1;
   grid-row:1 / span 3;
-  display:grid;
-  place-items:center;
+  position:relative;
   width:44px;
   height:44px;
   border-radius:14px;
@@ -125,12 +124,16 @@
   color:transparent;
   font-size:0;
   box-shadow:0 9px 20px rgba(var(--accent-rgb),.20);
+  overflow:hidden;
 }
 .privacy-icon svg{display:none}
 .privacy-icon:before{
+  position:absolute;
+  inset:0;
   display:block;
   width:21px;
   height:21px;
+  margin:auto;
   background-repeat:no-repeat;
   background-position:center;
   background-size:contain;
