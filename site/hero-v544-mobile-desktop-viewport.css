@@ -1,6 +1,5 @@
-/* Mobile uses the exact same logical phone/screen viewport as desktop.
-   The entire 302 × 653 mockup is scaled as one object; its internal layout
-   never gains extra CSS resolution on a wider mobile viewport. */
+/* Mobile uses the exact same 302 × 655 phone geometry as the desktop hero.
+   The entire phone is scaled as one object; its inner viewport never changes. */
 @media(max-width:680px){
   #product.hero-scroll-product .hero-phone-stage{
     top:0!important;
@@ -12,45 +11,70 @@
     left:50%!important;
     top:calc(50% + 14px)!important;
     width:302px!important;
-    height:653px!important;
+    height:655px!important;
     aspect-ratio:auto!important;
     transform:translate(-50%,-50%) scale(var(--twork-mobile-phone-scale,1))!important;
     transform-origin:center!important;
   }
 
+  /* Match the desktop frame exactly: 1 px border + 9 px bezel on every side. */
   #product.hero-scroll-product .device-main .device-frame{
     position:absolute!important;
     inset:0!important;
-    padding:0!important;
+    width:302px!important;
+    height:655px!important;
+    padding:9px!important;
+    border-width:1px!important;
     border-radius:49px!important;
+    box-sizing:border-box!important;
     overflow:hidden!important;
   }
 
+  /* 302 - 2 × (1 border + 9 bezel) = 282 px.
+     This centers the screen perfectly and keeps every bezel equal. */
   #product.hero-scroll-product .device-main .device-frame>.app-screen{
     position:absolute!important;
-    inset:9px!important;
-    width:284px!important;
+    left:10px!important;
+    top:10px!important;
+    right:auto!important;
+    bottom:auto!important;
+    inset:auto!important;
+    width:282px!important;
     height:635px!important;
+    min-width:282px!important;
+    max-width:282px!important;
     min-height:635px!important;
     max-height:635px!important;
     padding:0!important;
     border-radius:40px!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
   }
 
   #product.hero-scroll-product .device-main .dynamic-island{
+    left:50%!important;
     top:21px!important;
     width:96px!important;
     height:26px!important;
     aspect-ratio:auto!important;
+    transform:translateX(-50%)!important;
   }
 
-  /* The canvas is the desktop inner viewport. Since the outer phone is scaled,
-     the canvas itself must stay at scale 1. */
+  /* The canvas is the same 282 × 635 desktop viewport. */
   #product.hero-scroll-product .hero-mobile-ui-canvas{
-    width:284px!important;
-    min-width:284px!important;
+    position:absolute!important;
+    left:0!important;
+    top:0!important;
+    width:282px!important;
+    min-width:282px!important;
+    max-width:282px!important;
     height:635px!important;
+    min-height:635px!important;
+    max-height:635px!important;
     transform:none!important;
+    transform-origin:0 0!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
   }
 
   /* Restore the desktop Home metrics that mobile media queries had reduced. */
