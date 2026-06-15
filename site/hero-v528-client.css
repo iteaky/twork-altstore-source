@@ -6,11 +6,19 @@ html[data-theme="brand-dark"] .hero-client-screen{color:#f4fffd;background:linea
 .hero-client-type{position:absolute;right:9px;top:9px;padding:4px 7px;border-radius:999px;background:#f64f93;color:#fff;font-size:6.5px;font-weight:700}html[data-theme="brand-dark"] .hero-client-type{background:#0abab5;color:#032923}
 .hero-client-name{max-width:72%;margin:0 0 8px;font-size:16px;line-height:1.1}.hero-client-meta{display:grid;gap:3px;color:#75636d;font-size:7.5px}.hero-client-meta span:before{display:inline-block;width:13px;opacity:.7}.hero-client-meta .location:before{content:"●"}.hero-client-meta .language:before{content:"◎"}.hero-client-meta .club:before{content:"▥"}html[data-theme="brand-dark"] .hero-client-meta{color:#a7c5bf}
 .hero-client-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.hero-client-actions span{display:grid;place-items:center;min-height:28px;border:1px solid rgba(227,117,171,.28);border-radius:9px;background:#fff4fa;font-size:7px;font-weight:700}html[data-theme="brand-dark"] .hero-client-actions span{border-color:rgba(94,234,212,.14);background:#132024}
-.hero-client-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.hero-client-card{position:relative;min-height:142px;padding:10px 9px 8px;border:1px solid rgba(227,117,171,.30);border-radius:14px;background:#ffe8f3;display:flex;flex-direction:column}html[data-theme="brand-dark"] .hero-client-card{border-color:rgba(94,234,212,.14);background:#10181a}
+.hero-client-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.hero-client-card{position:relative;min-height:132px;padding:10px 9px 8px;border:1px solid rgba(227,117,171,.30);border-radius:14px;background:#ffe8f3;display:flex;flex-direction:column}html[data-theme="brand-dark"] .hero-client-card{border-color:rgba(94,234,212,.14);background:#10181a}
 .hero-client-card-head{display:flex;align-items:center;gap:5px;min-height:20px}.hero-client-card-head i{font-style:normal;font-size:10px;color:#d11980}.hero-client-card-head b{font-size:8px}.hero-client-card-head span{margin-left:auto;font-size:6px;color:#d11980}html[data-theme="brand-dark"] .hero-client-card-head i,html[data-theme="brand-dark"] .hero-client-card-head span{color:#5eead4}
 .hero-client-value{margin:auto 0;text-align:center}.hero-client-value strong{display:block;font-size:18px}.hero-client-value small{display:block;margin-top:3px;color:#7d6873;font-size:6.5px}.hero-client-value.positive strong{color:#1f9e4d}html[data-theme="brand-dark"] .hero-client-value small{color:#9bbab4}html[data-theme="brand-dark"] .hero-client-value.positive strong{color:#5eead4}
 .hero-client-card-footer{margin-top:auto;padding-top:7px;border-top:1px solid rgba(227,117,171,.22);text-align:center;color:#d11980;font-size:6.5px;font-weight:700}html[data-theme="brand-dark"] .hero-client-card-footer{border-color:rgba(94,234,212,.12);color:#5eead4}
 .hero-upcoming{display:grid;gap:5px;margin:auto 0}.hero-upcoming b{font-size:7.5px}.hero-upcoming small{font-size:6px;color:#7d6873}.hero-subscription-ring{display:grid;place-items:center;width:48px;height:48px;margin:auto;border:5px solid rgba(246,79,147,.18);border-top-color:#f64f93;border-radius:50%;font-size:10px;font-weight:700}html[data-theme="brand-dark"] .hero-subscription-ring{border-color:rgba(10,186,181,.20);border-top-color:#5eead4}
+
+/* Mirrors the active service section from ClientDetailView+FormSections.swift:
+   date range, cost and a link to all services. */
+.hero-service-card .hero-client-card-head i{color:#547cc7}html[data-theme="brand-dark"] .hero-service-card .hero-client-card-head i{color:#87a9ff}
+.hero-service-body{display:grid;gap:4px;margin:auto 0}.hero-service-body b{font-size:8px}.hero-service-body span{font-size:6.5px;color:#7d6873}.hero-service-body strong{font-size:9px;color:#547cc7}.hero-service-body small{font-size:6px;color:#8a7580}
+html[data-theme="brand-dark"] .hero-service-body span,html[data-theme="brand-dark"] .hero-service-body small{color:#9bbab4}html[data-theme="brand-dark"] .hero-service-body strong{color:#87a9ff}
+.hero-service-pill{display:inline-flex;align-items:center;width:max-content;padding:3px 6px;border-radius:999px;background:rgba(84,124,199,.12);color:#547cc7!important;font-size:5.8px!important;font-weight:700}html[data-theme="brand-dark"] .hero-service-pill{background:rgba(135,169,255,.12);color:#87a9ff!important}
+
 .floating-card-right strong{color:#f64f93}html[data-theme="brand-dark"] .floating-card-right strong{color:#5eead4}
 
 /* Safety guard: client dashboard cards are valid only inside the right phone. */
@@ -20,4 +28,4 @@ body > .hero-client-grid,
 .hero + .hero-client-grid{display:none!important}
 .hero-client-grid:not(.hero-client-screen .hero-client-grid){display:none!important}
 
-@media(max-width:680px){.hero-client-screen{min-height:555px;padding:10px 8px 12px}.hero-client-card{min-height:124px}}
+@media(max-width:680px){.hero-client-screen{min-height:555px;padding:10px 8px 12px}.hero-client-card{min-height:114px}.hero-service-body{gap:3px}}
