@@ -12,4 +12,12 @@ html[data-theme="brand-dark"] .hero-client-screen{color:#f4fffd;background:linea
 .hero-client-card-footer{margin-top:auto;padding-top:7px;border-top:1px solid rgba(227,117,171,.22);text-align:center;color:#d11980;font-size:6.5px;font-weight:700}html[data-theme="brand-dark"] .hero-client-card-footer{border-color:rgba(94,234,212,.12);color:#5eead4}
 .hero-upcoming{display:grid;gap:5px;margin:auto 0}.hero-upcoming b{font-size:7.5px}.hero-upcoming small{font-size:6px;color:#7d6873}.hero-subscription-ring{display:grid;place-items:center;width:48px;height:48px;margin:auto;border:5px solid rgba(246,79,147,.18);border-top-color:#f64f93;border-radius:50%;font-size:10px;font-weight:700}html[data-theme="brand-dark"] .hero-subscription-ring{border-color:rgba(10,186,181,.20);border-top-color:#5eead4}
 .floating-card-right strong{color:#f64f93}html[data-theme="brand-dark"] .floating-card-right strong{color:#5eead4}
+
+/* Safety guard: client dashboard cards are valid only inside the right phone. */
+main > .hero-client-grid,
+body > .hero-client-grid,
+.hero-section > .hero-client-grid,
+.hero + .hero-client-grid{display:none!important}
+.hero-client-grid:not(.hero-client-screen .hero-client-grid){display:none!important}
+
 @media(max-width:680px){.hero-client-screen{min-height:555px;padding:10px 8px 12px}.hero-client-card{min-height:124px}}
