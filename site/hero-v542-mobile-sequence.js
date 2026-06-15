@@ -4,7 +4,9 @@
   const segment = (value, start, end) => smoothstep(clamp((value - start) / Math.max(0.001, end - start)));
   const mobileQuery = window.matchMedia('(max-width:680px)');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const LOGICAL_SCREEN_WIDTH = 284;
+  const LOGICAL_SCREEN_WIDTH = 282;
+  const CALENDAR_ROW_HEIGHT = 45;
+  const CALENDAR_TIMELINE_BASE_HEIGHT = 214;
 
   const setScreenState = (screen, opacity, y, scale) => {
     const visible = opacity > 0.004;
@@ -20,6 +22,7 @@
 
     screen.querySelectorAll('.hero-cal-week-row').forEach(row => {
       row.style.removeProperty('height');
+      row.style.removeProperty('min-height');
       row.style.removeProperty('opacity');
       row.style.removeProperty('transform');
       row.style.removeProperty('visibility');
@@ -55,18 +58,13 @@
       canvas.style.removeProperty('width');
       canvas.style.removeProperty('height');
       canvas.style.removeProperty('transform');
-      return 1;
+      return;
     }
 
-    const screenWidth = Math.max(1, screen.clientWidth);
     const screenHeight = Math.max(1, screen.clientHeight);
-    const scale = screenWidth / LOGICAL_SCREEN_WIDTH;
-    const logicalHeight = screenHeight / scale;
-
     canvas.style.width = `${LOGICAL_SCREEN_WIDTH}px`;
-    canvas.style.height = `${logicalHeight}px`;
-    canvas.style.transform = `scale(${scale})`;
-    return scale;
+    canvas.style.height = `${screenHeight}px`;
+    canvas.style.transform = 'none';
   };
 
   const install = () => {
@@ -168,16 +166,17 @@
       homeTrack.style.opacity = maxShift > 3 ? '.72' : '0';
     };
 
+    /* One controller only. This is the same algorithm used by the desktop calendar. */
     const updateCalendarScroll = progress => {
       if (!calendarGrid || calendarRows.length < 2) return;
 
-      const rowHeight = selectedWeek?.offsetHeight || 40;
-      const collapseProgress = segment(progress, 0, 0.48);
+      const collapseProgress = smoothstep(clamp(progress / 0.34));
 
       calendarRows.forEach((row, index) => {
         const isSelected = index === selectedWeekIndex;
         const remaining = isSelected ? 1 : 1 - collapseProgress;
-        row.style.height = `${Math.max(0, Math.round(rowHeight * remaining))}px`;
+        row.style.height = `${Math.max(0, Math.round(CALENDAR_ROW_HEIGHT * remaining))}px`;
+        row.style.minHeight = '0px';
         row.style.opacity = isSelected ? '1' : String(Math.max(0, remaining));
         row.style.transform = isSelected
           ? 'translate3d(0,0,0) scaleY(1)'
@@ -193,17 +192,22 @@
 
       if (!calendarTimeline || !calendarTimelineContent || !calendarTimelineTrack || !calendarTimelineThumb) return;
 
-      const baseHeight = 185;
       const hiddenWeekCount = Math.max(0, calendarRows.length - 1);
-      const expandedHeight = baseHeight + Math.max(0, rowHeight * hiddenWeekCount - 18);
-      calendarTimeline.style.height = `${Math.round(baseHeight + (expandedHeight - baseHeight) * collapseProgress)}px`;
+      const expandedHeight = CALENDAR_TIMELINE_BASE_HEIGHT + Math.max(0, CALENDAR_ROW_HEIGHT * hiddenWeekCount - 18);
+      calendarTimeline.style.height = `${Math.round(
+        CALENDAR_TIMELINE_BASE_HEIGHT +
+        (expandedHeight - CALENDAR_TIMELINE_BASE_HEIGHT) * collapseProgress
+      )}px`;
 
-      const timelineProgress = segment(progress, 0.28, 1);
+      const timelineProgress = smoothstep(clamp((progress - 0.16) / 0.84));
       const timelineMaxShift = Math.max(0, calendarTimelineContent.scrollHeight - calendarTimeline.clientHeight);
       calendarTimelineContent.style.transform = `translate3d(0, ${-Math.round(timelineMaxShift * timelineProgress)}px, 0)`;
 
       const trackHeight = calendarTimelineTrack.clientHeight;
-      const ratio = Math.min(1, calendarTimeline.clientHeight / Math.max(calendarTimeline.clientHeight, calendarTimelineContent.scrollHeight));
+      const ratio = Math.min(
+        1,
+        calendarTimeline.clientHeight / Math.max(calendarTimeline.clientHeight, calendarTimelineContent.scrollHeight)
+      );
       const thumbHeight = Math.max(24, Math.round(trackHeight * ratio));
       const thumbTravel = Math.max(0, trackHeight - thumbHeight);
       calendarTimelineThumb.style.height = `${thumbHeight}px`;
@@ -219,25 +223,14 @@
         return;
       }
 
-      updateCanvases();
-
       const rect = product.getBoundingClientRect();
       const pageTop = window.scrollY + rect.top;
       const stickyTop = Number.parseFloat(getComputedStyle(stage).top) || 0;
       const scrollRange = Math.max(1, product.offsetHeight - stage.offsetHeight);
       const progress = clamp((window.scrollY - (pageTop - stickyTop)) / scrollRange);
 
-      /*
-        0.00–0.21  Home screen scrolls internally.
-        0.23–0.29  Home changes to calendar.
-        0.29–0.57  Calendar collapses month-to-week and scrolls the timeline.
-        0.59–0.65  Calendar changes to client dashboard.
-        0.65–0.76  Client dashboard remains visible.
-        0.76–0.82  Client changes to club dashboard.
-        0.82–1.00  Club dashboard remains visible before the page continues.
-      */
       const homeScrollProgress = segment(progress, 0.00, 0.21);
-      const calendarScrollProgress = segment(progress, 0.29, 0.57);
+      const calendarScrollProgress = clamp((progress - 0.29) / (0.57 - 0.29));
       const homeToCalendar = reduceMotion.matches
         ? (progress >= 0.26 ? 1 : 0)
         : segment(progress, 0.23, 0.29);
@@ -285,19 +278,20 @@
       requestAnimationFrame(update);
     };
 
+    const handleResize = () => {
+      updateCanvases();
+      requestUpdate();
+    };
+
+    updateCanvases();
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate, { passive: true });
-    mobileQuery.addEventListener?.('change', requestUpdate);
+    window.addEventListener('resize', handleResize, { passive: true });
+    mobileQuery.addEventListener?.('change', handleResize);
     reduceMotion.addEventListener?.('change', requestUpdate);
 
-    if ('ResizeObserver' in window) {
+    if ('ResizeObserver' in window && homeContent) {
       const observer = new ResizeObserver(requestUpdate);
-      observer.observe(product);
-      observer.observe(stage);
-      observer.observe(homeScreen);
-      observer.observe(mobileCalendarScreen);
-      observer.observe(mobileClientScreen);
-      observer.observe(mobileClubScreen);
+      observer.observe(homeContent);
     }
 
     requestUpdate();
