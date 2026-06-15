@@ -5,26 +5,32 @@ on:
     branches: [main]
     paths:
       - 'site/hero-v528-*.css'
+      - 'site/hero-v528-*.js'
       - 'site/hero-v528-fragment.html'
       - 'scripts/apply-hero-v528.py'
       - '.github/workflows/apply-logo-render-fix.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   patch:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Apply v528 hero markup
         run: python3 scripts/apply-hero-v528.py
+      - name: Validate hero markup
+        run: |
+          test "$(grep -o 'class="hero-client-grid"' index.html | wc -l | tr -d ' ')" = "1"
+          test "$(grep -o 'class="hero-calendar-screen"' index.html | wc -l | tr -d ' ')" = "1"
+          test "$(grep -o 'class="real-home-preview"' index.html | wc -l | tr -d ' ')" = "1"
       - name: Commit landing update
         run: |
           if git diff --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Match landing hero screens to TWORK v528"
+          git commit -m "Remove orphaned hero blocks"
           git push
