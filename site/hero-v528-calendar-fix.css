@@ -1,3 +1,4 @@
+@import url("hero-v528-scroll.css?v=20260615-1");
 /* Calendar corrections matched to CalendarView v528. */
 @media(min-width:681px){
   .device-main{top:35px;z-index:3}
