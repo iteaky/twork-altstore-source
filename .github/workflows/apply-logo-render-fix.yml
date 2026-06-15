@@ -1,15 +1,30 @@
-name: Apply landing updates manually
+name: Apply TWORK v528 hero
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'site/hero-v528-*.css'
+      - 'site/hero-v528-fragment.html'
+      - 'scripts/apply-hero-v528.py'
+      - '.github/workflows/apply-logo-render-fix.yml'
 
 permissions:
   contents: write
 
 jobs:
   patch:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Preserve restored landing
-        run: echo "Automatic landing patching is disabled."
+      - name: Apply v528 hero markup
+        run: python3 scripts/apply-hero-v528.py
+      - name: Commit landing update
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Match landing hero screens to TWORK v528"
+          git push
