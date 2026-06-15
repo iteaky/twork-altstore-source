@@ -43,6 +43,7 @@
   const loadV542Hero = () => {
     appendStylesheet('site/hero-v542-club-scroll.css?v=20260615-2', 'club');
     appendStylesheet('site/hero-v542-mobile-sequence.css?v=20260615-3', 'mobile-sequence');
+    appendStylesheet('site/hero-v542-mobile-sticky-fix.css?v=20260615-1', 'mobile-sticky-fix');
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v542-mobile-sequence.js?v=20260615-2', 'mobile-sequence');
   };
