@@ -21,8 +21,8 @@ if count != 1:
 styles = [
     ("site/hero-v528-home.css", "20260615-1"),
     ("site/hero-v528-calendar.css", "20260615-1"),
-    ("site/hero-v528-calendar-fix.css", "20260615-2"),
-    ("site/hero-v528-client.css", "20260615-1"),
+    ("site/hero-v528-calendar-fix.css", "20260615-3"),
+    ("site/hero-v528-client.css", "20260615-2"),
 ]
 for asset, version in styles:
     href = f"{asset}?v={version}"
@@ -33,7 +33,7 @@ for asset, version in styles:
         html = html.replace("</head>", link + "\n</head>")
 
 script_asset = "site/hero-v528-calendar-fix.js"
-script_version = "20260615-2"
+script_version = "20260615-3"
 script_src = f"{script_asset}?v={script_version}"
 script_tag = f'  <script src="{script_src}" defer></script>'
 if script_asset in html:
