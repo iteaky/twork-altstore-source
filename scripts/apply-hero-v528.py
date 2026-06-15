@@ -18,6 +18,7 @@ if count != 1:
 styles = [
     ("site/hero-v528-home.css", "20260615-1"),
     ("site/hero-v528-calendar.css", "20260615-1"),
+    ("site/hero-v528-calendar-fix.css", "20260615-2"),
     ("site/hero-v528-client.css", "20260615-1"),
 ]
 for asset, version in styles:
@@ -27,5 +28,14 @@ for asset, version in styles:
         html = re.sub(rf'{re.escape(asset)}\?v=[^"]+', href, html)
     else:
         html = html.replace("</head>", link + "\n</head>")
+
+script_asset = "site/hero-v528-calendar-fix.js"
+script_version = "20260615-2"
+script_src = f"{script_asset}?v={script_version}"
+script_tag = f'  <script src="{script_src}" defer></script>'
+if script_asset in html:
+    html = re.sub(rf'{re.escape(script_asset)}\?v=[^"]+', script_src, html)
+else:
+    html = html.replace("</body>", script_tag + "\n</body>")
 
 index_path.write_text(html)
