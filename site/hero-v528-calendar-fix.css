@@ -1,5 +1,11 @@
 /* Calendar corrections matched to CalendarView v528. */
-.device-calendar{transform:translateX(-155%) rotateY(16deg) rotateZ(4deg)}
+@media(min-width:681px){
+  .device-main{top:35px;z-index:3}
+  .device-back{top:130px;width:270px;opacity:.9;z-index:2;transform-origin:50% 50%}
+  .device-calendar{transform:translateX(-155%) rotateY(16deg) rotateZ(-4deg)}
+  .device-client{transform:translateX(55%) rotateY(-16deg) rotateZ(4deg)}
+  .hero-calendar-screen,.hero-client-screen{min-height:600px}
+}
 .hero-cal-controls{display:flex;align-items:center;gap:10px;margin:6px 0 8px}
 .hero-cal-controls .hero-cal-mode{flex:0 0 132px;margin:0}
 .hero-cal-controls .hero-cal-free{position:static;display:grid;place-items:center;flex:1;min-width:0;height:28px;padding:0 7px;white-space:nowrap}
@@ -22,4 +28,4 @@ html[data-theme="brand-dark"] .hero-cal-event.duty{border-left-color:#d5beff;bac
 .hero-cal-event b{display:block;font-size:7.5px;line-height:1.15}.hero-cal-event small{display:block;margin-top:2px;color:#7d6873;font-size:5.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 html[data-theme="brand-dark"] .hero-cal-event small{color:#9bbab4}
 .hero-cal-now{position:absolute;left:31px;right:4px;height:1px;background:#ff4d5e}.hero-cal-now:before{position:absolute;left:-2px;top:-2px;width:5px;height:5px;border-radius:50%;background:#ff4d5e;content:""}
-@media(max-width:680px){.device-calendar{transform:translateX(-155%) rotateY(16deg) rotateZ(4deg)}.hero-cal-controls{gap:7px}.hero-cal-controls .hero-cal-mode{flex-basis:118px}.hero-cal-timeline{height:185px}.hero-cal-event{left:35px}}
+@media(max-width:680px){.hero-cal-controls{gap:7px}.hero-cal-controls .hero-cal-mode{flex-basis:118px}.hero-cal-timeline{height:185px}.hero-cal-event{left:35px}}
