@@ -1,5 +1,15 @@
 (() => {
-  const apply = () => {
+  const removeOrphanedClientBlocks = () => {
+    const product = document.querySelector('#product');
+    document.querySelectorAll('.hero-client-grid').forEach(grid => {
+      if (!product || !product.contains(grid)) grid.remove();
+    });
+    document.querySelectorAll('.hero-client-card').forEach(card => {
+      if (!card.closest('.hero-client-screen')) card.remove();
+    });
+  };
+
+  const applyCalendarFix = () => {
     const screen = document.querySelector('.hero-calendar-screen');
     if (!screen || screen.dataset.v528CalendarFixed === 'true') return;
     screen.dataset.v528CalendarFixed = 'true';
@@ -34,6 +44,11 @@
         </div>`;
       oldSelected.replaceWith(...fragment.childNodes);
     }
+  };
+
+  const apply = () => {
+    removeOrphanedClientBlocks();
+    applyCalendarFix();
   };
 
   if (document.readyState === 'loading') {
