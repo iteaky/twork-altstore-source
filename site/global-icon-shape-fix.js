@@ -47,13 +47,12 @@
     appendStylesheet('site/hero-v542-mobile-home-fix.css?v=20260615-2', 'mobile-home-fix');
     appendStylesheet('site/hero-v543-mobile-realism.css?v=20260615-1', 'mobile-realism');
     appendStylesheet('site/hero-v543-desktop-pin.css?v=20260615-1', 'desktop-pin');
-    appendStylesheet('site/hero-v544-mobile-desktop-viewport.css?v=20260615-2', 'mobile-desktop-viewport');
+    appendStylesheet('site/hero-v544-mobile-desktop-viewport.css?v=20260615-3', 'mobile-desktop-viewport');
     appendStylesheet('site/hero-v545-home-wordmark-fix.css?v=20260615-1', 'home-wordmark-fix');
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
-    appendScript('site/hero-v542-mobile-sequence.js?v=20260615-3', 'mobile-sequence');
+    appendScript('site/hero-v542-mobile-sequence.js?v=20260615-4', 'mobile-sequence');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
     appendScript('site/hero-v544-mobile-desktop-viewport.js?v=20260615-2', 'mobile-desktop-viewport');
-    appendScript('site/hero-v546-mobile-calendar-match.js?v=20260615-2', 'mobile-calendar-match');
   };
 
   if (document.readyState === 'loading') {
