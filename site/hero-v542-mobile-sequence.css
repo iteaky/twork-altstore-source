@@ -1,0 +1,61 @@
+/* Mobile hero sequence: one real iPhone, three app states. */
+@media(max-width:680px){
+  #product.hero-scroll-product{
+    height:1260px!important;
+    margin-top:120px!important;
+  }
+  #product.hero-scroll-product .hero-phone-stage{
+    top:96px!important;
+    height:640px!important;
+  }
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    top:0!important;
+    width:min(286px,80vw)!important;
+  }
+  #product.hero-scroll-product .device-main .hero-mobile-client-screen,
+  #product.hero-scroll-product .device-main .hero-mobile-club-screen{
+    display:block!important;
+    position:absolute!important;
+    inset:8px!important;
+    min-height:0!important;
+    max-height:none!important;
+    width:auto!important;
+    height:auto!important;
+    border-radius:36px!important;
+    overflow:hidden!important;
+    backface-visibility:hidden;
+    transform-origin:50% 50%;
+    will-change:opacity,transform;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview{z-index:1}
+  #product.hero-scroll-product .device-main .hero-mobile-client-screen{z-index:2;opacity:0;visibility:hidden}
+  #product.hero-scroll-product .device-main .hero-mobile-club-screen{z-index:3;opacity:0;visibility:hidden}
+  #product.hero-scroll-product .device-main .hero-mobile-client-screen .hero-client-grid{
+    display:grid!important;
+  }
+  #product.hero-scroll-product .device-main .hero-mobile-club-screen .hero-club-grid{
+    display:grid!important;
+  }
+  #product.hero-scroll-product .hero-screen-scroll-track{
+    transition:opacity .18s ease;
+  }
+}
+
+@media(max-width:390px){
+  #product.hero-scroll-product{
+    height:1190px!important;
+    margin-top:112px!important;
+  }
+  #product.hero-scroll-product .hero-phone-stage{
+    top:92px!important;
+    height:610px!important;
+  }
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    width:min(278px,80vw)!important;
+  }
+}
+
+@media(min-width:681px){
+  .hero-mobile-client-screen,
+  .hero-mobile-club-screen{display:none!important}
+}
