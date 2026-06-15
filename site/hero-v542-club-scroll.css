@@ -1,0 +1,238 @@
+/* TWORK v542 hero: real iPhone proportions and client-to-club scroll transition. */
+
+/*
+   iPhone 16 Pro Max logical body ratio: 430 × 932.
+   All three hero devices keep this ratio; perspective is applied only to the
+   outer device and never distorts the screen itself.
+*/
+#product.hero-scroll-product .hero-phone-stage .device{
+  aspect-ratio:430 / 932;
+  height:auto!important;
+}
+#product.hero-scroll-product .hero-phone-stage .device-frame{
+  position:absolute!important;
+  inset:0;
+  width:auto!important;
+  height:auto!important;
+  padding:0!important;
+  overflow:hidden;
+}
+#product.hero-scroll-product .hero-phone-stage .device-frame>.app-screen{
+  position:absolute!important;
+  inset:9px;
+  width:auto!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  border-radius:40px;
+}
+#product.hero-scroll-product .hero-phone-stage .device-main .real-home-preview,
+#product.hero-scroll-product .hero-phone-stage .device-calendar .hero-calendar-screen,
+#product.hero-scroll-product .hero-phone-stage .device-client .hero-client-screen{
+  min-height:0!important;
+  max-height:none!important;
+}
+
+/* The right phone holds two real app screens in the same physical frame. */
+.device-client .device-frame{isolation:isolate}
+.device-client .hero-client-screen,
+.device-client .hero-club-screen{
+  backface-visibility:hidden;
+  transform-origin:50% 50%;
+  will-change:opacity,transform;
+}
+.device-client .hero-client-screen{z-index:1;opacity:1}
+.device-client .hero-club-screen{z-index:2;opacity:0;pointer-events:none}
+
+.hero-club-screen{
+  padding:12px 10px 15px;
+  overflow:hidden;
+  color:#171115;
+  background:linear-gradient(145deg,#f64f93,#c91b85);
+  font-family:"Avenir Next",-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;
+}
+html[data-theme="brand-dark"] .hero-club-screen{
+  color:#f4fffd;
+  background:linear-gradient(145deg,#063d32,#0a8f80);
+}
+.hero-club-status{
+  position:relative;
+  z-index:3;
+  display:flex;
+  justify-content:space-between;
+  padding:0 5px 7px;
+  font-size:8px;
+  font-weight:750;
+}
+.hero-club-nav{
+  position:relative;
+  z-index:3;
+  display:grid;
+  grid-template-columns:30px 1fr 30px;
+  align-items:center;
+  min-height:34px;
+}
+.hero-club-back{
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border:1px solid rgba(227,117,171,.28);
+  border-radius:50%;
+  background:#ffe8f3;
+  font-size:16px;
+}
+.hero-club-nav span:last-child{text-align:right;opacity:.62}
+html[data-theme="brand-dark"] .hero-club-back{
+  border-color:rgba(94,234,212,.16);
+  background:#132024;
+}
+.hero-club-hero{
+  position:relative;
+  z-index:2;
+  margin-top:6px;
+  padding:15px 13px 12px;
+  border:1px solid rgba(227,117,171,.34);
+  border-radius:16px;
+  background:rgba(255,232,243,.94);
+}
+html[data-theme="brand-dark"] .hero-club-hero{
+  border-color:rgba(94,234,212,.16);
+  background:rgba(16,24,26,.94);
+}
+.hero-club-type{
+  position:absolute;
+  right:9px;
+  top:9px;
+  padding:4px 7px;
+  border-radius:999px;
+  background:#f64f93;
+  color:#fff;
+  font-size:6.5px;
+  font-weight:700;
+}
+html[data-theme="brand-dark"] .hero-club-type{background:#0abab5;color:#032923}
+.hero-club-name{
+  max-width:70%;
+  margin:0 0 8px;
+  font-size:16px;
+  line-height:1.1;
+}
+.hero-club-meta{display:grid;gap:3px;color:#75636d;font-size:7.3px}
+.hero-club-meta span{display:flex;align-items:center;gap:5px;min-width:0}
+.hero-club-meta i{width:10px;font-style:normal;opacity:.72;text-align:center}
+html[data-theme="brand-dark"] .hero-club-meta{color:#a7c5bf}
+.hero-club-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+  margin-top:10px;
+}
+.hero-club-actions span{
+  display:grid;
+  place-items:center;
+  min-height:28px;
+  border:1px solid rgba(227,117,171,.28);
+  border-radius:9px;
+  background:#fff4fa;
+  font-size:7px;
+  font-weight:700;
+}
+html[data-theme="brand-dark"] .hero-club-actions span{
+  border-color:rgba(94,234,212,.14);
+  background:#132024;
+}
+.hero-club-grid{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:8px;
+}
+.hero-club-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:116px;
+  padding:9px 8px 8px;
+  border:1px solid rgba(227,117,171,.30);
+  border-radius:14px;
+  background:#ffe8f3;
+}
+html[data-theme="brand-dark"] .hero-club-card{
+  border-color:rgba(94,234,212,.14);
+  background:#10181a;
+}
+.hero-club-card-head{display:flex;align-items:center;gap:5px;min-height:20px}
+.hero-club-card-head i{font-style:normal;font-size:9px;color:#d11980}
+.hero-club-card-head b{font-size:7.6px;line-height:1.08}
+.hero-club-card-head span{margin-left:auto;color:#d11980;font-size:5.8px}
+html[data-theme="brand-dark"] .hero-club-card-head i,
+html[data-theme="brand-dark"] .hero-club-card-head span{color:#5eead4}
+.hero-club-value{margin:auto 0;text-align:center}
+.hero-club-value strong{display:block;font-size:17px;letter-spacing:-.035em}
+.hero-club-value small{display:block;margin-top:3px;color:#7d6873;font-size:6.2px;line-height:1.2}
+.hero-club-value.positive strong{color:#1f9e4d}
+html[data-theme="brand-dark"] .hero-club-value small{color:#9bbab4}
+html[data-theme="brand-dark"] .hero-club-value.positive strong{color:#5eead4}
+.hero-club-card-footer{
+  margin-top:auto;
+  padding-top:6px;
+  border-top:1px solid rgba(227,117,171,.22);
+  text-align:center;
+  color:#d11980;
+  font-size:6.1px;
+  font-weight:700;
+}
+html[data-theme="brand-dark"] .hero-club-card-footer{
+  border-color:rgba(94,234,212,.12);
+  color:#5eead4;
+}
+.hero-club-balance-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px}
+.hero-club-balance-actions span{
+  display:grid;
+  place-items:center;
+  min-height:19px;
+  padding:0 3px;
+  border-radius:6px;
+  background:rgba(246,79,147,.10);
+  color:#d11980;
+  font-size:5.5px;
+  font-weight:700;
+  text-align:center;
+}
+html[data-theme="brand-dark"] .hero-club-balance-actions span{
+  background:rgba(94,234,212,.08);
+  color:#5eead4;
+}
+.hero-club-count{display:grid;place-items:center;margin:auto 0}
+.hero-club-count strong{font-size:22px;letter-spacing:-.04em}
+.hero-club-count small{margin-top:2px;color:#7d6873;font-size:6px}
+html[data-theme="brand-dark"] .hero-club-count small{color:#9bbab4}
+.hero-club-list{display:grid;gap:5px;margin:auto 0}
+.hero-club-list div{display:grid;gap:1px}
+.hero-club-list b{font-size:7px;line-height:1.15}
+.hero-club-list small{color:#7d6873;font-size:5.8px;line-height:1.2}
+html[data-theme="brand-dark"] .hero-club-list small{color:#9bbab4}
+.hero-club-card.duty .hero-club-card-head i{color:#8052eb}
+html[data-theme="brand-dark"] .hero-club-card.duty .hero-club-card-head i{color:#d4bfff}
+
+/* The final row is slightly shorter so it remains visible in the true iPhone frame. */
+.hero-club-card.compact{min-height:104px}
+
+@media(min-width:681px){
+  #product.hero-scroll-product .hero-phone-stage .device-main{width:302px!important}
+  #product.hero-scroll-product .hero-phone-stage .device-back{width:270px!important}
+}
+
+@media(max-width:680px){
+  #product.hero-scroll-product .hero-phone-stage .device-frame>.app-screen{inset:8px;border-radius:36px}
+  .hero-club-screen{padding:10px 8px 12px}
+  .hero-club-card{min-height:104px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .device-client .hero-client-screen,
+  .device-client .hero-club-screen{transition:none!important}
+}
