@@ -1,0 +1,104 @@
+/* Mobile hero calibrated to the logical viewport density of a Pro Max iPhone. */
+@media(max-width:680px){
+  html,
+  body{
+    width:100%;
+    max-width:100%;
+    overflow-x:clip!important;
+    overscroll-behavior-x:none;
+  }
+
+  .hero{
+    overflow-x:clip!important;
+    overflow-y:visible!important;
+  }
+
+  #product.hero-scroll-product,
+  #product.hero-scroll-product .hero-phone-stage{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:clip!important;
+    overflow-y:visible!important;
+    overscroll-behavior-x:none;
+    touch-action:pan-y;
+  }
+
+  /* Use the 440 × 956 logical viewport ratio of current Pro Max displays. */
+  #product.hero-scroll-product .hero-phone-stage{
+    top:0!important;
+    height:100dvh!important;
+    min-height:0!important;
+  }
+
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    left:50%!important;
+    top:calc(50% + 18px)!important;
+    width:min(396px,94vw,calc((100dvh - 108px) * 440 / 956))!important;
+    aspect-ratio:440 / 956!important;
+    transform:translate(-50%,-50%)!important;
+    transform-origin:center!important;
+    filter:drop-shadow(0 28px 34px rgba(0,0,0,.22))!important;
+  }
+
+  #product.hero-scroll-product .device-main .device-frame{
+    border-radius:15.5% / 7.2%!important;
+  }
+
+  #product.hero-scroll-product .device-main .device-frame>.app-screen{
+    inset:2.8%!important;
+    padding:0!important;
+    border-radius:13% / 6%!important;
+  }
+
+  #product.hero-scroll-product .device-main .dynamic-island{
+    top:3.2%!important;
+    width:31.8%!important;
+    height:auto!important;
+    aspect-ratio:96 / 26;
+  }
+
+  /*
+    The app markup was originally authored for a 284 px inner viewport.
+    Keeping that logical canvas and scaling it uniformly means enlarging the
+    phone no longer makes extra cards fit on screen or leaves typography tiny.
+  */
+  #product.hero-scroll-product .hero-mobile-ui-canvas{
+    position:absolute;
+    left:0;
+    top:0;
+    width:284px;
+    min-width:284px;
+    box-sizing:border-box;
+    transform-origin:0 0;
+    will-change:transform;
+  }
+
+  #product.hero-scroll-product .hero-home-canvas{
+    padding:13px 13px 16px;
+  }
+
+  #product.hero-scroll-product .hero-calendar-canvas,
+  #product.hero-scroll-product .hero-client-canvas,
+  #product.hero-scroll-product .hero-club-canvas{
+    padding:10px 8px 12px;
+  }
+}
+
+@media(max-width:390px){
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    top:calc(50% + 15px)!important;
+    width:min(360px,94vw,calc((100dvh - 100px) * 440 / 956))!important;
+  }
+}
+
+@supports not (overflow:clip){
+  @media(max-width:680px){
+    html,
+    body,
+    .hero,
+    #product.hero-scroll-product,
+    #product.hero-scroll-product .hero-phone-stage{
+      overflow-x:hidden!important;
+    }
+  }
+}
