@@ -49,10 +49,12 @@
     appendStylesheet('site/hero-v543-desktop-pin.css?v=20260615-1', 'desktop-pin');
     appendStylesheet('site/hero-v544-mobile-desktop-viewport.css?v=20260615-3', 'mobile-desktop-viewport');
     appendStylesheet('site/hero-v545-home-wordmark-fix.css?v=20260615-1', 'home-wordmark-fix');
+    appendStylesheet('site/hero-v547-timeline-midnight.css?v=20260615-1', 'timeline-midnight');
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v542-mobile-sequence.js?v=20260615-4', 'mobile-sequence');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
     appendScript('site/hero-v544-mobile-desktop-viewport.js?v=20260615-2', 'mobile-desktop-viewport');
+    appendScript('site/hero-v547-timeline-midnight.js?v=20260615-1', 'timeline-midnight');
   };
 
   if (document.readyState === 'loading') {
