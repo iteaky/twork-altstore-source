@@ -22,20 +22,29 @@
     }
   };
 
-  const loadV542Hero = () => {
-    if (document.querySelector('[data-twork-v542-hero]')) return;
-
+  const appendStylesheet = (href, key) => {
+    if (document.querySelector(`[data-twork-v542-style="${key}"]`)) return;
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = 'site/hero-v542-club-scroll.css?v=20260615-1';
-    stylesheet.dataset.tworkV542Hero = 'styles';
+    stylesheet.href = href;
+    stylesheet.dataset.tworkV542Style = key;
     document.head.appendChild(stylesheet);
+  };
 
+  const appendScript = (src, key) => {
+    if (document.querySelector(`[data-twork-v542-script="${key}"]`)) return;
     const script = document.createElement('script');
-    script.src = 'site/hero-v542-club-scroll.js?v=20260615-1';
+    script.src = src;
     script.async = false;
-    script.dataset.tworkV542Hero = 'script';
+    script.dataset.tworkV542Script = key;
     document.head.appendChild(script);
+  };
+
+  const loadV542Hero = () => {
+    appendStylesheet('site/hero-v542-club-scroll.css?v=20260615-2', 'club');
+    appendStylesheet('site/hero-v542-mobile-sequence.css?v=20260615-1', 'mobile-sequence');
+    appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
+    appendScript('site/hero-v542-mobile-sequence.js?v=20260615-1', 'mobile-sequence');
   };
 
   if (document.readyState === 'loading') {
