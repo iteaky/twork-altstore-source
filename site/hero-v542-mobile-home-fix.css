@@ -1,0 +1,30 @@
+/* Mobile-only correction for the Home screen inside the hero iPhone. */
+@media(max-width:680px){
+  /* The status bar stays fixed at the top of the app screen. The remaining
+     Home content starts below the Dynamic Island instead of underneath it. */
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-scroll-content{
+    padding-top:18px!important;
+    padding-bottom:92px!important;
+  }
+
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-header{
+    min-height:40px!important;
+  }
+
+  /* Keep the wordmark fully clear of the island on narrow Pro/Pro Max screens. */
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-logo{
+    width:118px!important;
+    height:29px!important;
+  }
+}
+
+@media(max-width:390px){
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-scroll-content{
+    padding-top:16px!important;
+  }
+
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-logo{
+    width:112px!important;
+    height:28px!important;
+  }
+}
