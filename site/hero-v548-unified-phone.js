@@ -37,6 +37,13 @@
     if (thumb) thumb.style.transform = 'translateY(0)';
   };
 
+  const unwrapLegacyCanvas = screen => {
+    const canvas = screen.querySelector(':scope > .hero-mobile-ui-canvas');
+    if (!canvas) return;
+    while (canvas.firstChild) screen.insertBefore(canvas.firstChild, canvas);
+    canvas.remove();
+  };
+
   const install = () => {
     const product = document.querySelector('#product.hero-scroll-product');
     const stage = product?.querySelector('.hero-phone-stage');
@@ -52,6 +59,12 @@
     if (!calendarSource.querySelector('.hero-cal-week-row')) return false;
     if (product.dataset.unifiedPhoneReady === 'true') return true;
     product.dataset.unifiedPhoneReady = 'true';
+
+    /* Remove stale DOM left by the previous mobile implementation. */
+    unwrapLegacyCanvas(homeScreen);
+    mainFrame.querySelectorAll(
+      '.hero-mobile-calendar-screen,.hero-mobile-client-screen,.hero-mobile-club-screen,.hero-unified-calendar-screen,.hero-unified-client-screen,.hero-unified-club-screen'
+    ).forEach(screen => screen.remove());
 
     /* Clone the already prepared desktop screens without changing their markup. */
     const calendarScreen = calendarSource.cloneNode(true);
@@ -87,17 +100,31 @@
     if (!homeContent || !calendarGrid || calendarRows.length < 2 || !selectedWeek) return false;
 
     let frameRequested = false;
+    let lockedViewportHeight = Math.round(window.visualViewport?.height || window.innerHeight);
+    let lastLayoutWidth = Math.round(stage.clientWidth || window.innerWidth);
 
-    const applyPhoneScale = () => {
+    const applyStableGeometry = force => {
       if (!mobileQuery.matches) {
         product.style.removeProperty('--twork-unified-phone-scale');
+        product.style.removeProperty('--twork-unified-stage-height');
         return;
       }
-      const viewportWidth = Math.max(320, window.innerWidth);
-      const viewportHeight = Math.max(480, window.visualViewport?.height || window.innerHeight);
-      const widthScale = viewportWidth * 0.94 / PHONE_WIDTH;
-      const heightScale = (viewportHeight - 92) / PHONE_HEIGHT;
+
+      const layoutWidth = Math.round(stage.clientWidth || window.innerWidth);
+      const widthChanged = Math.abs(layoutWidth - lastLayoutWidth) > 6;
+      if (!force && !widthChanged) return;
+
+      lastLayoutWidth = layoutWidth;
+      if (force) {
+        lockedViewportHeight = Math.round(window.visualViewport?.height || window.innerHeight);
+      }
+
+      /* Use the actual sticky-stage width, not the wider browser viewport. */
+      const widthScale = Math.max(0.1, (layoutWidth - 4) / PHONE_WIDTH);
+      const heightScale = Math.max(0.1, (lockedViewportHeight - 92) / PHONE_HEIGHT);
       const scale = Math.max(0.84, Math.min(widthScale, heightScale, 1.34));
+
+      product.style.setProperty('--twork-unified-stage-height', `${lockedViewportHeight}px`);
       product.style.setProperty('--twork-unified-phone-scale', scale.toFixed(5));
     };
 
@@ -218,16 +245,28 @@
       requestAnimationFrame(update);
     };
 
-    const handleViewportChange = () => {
-      applyPhoneScale();
+    const handleLayoutResize = () => {
+      const nextWidth = Math.round(stage.clientWidth || window.innerWidth);
+      if (Math.abs(nextWidth - lastLayoutWidth) <= 6) return;
+      lockedViewportHeight = Math.round(window.visualViewport?.height || window.innerHeight);
+      applyStableGeometry(true);
       requestUpdate();
     };
 
-    applyPhoneScale();
+    const handleOrientationChange = () => {
+      window.setTimeout(() => {
+        lockedViewportHeight = Math.round(window.visualViewport?.height || window.innerHeight);
+        lastLayoutWidth = 0;
+        applyStableGeometry(true);
+        requestUpdate();
+      }, 180);
+    };
+
+    applyStableGeometry(true);
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', handleViewportChange, { passive: true });
-    window.visualViewport?.addEventListener('resize', handleViewportChange, { passive: true });
-    mobileQuery.addEventListener?.('change', handleViewportChange);
+    window.addEventListener('resize', handleLayoutResize, { passive: true });
+    window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
+    mobileQuery.addEventListener?.('change', handleOrientationChange);
     reduceMotion.addEventListener?.('change', requestUpdate);
 
     if ('ResizeObserver' in window) {
