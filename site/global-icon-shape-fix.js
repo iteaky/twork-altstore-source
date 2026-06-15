@@ -22,10 +22,32 @@
     }
   };
 
+  const loadV542Hero = () => {
+    if (document.querySelector('[data-twork-v542-hero]')) return;
+
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = 'site/hero-v542-club-scroll.css?v=20260615-1';
+    stylesheet.dataset.tworkV542Hero = 'styles';
+    document.head.appendChild(stylesheet);
+
+    const script = document.createElement('script');
+    script.src = 'site/hero-v542-club-scroll.js?v=20260615-1';
+    script.async = false;
+    script.dataset.tworkV542Hero = 'script';
+    document.head.appendChild(script);
+  };
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', apply, { once: true });
   } else {
     apply();
+  }
+
+  if (document.readyState === 'complete') {
+    loadV542Hero();
+  } else {
+    window.addEventListener('load', loadV542Hero, { once: true });
   }
 
   new MutationObserver(apply).observe(root, {
