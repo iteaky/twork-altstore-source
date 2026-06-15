@@ -1,0 +1,22 @@
+/* Use a clean vector wordmark on the Home screen.
+   This removes the raster-alpha seam that Safari shows between the )( curves. */
+#product .real-home-logo{
+  background-color:transparent!important;
+  background-image:url("twork-wordmark-dark-clean.svg")!important;
+  background-repeat:no-repeat!important;
+  background-position:left center!important;
+  background-size:contain!important;
+  -webkit-mask:none!important;
+  mask:none!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  background-blend-mode:normal!important;
+  image-rendering:auto!important;
+  opacity:1!important;
+}
+
+html[data-theme="brand-dark"] #product .real-home-logo,
+html[data-theme="classic-dark"] #product .real-home-logo{
+  background-image:url("twork-wordmark-white-clean.svg")!important;
+  filter:none!important;
+}
