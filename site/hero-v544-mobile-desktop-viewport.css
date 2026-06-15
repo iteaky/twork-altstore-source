@@ -1,0 +1,153 @@
+/* Mobile uses the exact same logical phone/screen viewport as desktop.
+   The entire 302 × 653 mockup is scaled as one object; its internal layout
+   never gains extra CSS resolution on a wider mobile viewport. */
+@media(max-width:680px){
+  #product.hero-scroll-product .hero-phone-stage{
+    top:0!important;
+    height:100dvh!important;
+    min-height:0!important;
+  }
+
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    left:50%!important;
+    top:calc(50% + 14px)!important;
+    width:302px!important;
+    height:653px!important;
+    aspect-ratio:auto!important;
+    transform:translate(-50%,-50%) scale(var(--twork-mobile-phone-scale,1))!important;
+    transform-origin:center!important;
+  }
+
+  #product.hero-scroll-product .device-main .device-frame{
+    position:absolute!important;
+    inset:0!important;
+    padding:0!important;
+    border-radius:49px!important;
+    overflow:hidden!important;
+  }
+
+  #product.hero-scroll-product .device-main .device-frame>.app-screen{
+    position:absolute!important;
+    inset:9px!important;
+    width:284px!important;
+    height:635px!important;
+    min-height:635px!important;
+    max-height:635px!important;
+    padding:0!important;
+    border-radius:40px!important;
+  }
+
+  #product.hero-scroll-product .device-main .dynamic-island{
+    top:21px!important;
+    width:96px!important;
+    height:26px!important;
+    aspect-ratio:auto!important;
+  }
+
+  /* The canvas is the desktop inner viewport. Since the outer phone is scaled,
+     the canvas itself must stay at scale 1. */
+  #product.hero-scroll-product .hero-mobile-ui-canvas{
+    width:284px!important;
+    min-width:284px!important;
+    height:635px!important;
+    transform:none!important;
+  }
+
+  /* Restore the desktop Home metrics that mobile media queries had reduced. */
+  #product.hero-scroll-product .hero-home-canvas{
+    padding:15px 14px 18px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-scroll-content{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    padding:0 0 20px!important;
+    overflow-x:hidden!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-app-topline{
+    padding:0 7px 13px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-header{
+    min-height:46px!important;
+    margin-top:1px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-logo{
+    width:136px!important;
+    max-width:none!important;
+    height:34px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-date{
+    margin:0 0 11px 9px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-stack{
+    gap:9px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-schedule-card{
+    padding:11px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-action{
+    min-height:53px!important;
+    padding:9px 10px!important;
+  }
+  #product.hero-scroll-product .device-main .real-home-preview .real-action-icon{
+    width:34px!important;
+    height:34px!important;
+    flex-basis:34px!important;
+  }
+  #product.hero-scroll-product .hero-screen-scroll-track{
+    top:68px!important;
+  }
+
+  /* Restore desktop Calendar geometry. */
+  #product.hero-scroll-product .hero-calendar-canvas{
+    padding:12px 10px 15px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-controls{
+    gap:10px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-controls .hero-cal-mode{
+    flex-basis:132px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-week-row,
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-week-row .hero-cal-day{
+    height:45px!important;
+    min-height:45px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-line.duty{
+    top:36px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-line.event{
+    top:41px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-timeline{
+    height:214px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-timeline-content{
+    height:360px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-event{
+    left:39px!important;
+  }
+
+  /* Restore desktop Client geometry. */
+  #product.hero-scroll-product .hero-client-canvas{
+    padding:12px 10px 15px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-client-screen .hero-client-card{
+    min-height:132px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-client-screen .hero-service-body{
+    gap:4px!important;
+  }
+
+  /* Restore desktop Club geometry. */
+  #product.hero-scroll-product .hero-club-canvas{
+    padding:12px 10px 15px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-club-screen .hero-club-card{
+    min-height:116px!important;
+  }
+  #product.hero-scroll-product .hero-mobile-club-screen .hero-club-card.compact{
+    min-height:104px!important;
+  }
+}
