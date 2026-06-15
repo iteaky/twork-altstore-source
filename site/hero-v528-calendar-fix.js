@@ -1,6 +1,7 @@
 (() => {
   const clamp = value => Math.max(0, Math.min(1, value));
   const smoothstep = value => value * value * (3 - 2 * value);
+  const desktopQuery = window.matchMedia('(min-width:681px)');
   const statusMarkup = `
     <span class="hero-status-icons" aria-label="Связь, Wi-Fi, батарея">
       <span class="hero-signal" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -164,6 +165,12 @@
     let frameRequested = false;
     const update = () => {
       frameRequested = false;
+
+      /* Mobile is controlled exclusively by hero-v548-unified-phone.js.
+         Keeping this legacy controller desktop-only prevents two RAF loops from
+         writing different transforms into the same Home screen. */
+      if (!desktopQuery.matches) return;
+
       const rect = product.getBoundingClientRect();
       const pageTop = window.scrollY + rect.top;
       const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
@@ -234,13 +241,16 @@
     };
 
     const refreshMeasurements = () => {
-      calendarRowHeight = selectedWeek?.getBoundingClientRect().height || (window.innerWidth <= 680 ? 40 : 45);
-      timelineBaseHeight = window.innerWidth <= 680 ? 185 : 214;
+      if (desktopQuery.matches) {
+        calendarRowHeight = selectedWeek?.getBoundingClientRect().height || 45;
+        timelineBaseHeight = timeline?.clientHeight || 214;
+      }
       requestUpdate();
     };
 
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', refreshMeasurements);
+    window.addEventListener('resize', refreshMeasurements, { passive: true });
+    desktopQuery.addEventListener?.('change', refreshMeasurements);
     if ('ResizeObserver' in window) {
       const observer = new ResizeObserver(requestUpdate);
       observer.observe(scrollContent);
