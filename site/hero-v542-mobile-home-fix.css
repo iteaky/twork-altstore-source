@@ -1,26 +1,63 @@
 /* Mobile-only correction for the Home screen inside the hero iPhone. */
 @media(max-width:680px){
+  #product.hero-scroll-product .device-main .real-home-preview{
+    overflow-x:hidden!important;
+  }
+
   /* The status bar stays fixed at the top of the app screen. The remaining
-     Home content starts below the Dynamic Island instead of underneath it. */
+     Home content starts below the Dynamic Island and is constrained to the
+     actual inner screen width. */
   #product.hero-scroll-product .device-main .real-home-preview .real-home-scroll-content{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
     padding-top:18px!important;
+    padding-right:7px!important;
     padding-bottom:92px!important;
+    box-sizing:border-box!important;
+    overflow-x:hidden!important;
+  }
+
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-header,
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-date,
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-stack,
+  #product.hero-scroll-product .device-main .real-home-preview .real-schedule-card,
+  #product.hero-scroll-product .device-main .real-home-preview .real-day-card,
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-action{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
   }
 
   #product.hero-scroll-product .device-main .real-home-preview .real-home-header{
     min-height:40px!important;
   }
 
+  #product.hero-scroll-product .device-main .real-home-preview .real-action-copy{
+    flex:1 1 auto!important;
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+
+  #product.hero-scroll-product .device-main .real-home-preview .real-home-action>.real-chevron,
+  #product.hero-scroll-product .device-main .real-home-preview .real-action-tail,
+  #product.hero-scroll-product .device-main .real-home-preview .real-action-badge{
+    flex:0 0 auto!important;
+  }
+
   /* Keep the wordmark fully clear of the island on narrow Pro/Pro Max screens. */
   #product.hero-scroll-product .device-main .real-home-preview .real-home-logo{
     width:118px!important;
     height:29px!important;
+    max-width:48%!important;
   }
 }
 
 @media(max-width:390px){
   #product.hero-scroll-product .device-main .real-home-preview .real-home-scroll-content{
     padding-top:16px!important;
+    padding-right:6px!important;
   }
 
   #product.hero-scroll-product .device-main .real-home-preview .real-home-logo{
