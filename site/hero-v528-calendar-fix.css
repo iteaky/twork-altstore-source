@@ -1,0 +1,25 @@
+/* Calendar corrections matched to CalendarView v528. */
+.device-calendar{transform:translateX(-155%) rotateY(16deg) rotateZ(4deg)}
+.hero-cal-controls{display:flex;align-items:center;gap:10px;margin:6px 0 8px}
+.hero-cal-controls .hero-cal-mode{flex:0 0 132px;margin:0}
+.hero-cal-controls .hero-cal-free{position:static;display:grid;place-items:center;flex:1;min-width:0;height:28px;padding:0 7px;white-space:nowrap}
+.hero-cal-datebar{display:grid;grid-template-columns:26px minmax(0,1fr) 26px;align-items:center;margin:1px 0 3px}
+.hero-cal-datebar>span{display:grid;place-items:center;font-size:14px;color:#6f5e68}
+.hero-cal-datebar div{text-align:center}
+.hero-cal-datebar b{display:block;font-size:9px}
+.hero-cal-datebar small{display:block;margin-top:1px;color:#8a7882;font-size:6.5px}
+html[data-theme="brand-dark"] .hero-cal-datebar>span,html[data-theme="brand-dark"] .hero-cal-datebar small{color:#9bbab4}
+.hero-cal-timeline{position:relative;height:214px;margin-top:2px;overflow:hidden;border-radius:12px;background:rgba(246,79,147,.025)}
+html[data-theme="brand-dark"] .hero-cal-timeline{background:rgba(94,234,212,.025)}
+.hero-cal-hour{position:absolute;left:0;right:0;height:1px;background:rgba(227,117,171,.25)}
+html[data-theme="brand-dark"] .hero-cal-hour{background:rgba(94,234,212,.13)}
+.hero-cal-hour span{position:absolute;left:2px;top:-5px;width:30px;text-align:right;color:#8a7882;font-size:6px}
+html[data-theme="brand-dark"] .hero-cal-hour span{color:#9bbab4}
+.hero-cal-event{position:absolute;left:39px;right:5px;min-height:34px;padding:5px 7px 5px 10px;border:1px solid rgba(227,117,171,.28);border-left:3px solid #4b9af4;border-radius:9px;background:#ffe8f3;box-shadow:0 4px 12px rgba(148,20,84,.08)}
+.hero-cal-event.duty{border-left-color:#8052eb;background:rgba(128,82,235,.09)}
+html[data-theme="brand-dark"] .hero-cal-event{border-color:rgba(94,234,212,.14);border-left-color:#5eead4;background:#10181a;box-shadow:none}
+html[data-theme="brand-dark"] .hero-cal-event.duty{border-left-color:#d5beff;background:rgba(213,190,255,.09)}
+.hero-cal-event b{display:block;font-size:7.5px;line-height:1.15}.hero-cal-event small{display:block;margin-top:2px;color:#7d6873;font-size:5.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-theme="brand-dark"] .hero-cal-event small{color:#9bbab4}
+.hero-cal-now{position:absolute;left:31px;right:4px;height:1px;background:#ff4d5e}.hero-cal-now:before{position:absolute;left:-2px;top:-2px;width:5px;height:5px;border-radius:50%;background:#ff4d5e;content:""}
+@media(max-width:680px){.device-calendar{transform:translateX(-155%) rotateY(16deg) rotateZ(4deg)}.hero-cal-controls{gap:7px}.hero-cal-controls .hero-cal-mode{flex-basis:118px}.hero-cal-timeline{height:185px}.hero-cal-event{left:35px}}
