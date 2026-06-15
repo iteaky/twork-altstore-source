@@ -1,41 +1,85 @@
-/* Mobile hero sequence: one real iPhone, three app states. */
+/* Mobile hero sequence: one real iPhone, four app states. */
 @media(max-width:680px){
   #product.hero-scroll-product{
-    height:1260px!important;
-    margin-top:120px!important;
+    height:2520px!important;
+    margin-top:104px!important;
   }
+
   #product.hero-scroll-product .hero-phone-stage{
-    top:96px!important;
-    height:640px!important;
+    position:sticky!important;
+    top:max(88px,calc(env(safe-area-inset-top) + 72px))!important;
+    height:min(650px,calc(100dvh - 104px))!important;
   }
+
   #product.hero-scroll-product .hero-phone-stage .device-main{
     top:0!important;
-    width:min(286px,80vw)!important;
+    width:min(286px,80vw,calc((100dvh - 116px) * 430 / 932))!important;
   }
+
+  /* Keep the complete physical phone inside the visible Safari viewport. */
+  #product.hero-scroll-product .hero-phone-stage .device-main,
+  #product.hero-scroll-product .hero-phone-stage .device-main .device-frame{
+    max-height:calc(100dvh - 106px)!important;
+  }
+
+  #product.hero-scroll-product .device-main .real-home-preview,
+  #product.hero-scroll-product .device-main .hero-mobile-calendar-screen,
   #product.hero-scroll-product .device-main .hero-mobile-client-screen,
   #product.hero-scroll-product .device-main .hero-mobile-club-screen{
     display:block!important;
     position:absolute!important;
     inset:8px!important;
-    min-height:0!important;
-    max-height:none!important;
     width:auto!important;
     height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
     border-radius:36px!important;
     overflow:hidden!important;
     backface-visibility:hidden;
     transform-origin:50% 50%;
     will-change:opacity,transform;
   }
-  #product.hero-scroll-product .device-main .real-home-preview{z-index:1}
-  #product.hero-scroll-product .device-main .hero-mobile-client-screen{z-index:2;opacity:0;visibility:hidden}
-  #product.hero-scroll-product .device-main .hero-mobile-club-screen{z-index:3;opacity:0;visibility:hidden}
-  #product.hero-scroll-product .device-main .hero-mobile-client-screen .hero-client-grid{
-    display:grid!important;
+
+  #product.hero-scroll-product .device-main .real-home-preview{
+    z-index:1;
+    opacity:1;
+    visibility:visible;
   }
+  #product.hero-scroll-product .device-main .hero-mobile-calendar-screen{
+    z-index:2;
+    opacity:0;
+    visibility:hidden;
+  }
+  #product.hero-scroll-product .device-main .hero-mobile-client-screen{
+    z-index:3;
+    opacity:0;
+    visibility:hidden;
+  }
+  #product.hero-scroll-product .device-main .hero-mobile-club-screen{
+    z-index:4;
+    opacity:0;
+    visibility:hidden;
+  }
+
+  /* Home content has enough bottom breathing room to scroll completely above the fade. */
+  #product.hero-scroll-product .real-home-scroll-content{
+    padding-bottom:92px!important;
+  }
+  #product.hero-scroll-product .real-preview-fade{
+    height:28px!important;
+    opacity:.78;
+  }
+
+  #product.hero-scroll-product .device-main .hero-mobile-calendar-screen .hero-cal-grid,
+  #product.hero-scroll-product .device-main .hero-mobile-client-screen .hero-client-grid,
   #product.hero-scroll-product .device-main .hero-mobile-club-screen .hero-club-grid{
     display:grid!important;
   }
+
+  #product.hero-scroll-product .device-main .hero-mobile-calendar-screen .hero-cal-grid{
+    display:block!important;
+  }
+
   #product.hero-scroll-product .hero-screen-scroll-track{
     transition:opacity .18s ease;
   }
@@ -43,19 +87,31 @@
 
 @media(max-width:390px){
   #product.hero-scroll-product{
-    height:1190px!important;
-    margin-top:112px!important;
+    height:2360px!important;
+    margin-top:98px!important;
   }
+
   #product.hero-scroll-product .hero-phone-stage{
-    top:92px!important;
-    height:610px!important;
+    top:max(84px,calc(env(safe-area-inset-top) + 68px))!important;
+    height:min(620px,calc(100dvh - 98px))!important;
   }
+
   #product.hero-scroll-product .hero-phone-stage .device-main{
-    width:min(278px,80vw)!important;
+    width:min(278px,80vw,calc((100dvh - 108px) * 430 / 932))!important;
   }
 }
 
 @media(min-width:681px){
+  .hero-mobile-calendar-screen,
   .hero-mobile-client-screen,
   .hero-mobile-club-screen{display:none!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #product.hero-scroll-product .device-main .real-home-preview,
+  #product.hero-scroll-product .device-main .hero-mobile-calendar-screen,
+  #product.hero-scroll-product .device-main .hero-mobile-client-screen,
+  #product.hero-scroll-product .device-main .hero-mobile-club-screen{
+    transition:none!important;
+  }
 }
