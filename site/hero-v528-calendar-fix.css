@@ -10,11 +10,26 @@
 .hero-cal-controls{display:flex;align-items:center;gap:10px;margin:6px 0 8px}
 .hero-cal-controls .hero-cal-mode{flex:0 0 132px;margin:0}
 .hero-cal-controls .hero-cal-free{position:static;display:grid;place-items:center;flex:1;min-width:0;height:28px;padding:0 7px;white-space:nowrap}
+
+/* The five month rows are wrapped separately so page scrolling can smoothly
+   collapse all rows except the selected week, exactly like month-to-week mode. */
+.hero-cal-grid{display:block!important;overflow:hidden;will-change:height}
+.hero-cal-week-row{display:grid;grid-template-columns:repeat(7,1fr);height:45px;overflow:hidden;transform-origin:center top;will-change:height,opacity,transform}
+.hero-cal-week-row .hero-cal-day{height:45px;min-height:45px}
+.hero-cal-week-row:not(:last-child) .hero-cal-day{border-bottom:.5px solid rgba(227,117,171,.34)!important}
+.hero-cal-week-row:last-child .hero-cal-day{border-bottom:none!important}
+.hero-cal-week-row.selected-week{position:relative;z-index:2;opacity:1!important}
+html[data-theme="brand-dark"] .hero-cal-week-row:not(:last-child) .hero-cal-day{border-bottom-color:rgba(94,234,212,.14)!important}
+.hero-cal-grid.is-week-mode .hero-cal-week-row.selected-week{box-shadow:0 7px 16px rgba(148,20,84,.06)}
+html[data-theme="brand-dark"] .hero-cal-grid.is-week-mode .hero-cal-week-row.selected-week{box-shadow:0 7px 16px rgba(0,0,0,.14)}
+
 .hero-cal-datebar{display:grid;grid-template-columns:26px minmax(0,1fr) 26px;align-items:center;margin:1px 0 3px}
 .hero-cal-datebar>span{display:grid;place-items:center;font-size:14px;color:#6f5e68}
 .hero-cal-datebar div{text-align:center}.hero-cal-datebar b{display:block;font-size:9px}.hero-cal-datebar small{display:block;margin-top:1px;color:#8a7882;font-size:6.5px}
 html[data-theme="brand-dark"] .hero-cal-datebar>span,html[data-theme="brand-dark"] .hero-cal-datebar small{color:#9bbab4}
-.hero-cal-timeline{position:relative;height:214px;margin-top:2px;overflow:hidden;border-radius:12px;background:rgba(246,79,147,.025)}
+.hero-cal-collapse{will-change:height,opacity}.hero-cal-collapse i{will-change:transform,width}
+
+.hero-cal-timeline{position:relative;height:214px;margin-top:2px;overflow:hidden;border-radius:12px;background:rgba(246,79,147,.025);will-change:height}
 html[data-theme="brand-dark"] .hero-cal-timeline{background:rgba(94,234,212,.025)}
 .hero-cal-timeline-content{position:relative;height:360px;will-change:transform;transform:translate3d(0,0,0)}
 .hero-cal-hour{position:absolute;left:0;right:0;height:1px;background:rgba(227,117,171,.25)}
@@ -33,4 +48,10 @@ html[data-theme="brand-dark"] .hero-cal-event small{color:#9bbab4}
 .hero-cal-timeline-track{position:absolute;z-index:6;top:7px;right:3px;bottom:7px;width:2px;border-radius:999px;background:rgba(23,17,21,.07)}
 .hero-cal-timeline-thumb{display:block;width:100%;min-height:24px;border-radius:inherit;background:rgba(23,17,21,.28);will-change:transform}
 html[data-theme="brand-dark"] .hero-cal-timeline-track{background:rgba(244,255,253,.07)}html[data-theme="brand-dark"] .hero-cal-timeline-thumb{background:rgba(244,255,253,.30)}
-@media(max-width:680px){.hero-cal-controls{gap:7px}.hero-cal-controls .hero-cal-mode{flex-basis:118px}.hero-cal-timeline{height:185px}.hero-cal-event{left:35px}.hero-cal-timeline-content{height:336px}}
+
+@media(max-width:680px){
+  .hero-cal-controls{gap:7px}.hero-cal-controls .hero-cal-mode{flex-basis:118px}
+  .hero-cal-week-row{height:40px}.hero-cal-week-row .hero-cal-day{height:40px;min-height:40px}
+  .hero-cal-timeline{height:185px}.hero-cal-event{left:35px}.hero-cal-timeline-content{height:336px}
+}
+@media(prefers-reduced-motion:reduce){.hero-cal-week-row,.hero-cal-timeline{transition:none!important}}
