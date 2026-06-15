@@ -21,9 +21,9 @@ if count != 1:
 styles = [
     ("site/hero-v528-home.css", "20260615-1"),
     ("site/hero-v528-calendar.css", "20260615-1"),
-    ("site/hero-v528-calendar-fix.css", "20260615-3"),
-    ("site/hero-v528-client.css", "20260615-2"),
-    ("site/hero-v528-scroll.css", "20260615-1"),
+    ("site/hero-v528-calendar-fix.css", "20260615-4"),
+    ("site/hero-v528-client.css", "20260615-3"),
+    ("site/hero-v528-scroll.css", "20260615-2"),
 ]
 for asset, version in styles:
     href = f"{asset}?v={version}"
@@ -34,8 +34,7 @@ for asset, version in styles:
         html = html.replace("</head>", link + "\n</head>")
 
 scripts = [
-    ("site/hero-v528-calendar-fix.js", "20260615-3"),
-    ("site/hero-v528-scroll.js", "20260615-1"),
+    ("site/hero-v528-calendar-fix.js", "20260615-4"),
 ]
 for asset, version in scripts:
     src = f"{asset}?v={version}"
@@ -44,6 +43,13 @@ for asset, version in scripts:
         html = re.sub(rf'{re.escape(asset)}\?v=[^"]+', src, html)
     else:
         html = html.replace("</body>", tag + "\n</body>")
+
+# Remove an older standalone scroll script if a previous build added it.
+html = re.sub(
+    r'\s*<script src="site/hero-v528-scroll\.js\?v=[^"]+" defer></script>',
+    '',
+    html,
+)
 
 # Release guard: these hero structures must exist exactly once in the HTML.
 checks = {
