@@ -122,7 +122,8 @@
     top:68px!important;
   }
 
-  /* Restore desktop Calendar geometry. */
+  /* Restore desktop Calendar geometry. Dynamic properties are deliberately
+     not important so the single JS controller can animate them smoothly. */
   #product.hero-scroll-product .hero-calendar-canvas{
     padding:12px 10px 15px!important;
   }
@@ -132,7 +133,10 @@
   #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-controls .hero-cal-mode{
     flex-basis:132px!important;
   }
-  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-week-row,
+  #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-week-row{
+    height:45px;
+    min-height:0;
+  }
   #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-week-row .hero-cal-day{
     height:45px!important;
     min-height:45px!important;
@@ -144,7 +148,7 @@
     top:41px!important;
   }
   #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-timeline{
-    height:214px!important;
+    height:214px;
   }
   #product.hero-scroll-product .hero-mobile-calendar-screen .hero-cal-timeline-content{
     height:360px!important;
