@@ -44,7 +44,7 @@
     appendStylesheet('site/hero-v542-club-scroll.css?v=20260615-2', 'club');
     appendStylesheet('site/hero-v542-mobile-sequence.css?v=20260615-3', 'mobile-sequence');
     appendStylesheet('site/hero-v542-mobile-sticky-fix.css?v=20260615-1', 'mobile-sticky-fix');
-    appendStylesheet('site/hero-v542-mobile-home-fix.css?v=20260615-1', 'mobile-home-fix');
+    appendStylesheet('site/hero-v542-mobile-home-fix.css?v=20260615-2', 'mobile-home-fix');
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v542-mobile-sequence.js?v=20260615-2', 'mobile-sequence');
   };
