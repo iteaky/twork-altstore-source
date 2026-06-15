@@ -44,11 +44,34 @@
     canvas.remove();
   };
 
+  const isolateHomeFromLegacyController = homeScreen => {
+    /*
+      hero-v528-calendar-fix.js is also the DOM preparer for both layouts. Older
+      cached copies of it may still own a mobile scroll RAF. Replacing the Home
+      node detaches every legacy closure from the visible phone, so only the
+      unified controller can write transforms into the rendered screen.
+    */
+    const isolated = homeScreen.cloneNode(true);
+    isolated.removeAttribute('style');
+
+    const content = isolated.querySelector('.real-home-scroll-content');
+    content?.style.removeProperty('transform');
+
+    const track = isolated.querySelector('.hero-screen-scroll-track');
+    track?.style.removeProperty('opacity');
+    const thumb = track?.querySelector('.hero-screen-scroll-thumb');
+    thumb?.style.removeProperty('height');
+    thumb?.style.removeProperty('transform');
+
+    homeScreen.replaceWith(isolated);
+    return isolated;
+  };
+
   const install = () => {
     const product = document.querySelector('#product.hero-scroll-product');
     const stage = product?.querySelector('.hero-phone-stage');
     const mainFrame = product?.querySelector('.device-main .device-frame');
-    const homeScreen = mainFrame?.querySelector('.real-home-preview');
+    let homeScreen = mainFrame?.querySelector('.real-home-preview');
     const calendarSource = product?.querySelector('.device-calendar .hero-calendar-screen');
     const clientSource = product?.querySelector('.device-client .hero-client-screen');
     const clubSource = product?.querySelector('.device-client .hero-club-screen');
@@ -65,6 +88,9 @@
     mainFrame.querySelectorAll(
       '.hero-mobile-calendar-screen,.hero-mobile-client-screen,.hero-mobile-club-screen,.hero-unified-calendar-screen,.hero-unified-client-screen,.hero-unified-club-screen'
     ).forEach(screen => screen.remove());
+
+    /* Detach the visible Home screen from every old scroll-controller closure. */
+    homeScreen = isolateHomeFromLegacyController(homeScreen);
 
     /* Clone the already prepared desktop screens without changing their markup. */
     const calendarScreen = calendarSource.cloneNode(true);
