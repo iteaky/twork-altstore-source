@@ -1,0 +1,34 @@
+/* Desktop hero: pin the phone composition while its app screens are scrolling. */
+@media(min-width:681px){
+  /* Sticky positioning must not be trapped by the hero's legacy overflow rule. */
+  .hero{
+    overflow-x:clip!important;
+    overflow-y:visible!important;
+  }
+
+  #product.hero-scroll-product{
+    position:relative!important;
+    overflow:visible!important;
+    transform:none!important;
+  }
+
+  #product.hero-scroll-product.reveal,
+  #product.hero-scroll-product.reveal.visible{
+    transform:none!important;
+  }
+
+  #product.hero-scroll-product .hero-phone-stage{
+    position:sticky!important;
+    top:88px!important;
+    z-index:20;
+    height:min(720px,calc(100vh - 108px))!important;
+    min-height:620px;
+    align-self:flex-start;
+  }
+}
+
+@supports not (overflow:clip){
+  @media(min-width:681px){
+    .hero{overflow-x:hidden!important}
+  }
+}
