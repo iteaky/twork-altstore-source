@@ -1,0 +1,259 @@
+(() => {
+  const mobileQuery = window.matchMedia('(max-width:680px)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp = value => Math.max(0, Math.min(1, value));
+  const smoothstep = value => value * value * (3 - 2 * value);
+  const segment = (value, start, end) => smoothstep(clamp((value - start) / Math.max(0.001, end - start)));
+  const PHONE_WIDTH = 302;
+  const PHONE_HEIGHT = PHONE_WIDTH * 932 / 430;
+  const CALENDAR_ROW_HEIGHT = 45;
+  const CALENDAR_TIMELINE_BASE_HEIGHT = 214;
+
+  const setScreenState = (screen, opacity, y, scale) => {
+    const visible = opacity > 0.004;
+    screen.style.opacity = String(opacity);
+    screen.style.visibility = visible ? 'visible' : 'hidden';
+    screen.style.transform = `translate3d(0,${y.toFixed(3)}px,0) scale(${scale.toFixed(5)})`;
+    screen.style.pointerEvents = opacity > 0.995 ? 'auto' : 'none';
+    screen.setAttribute('aria-hidden', opacity >= 0.5 ? 'false' : 'true');
+  };
+
+  const normalizeCalendar = screen => {
+    screen.querySelector('.hero-cal-grid')?.classList.remove('is-week-mode');
+    screen.querySelectorAll('.hero-cal-week-row').forEach(row => {
+      row.style.removeProperty('height');
+      row.style.removeProperty('min-height');
+      row.style.removeProperty('opacity');
+      row.style.removeProperty('transform');
+      row.style.removeProperty('visibility');
+    });
+    const collapse = screen.querySelector('.hero-cal-collapse');
+    collapse?.style.removeProperty('height');
+    collapse?.style.removeProperty('opacity');
+    screen.querySelector('.hero-cal-timeline')?.style.removeProperty('height');
+    const content = screen.querySelector('.hero-cal-timeline-content');
+    if (content) content.style.transform = 'translate3d(0,0,0)';
+    const thumb = screen.querySelector('.hero-cal-timeline-thumb');
+    if (thumb) thumb.style.transform = 'translateY(0)';
+  };
+
+  const install = () => {
+    const product = document.querySelector('#product.hero-scroll-product');
+    const stage = product?.querySelector('.hero-phone-stage');
+    const mainFrame = product?.querySelector('.device-main .device-frame');
+    const homeScreen = mainFrame?.querySelector('.real-home-preview');
+    const calendarSource = product?.querySelector('.device-calendar .hero-calendar-screen');
+    const clientSource = product?.querySelector('.device-client .hero-client-screen');
+    const clubSource = product?.querySelector('.device-client .hero-club-screen');
+
+    if (!product || !stage || !mainFrame || !homeScreen || !calendarSource || !clientSource || !clubSource) {
+      return false;
+    }
+    if (!calendarSource.querySelector('.hero-cal-week-row')) return false;
+    if (product.dataset.unifiedPhoneReady === 'true') return true;
+    product.dataset.unifiedPhoneReady = 'true';
+
+    /* Clone the already prepared desktop screens without changing their markup. */
+    const calendarScreen = calendarSource.cloneNode(true);
+    calendarScreen.classList.add('hero-unified-calendar-screen');
+    calendarScreen.removeAttribute('style');
+    normalizeCalendar(calendarScreen);
+
+    const clientScreen = clientSource.cloneNode(true);
+    clientScreen.classList.add('hero-unified-client-screen');
+    clientScreen.removeAttribute('style');
+
+    const clubScreen = clubSource.cloneNode(true);
+    clubScreen.classList.add('hero-unified-club-screen');
+    clubScreen.removeAttribute('style');
+
+    mainFrame.append(calendarScreen, clientScreen, clubScreen);
+
+    const homeTopLine = homeScreen.querySelector('.real-app-topline');
+    const homeContent = homeScreen.querySelector('.real-home-scroll-content');
+    const homeTrack = homeScreen.querySelector('.hero-screen-scroll-track');
+    const homeThumb = homeTrack?.querySelector('.hero-screen-scroll-thumb');
+
+    const calendarGrid = calendarScreen.querySelector('.hero-cal-grid');
+    const calendarRows = [...calendarScreen.querySelectorAll('.hero-cal-week-row')];
+    const selectedWeek = calendarScreen.querySelector('.hero-cal-week-row.selected-week');
+    const selectedWeekIndex = Math.max(0, calendarRows.indexOf(selectedWeek));
+    const collapseHandle = calendarScreen.querySelector('.hero-cal-collapse');
+    const calendarTimeline = calendarScreen.querySelector('.hero-cal-timeline');
+    const calendarTimelineContent = calendarScreen.querySelector('.hero-cal-timeline-content');
+    const calendarTimelineTrack = calendarScreen.querySelector('.hero-cal-timeline-track');
+    const calendarTimelineThumb = calendarScreen.querySelector('.hero-cal-timeline-thumb');
+
+    if (!homeContent || !calendarGrid || calendarRows.length < 2 || !selectedWeek) return false;
+
+    let frameRequested = false;
+
+    const applyPhoneScale = () => {
+      if (!mobileQuery.matches) {
+        product.style.removeProperty('--twork-unified-phone-scale');
+        return;
+      }
+      const viewportWidth = Math.max(320, window.innerWidth);
+      const viewportHeight = Math.max(480, window.visualViewport?.height || window.innerHeight);
+      const widthScale = viewportWidth * 0.94 / PHONE_WIDTH;
+      const heightScale = (viewportHeight - 92) / PHONE_HEIGHT;
+      const scale = Math.max(0.84, Math.min(widthScale, heightScale, 1.34));
+      product.style.setProperty('--twork-unified-phone-scale', scale.toFixed(5));
+    };
+
+    const updateHome = progress => {
+      const topHeight = homeTopLine?.offsetHeight || 0;
+      const availableHeight = Math.max(1, homeScreen.clientHeight - topHeight - 10);
+      const maxShift = Math.max(0, homeContent.scrollHeight - availableHeight);
+      const shift = maxShift * progress;
+      homeContent.style.transform = `translate3d(0,${-shift.toFixed(3)}px,0)`;
+
+      if (!homeTrack || !homeThumb) return;
+      const trackHeight = homeTrack.clientHeight;
+      const ratio = Math.min(1, availableHeight / Math.max(availableHeight, homeContent.scrollHeight));
+      const thumbHeight = Math.max(30, trackHeight * ratio);
+      const thumbTravel = Math.max(0, trackHeight - thumbHeight);
+      homeThumb.style.height = `${thumbHeight.toFixed(3)}px`;
+      homeThumb.style.transform = `translateY(${(thumbTravel * progress).toFixed(3)}px)`;
+      homeTrack.style.opacity = maxShift > 3 ? '.72' : '0';
+    };
+
+    const updateCalendar = progress => {
+      const collapseProgress = smoothstep(clamp(progress / 0.34));
+
+      calendarRows.forEach((row, index) => {
+        const isSelected = index === selectedWeekIndex;
+        const remaining = isSelected ? 1 : 1 - collapseProgress;
+        row.style.height = `${Math.max(0, CALENDAR_ROW_HEIGHT * remaining).toFixed(3)}px`;
+        row.style.minHeight = '0px';
+        row.style.opacity = isSelected ? '1' : String(Math.max(0, remaining));
+        row.style.transform = isSelected
+          ? 'translate3d(0,0,0) scaleY(1)'
+          : `translate3d(0,${((index < selectedWeekIndex ? 3 : -3) * collapseProgress).toFixed(3)}px,0) scaleY(${(0.92 + 0.08 * remaining).toFixed(5)})`;
+        row.style.visibility = !isSelected && collapseProgress > 0.995 ? 'hidden' : 'visible';
+      });
+      calendarGrid.classList.toggle('is-week-mode', collapseProgress > 0.98);
+
+      if (collapseHandle) {
+        collapseHandle.style.height = `${(14 - 6 * collapseProgress).toFixed(3)}px`;
+        collapseHandle.style.opacity = String(1 - 0.45 * collapseProgress);
+      }
+
+      if (!calendarTimeline || !calendarTimelineContent || !calendarTimelineTrack || !calendarTimelineThumb) return;
+
+      const hiddenWeekCount = Math.max(0, calendarRows.length - 1);
+      const expandedHeight = CALENDAR_TIMELINE_BASE_HEIGHT + Math.max(0, CALENDAR_ROW_HEIGHT * hiddenWeekCount - 18);
+      const timelineHeight = CALENDAR_TIMELINE_BASE_HEIGHT +
+        (expandedHeight - CALENDAR_TIMELINE_BASE_HEIGHT) * collapseProgress;
+      calendarTimeline.style.height = `${timelineHeight.toFixed(3)}px`;
+
+      const timelineProgress = smoothstep(clamp((progress - 0.16) / 0.84));
+      const timelineMaxShift = Math.max(0, calendarTimelineContent.scrollHeight - calendarTimeline.clientHeight);
+      calendarTimelineContent.style.transform = `translate3d(0,${(-timelineMaxShift * timelineProgress).toFixed(3)}px,0)`;
+
+      const trackHeight = calendarTimelineTrack.clientHeight;
+      const ratio = Math.min(1, calendarTimeline.clientHeight / Math.max(calendarTimeline.clientHeight, calendarTimelineContent.scrollHeight));
+      const thumbHeight = Math.max(24, trackHeight * ratio);
+      const thumbTravel = Math.max(0, trackHeight - thumbHeight);
+      calendarTimelineThumb.style.height = `${thumbHeight.toFixed(3)}px`;
+      calendarTimelineThumb.style.transform = `translateY(${(thumbTravel * timelineProgress).toFixed(3)}px)`;
+      calendarTimelineTrack.style.opacity = timelineMaxShift > 3 ? '.72' : '0';
+    };
+
+    const resetDesktopCloneState = () => {
+      [calendarScreen, clientScreen, clubScreen].forEach(screen => {
+        screen.style.opacity = '0';
+        screen.style.visibility = 'hidden';
+        screen.style.pointerEvents = 'none';
+        screen.setAttribute('aria-hidden', 'true');
+      });
+      homeScreen.style.opacity = '1';
+      homeScreen.style.visibility = 'visible';
+      homeScreen.style.transform = 'none';
+      homeScreen.style.pointerEvents = 'auto';
+      homeScreen.setAttribute('aria-hidden', 'false');
+    };
+
+    const update = () => {
+      frameRequested = false;
+      if (!mobileQuery.matches) {
+        resetDesktopCloneState();
+        return;
+      }
+
+      const rect = product.getBoundingClientRect();
+      const pageTop = window.scrollY + rect.top;
+      const stickyTop = Number.parseFloat(getComputedStyle(stage).top) || 0;
+      const scrollRange = Math.max(1, product.offsetHeight - stage.offsetHeight);
+      const progress = clamp((window.scrollY - (pageTop - stickyTop)) / scrollRange);
+
+      const homeScrollProgress = segment(progress, 0.00, 0.21);
+      const calendarScrollProgress = clamp((progress - 0.29) / (0.57 - 0.29));
+      const homeToCalendar = reduceMotion.matches ? (progress >= 0.26 ? 1 : 0) : segment(progress, 0.23, 0.29);
+      const calendarToClient = reduceMotion.matches ? (progress >= 0.62 ? 1 : 0) : segment(progress, 0.59, 0.65);
+      const clientToClub = reduceMotion.matches ? (progress >= 0.79 ? 1 : 0) : segment(progress, 0.76, 0.82);
+
+      updateHome(homeScrollProgress);
+      updateCalendar(calendarScrollProgress);
+
+      const homeOpacity = 1 - homeToCalendar;
+      const calendarOpacity = homeToCalendar * (1 - calendarToClient);
+      const clientOpacity = calendarToClient * (1 - clientToClub);
+      const clubOpacity = clientToClub;
+
+      setScreenState(homeScreen, homeOpacity, -8 * homeToCalendar, 1 - 0.012 * homeToCalendar);
+      setScreenState(calendarScreen, calendarOpacity, 12 * (1 - homeToCalendar) - 8 * calendarToClient, 0.988 + 0.012 * homeToCalendar - 0.012 * calendarToClient);
+      setScreenState(clientScreen, clientOpacity, 12 * (1 - calendarToClient) - 8 * clientToClub, 0.988 + 0.012 * calendarToClient - 0.012 * clientToClub);
+      setScreenState(clubScreen, clubOpacity, 12 * (1 - clientToClub), 0.988 + 0.012 * clientToClub);
+
+      product.style.setProperty('--mobile-home-progress', homeOpacity.toFixed(4));
+      product.style.setProperty('--mobile-calendar-progress', calendarOpacity.toFixed(4));
+      product.style.setProperty('--mobile-client-progress', clientOpacity.toFixed(4));
+      product.style.setProperty('--mobile-club-progress', clubOpacity.toFixed(4));
+    };
+
+    const requestUpdate = () => {
+      if (frameRequested) return;
+      frameRequested = true;
+      requestAnimationFrame(update);
+    };
+
+    const handleViewportChange = () => {
+      applyPhoneScale();
+      requestUpdate();
+    };
+
+    applyPhoneScale();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', handleViewportChange, { passive: true });
+    window.visualViewport?.addEventListener('resize', handleViewportChange, { passive: true });
+    mobileQuery.addEventListener?.('change', handleViewportChange);
+    reduceMotion.addEventListener?.('change', requestUpdate);
+
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(requestUpdate);
+      observer.observe(homeContent);
+      if (calendarTimelineContent) observer.observe(calendarTimelineContent);
+    }
+
+    requestUpdate();
+    return true;
+  };
+
+  const boot = () => {
+    if (install()) return;
+    let attempts = 0;
+    const waitForDesktopScreens = () => {
+      attempts += 1;
+      if (install() || attempts > 360) return;
+      requestAnimationFrame(waitForDesktopScreens);
+    };
+    requestAnimationFrame(waitForDesktopScreens);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  } else {
+    boot();
+  }
+})();
