@@ -4,6 +4,7 @@
   const segment = (value, start, end) => smoothstep(clamp((value - start) / Math.max(0.001, end - start)));
   const mobileQuery = window.matchMedia('(max-width:680px)');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const LOGICAL_SCREEN_WIDTH = 284;
 
   const setScreenState = (screen, opacity, y, scale) => {
     const visible = opacity > 0.004;
@@ -36,6 +37,36 @@
 
     const thumb = screen.querySelector('.hero-cal-timeline-thumb');
     if (thumb) thumb.style.transform = 'translateY(0)';
+  };
+
+  const wrapScreenContents = (screen, className) => {
+    const existing = screen.querySelector(':scope > .hero-mobile-ui-canvas');
+    if (existing) return existing;
+
+    const canvas = document.createElement('div');
+    canvas.className = `hero-mobile-ui-canvas ${className}`;
+    [...screen.children].forEach(child => canvas.appendChild(child));
+    screen.appendChild(canvas);
+    return canvas;
+  };
+
+  const sizeCanvas = (screen, canvas) => {
+    if (!mobileQuery.matches) {
+      canvas.style.removeProperty('width');
+      canvas.style.removeProperty('height');
+      canvas.style.removeProperty('transform');
+      return 1;
+    }
+
+    const screenWidth = Math.max(1, screen.clientWidth);
+    const screenHeight = Math.max(1, screen.clientHeight);
+    const scale = screenWidth / LOGICAL_SCREEN_WIDTH;
+    const logicalHeight = screenHeight / scale;
+
+    canvas.style.width = `${LOGICAL_SCREEN_WIDTH}px`;
+    canvas.style.height = `${logicalHeight}px`;
+    canvas.style.transform = `scale(${scale})`;
+    return scale;
   };
 
   const install = () => {
@@ -71,6 +102,11 @@
 
     mainFrame.append(mobileCalendarScreen, mobileClientScreen, mobileClubScreen);
 
+    const homeCanvas = wrapScreenContents(homeScreen, 'hero-home-canvas');
+    const calendarCanvas = wrapScreenContents(mobileCalendarScreen, 'hero-calendar-canvas');
+    const clientCanvas = wrapScreenContents(mobileClientScreen, 'hero-client-canvas');
+    const clubCanvas = wrapScreenContents(mobileClubScreen, 'hero-club-canvas');
+
     const homeTopLine = homeScreen.querySelector('.real-app-topline');
     const homeContent = homeScreen.querySelector('.real-home-scroll-content');
     const homeTrack = homeScreen.querySelector('.hero-screen-scroll-track');
@@ -88,7 +124,15 @@
 
     let frameRequested = false;
 
+    const updateCanvases = () => {
+      sizeCanvas(homeScreen, homeCanvas);
+      sizeCanvas(mobileCalendarScreen, calendarCanvas);
+      sizeCanvas(mobileClientScreen, clientCanvas);
+      sizeCanvas(mobileClubScreen, clubCanvas);
+    };
+
     const resetDesktop = () => {
+      updateCanvases();
       homeScreen.style.opacity = '1';
       homeScreen.style.visibility = 'visible';
       homeScreen.style.transform = 'none';
@@ -109,7 +153,7 @@
       if (!homeContent) return;
 
       const topHeight = homeTopLine?.offsetHeight || 0;
-      const availableHeight = Math.max(1, homeScreen.clientHeight - topHeight - 8);
+      const availableHeight = Math.max(1, homeCanvas.clientHeight - topHeight - 8);
       const maxShift = Math.max(0, homeContent.scrollHeight - availableHeight);
       const shift = Math.round(maxShift * progress);
       homeContent.style.transform = `translate3d(0, ${-shift}px, 0)`;
@@ -127,7 +171,7 @@
     const updateCalendarScroll = progress => {
       if (!calendarGrid || calendarRows.length < 2) return;
 
-      const rowHeight = selectedWeek?.getBoundingClientRect().height || (window.innerWidth <= 680 ? 40 : 45);
+      const rowHeight = selectedWeek?.offsetHeight || 40;
       const collapseProgress = segment(progress, 0, 0.48);
 
       calendarRows.forEach((row, index) => {
@@ -149,7 +193,7 @@
 
       if (!calendarTimeline || !calendarTimelineContent || !calendarTimelineTrack || !calendarTimelineThumb) return;
 
-      const baseHeight = window.innerWidth <= 680 ? 185 : 214;
+      const baseHeight = 185;
       const hiddenWeekCount = Math.max(0, calendarRows.length - 1);
       const expandedHeight = baseHeight + Math.max(0, rowHeight * hiddenWeekCount - 18);
       calendarTimeline.style.height = `${Math.round(baseHeight + (expandedHeight - baseHeight) * collapseProgress)}px`;
@@ -174,6 +218,8 @@
         resetDesktop();
         return;
       }
+
+      updateCanvases();
 
       const rect = product.getBoundingClientRect();
       const pageTop = window.scrollY + rect.top;
@@ -249,6 +295,9 @@
       observer.observe(product);
       observer.observe(stage);
       observer.observe(homeScreen);
+      observer.observe(mobileCalendarScreen);
+      observer.observe(mobileClientScreen);
+      observer.observe(mobileClubScreen);
     }
 
     requestUpdate();
