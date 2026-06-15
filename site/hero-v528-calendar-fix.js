@@ -17,6 +17,24 @@
     });
   };
 
+  const applyClientServices = () => {
+    const grid = document.querySelector('.hero-client-screen .hero-client-grid');
+    if (!grid || grid.querySelector('.hero-service-card')) return;
+
+    const card = document.createElement('section');
+    card.className = 'hero-client-card hero-service-card';
+    card.innerHTML = `
+      <div class="hero-client-card-head"><i>◇</i><b>Услуги</b><span>Все</span></div>
+      <div class="hero-service-body">
+        <b>Онлайн-ведение</b>
+        <span>1 июня – 31 июля</span>
+        <strong>€ 120</strong>
+        <small class="hero-service-pill">осталось: 1 мес. 16 дн.</small>
+      </div>
+      <div class="hero-client-card-footer">Открыть все услуги</div>`;
+    grid.appendChild(card);
+  };
+
   const applyCalendarFix = () => {
     const screen = document.querySelector('.hero-calendar-screen');
     if (!screen || screen.dataset.v528CalendarFixed === 'true') return;
@@ -33,6 +51,9 @@
 
     const oldSelected = screen.querySelector('.hero-cal-selected');
     if (oldSelected) {
+      const hourStart = 8;
+      const hourCount = 15;
+      const hourStep = 24;
       const fragment = document.createElement('div');
       fragment.innerHTML = `
         <div class="hero-cal-datebar">
@@ -41,14 +62,18 @@
           <span>›</span>
         </div>
         <div class="hero-cal-timeline" aria-label="Расписание на 14 июня">
-          ${Array.from({ length: 11 }, (_, index) => {
-            const hour = index + 9;
-            return `<div class="hero-cal-hour" style="top:${index * 20}px"><span>${String(hour).padStart(2, '0')}:00</span></div>`;
-          }).join('')}
-          <div class="hero-cal-event" style="top:20px;height:36px"><b>10:00 · Сплит-тренировка</b><small>Максим и Олег · TWORK Studio</small></div>
-          <div class="hero-cal-event duty" style="top:120px;height:54px"><b>15:00 · Дежурство</b><small>Iron Club · до 18:00</small></div>
-          <div class="hero-cal-event" style="top:180px;height:34px"><b>18:00 · Персональная</b><small>Анна Ковалёва · абонемент</small></div>
-          <div class="hero-cal-now" style="top:87px"></div>
+          <div class="hero-cal-timeline-content">
+            ${Array.from({ length: hourCount }, (_, index) => {
+              const hour = hourStart + index;
+              return `<div class="hero-cal-hour" style="top:${index * hourStep}px"><span>${String(hour).padStart(2, '0')}:00</span></div>`;
+            }).join('')}
+            <div class="hero-cal-event" style="top:${(10 - hourStart) * hourStep}px;height:38px"><b>10:00 · Сплит-тренировка</b><small>Максим и Олег · TWORK Studio</small></div>
+            <div class="hero-cal-event duty" style="top:${(15 - hourStart) * hourStep}px;height:70px"><b>15:00 · Дежурство</b><small>Iron Club · до 18:00</small></div>
+            <div class="hero-cal-event" style="top:${(18 - hourStart) * hourStep}px;height:38px"><b>18:00 · Персональная</b><small>Анна Ковалёва · абонемент</small></div>
+            <div class="hero-cal-event event" style="top:${(20 - hourStart) * hourStep}px;height:40px"><b>20:00 · Событие</b><small>Подготовка программы · 40 минут</small></div>
+            <div class="hero-cal-now" style="top:${(13.5 - hourStart) * hourStep}px"></div>
+          </div>
+          <span class="hero-cal-timeline-track" aria-hidden="true"><i class="hero-cal-timeline-thumb"></i></span>
         </div>`;
       oldSelected.replaceWith(...fragment.childNodes);
     }
@@ -97,6 +122,11 @@
     }
     const thumb = track.querySelector('.hero-screen-scroll-thumb');
 
+    const timeline = product.querySelector('.hero-cal-timeline');
+    const timelineContent = timeline?.querySelector('.hero-cal-timeline-content');
+    const timelineTrack = timeline?.querySelector('.hero-cal-timeline-track');
+    const timelineThumb = timeline?.querySelector('.hero-cal-timeline-thumb');
+
     let frameRequested = false;
     const update = () => {
       frameRequested = false;
@@ -106,6 +136,7 @@
       const stageHeight = stage.offsetHeight;
       const scrollRange = Math.max(1, product.offsetHeight - stageHeight);
       const progress = clamp((window.scrollY - (pageTop - stickyTop)) / scrollRange);
+
       const topHeight = topLine?.offsetHeight || 0;
       const availableHeight = Math.max(1, screen.clientHeight - topHeight - 10);
       const maxShift = Math.max(0, scrollContent.scrollHeight - availableHeight);
@@ -119,6 +150,19 @@
       thumb.style.height = `${thumbHeight}px`;
       thumb.style.transform = `translateY(${Math.round(thumbTravel * progress)}px)`;
       track.style.opacity = maxShift > 3 ? '.72' : '0';
+
+      if (timeline && timelineContent && timelineTrack && timelineThumb) {
+        const timelineMaxShift = Math.max(0, timelineContent.scrollHeight - timeline.clientHeight);
+        timelineContent.style.transform = `translate3d(0, ${-Math.round(timelineMaxShift * progress)}px, 0)`;
+
+        const timelineTrackHeight = timelineTrack.clientHeight;
+        const timelineRatio = Math.min(1, timeline.clientHeight / Math.max(timeline.clientHeight, timelineContent.scrollHeight));
+        const timelineThumbHeight = Math.max(24, Math.round(timelineTrackHeight * timelineRatio));
+        const timelineThumbTravel = Math.max(0, timelineTrackHeight - timelineThumbHeight);
+        timelineThumb.style.height = `${timelineThumbHeight}px`;
+        timelineThumb.style.transform = `translateY(${Math.round(timelineThumbTravel * progress)}px)`;
+        timelineTrack.style.opacity = timelineMaxShift > 3 ? '.72' : '0';
+      }
     };
 
     const requestUpdate = () => {
@@ -129,12 +173,17 @@
 
     window.addEventListener('scroll', requestUpdate, { passive: true });
     window.addEventListener('resize', requestUpdate);
-    if ('ResizeObserver' in window) new ResizeObserver(requestUpdate).observe(scrollContent);
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(requestUpdate);
+      observer.observe(scrollContent);
+      if (timelineContent) observer.observe(timelineContent);
+    }
     requestUpdate();
   };
 
   const apply = () => {
     removeOrphanedClientBlocks();
+    applyClientServices();
     applyCalendarFix();
     applyScrollPhone();
   };
