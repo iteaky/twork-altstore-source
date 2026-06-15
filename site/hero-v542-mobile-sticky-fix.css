@@ -1,0 +1,28 @@
+/* Ensure the mobile phone remains pinned until the full internal sequence ends. */
+@media(max-width:680px){
+  .hero{overflow:visible!important}
+
+  #product.hero-scroll-product{
+    position:relative!important;
+    overflow:visible!important;
+    transform:none!important;
+  }
+
+  #product.hero-scroll-product.reveal,
+  #product.hero-scroll-product.reveal.visible{
+    transform:none!important;
+  }
+
+  #product.hero-scroll-product .hero-phone-stage{
+    position:sticky!important;
+    top:max(88px,calc(env(safe-area-inset-top) + 72px))!important;
+    z-index:20;
+    align-self:flex-start;
+  }
+}
+
+@media(max-width:390px){
+  #product.hero-scroll-product .hero-phone-stage{
+    top:max(84px,calc(env(safe-area-inset-top) + 68px))!important;
+  }
+}
