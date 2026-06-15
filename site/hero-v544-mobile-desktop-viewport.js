@@ -1,7 +1,7 @@
 (() => {
   const mobileQuery = window.matchMedia('(max-width:680px)');
   const BASE_PHONE_WIDTH = 302;
-  const BASE_PHONE_HEIGHT = 653;
+  const BASE_PHONE_HEIGHT = 655;
 
   const applyScale = () => {
     const product = document.querySelector('#product.hero-scroll-product');
@@ -18,8 +18,7 @@
       window.visualViewport?.height || window.innerHeight
     );
 
-    /* Fill most of the mobile viewport while keeping the exact desktop phone
-       dimensions internally. The phone is enlarged only with transform scale. */
+    /* Scale the exact desktop 302 × 655 phone as one object. */
     const widthScale = (viewportWidth * 0.94) / BASE_PHONE_WIDTH;
     const heightScale = (viewportHeight - 92) / BASE_PHONE_HEIGHT;
     const scale = Math.max(0.86, Math.min(widthScale, heightScale, 1.34));
