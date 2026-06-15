@@ -1,4 +1,4 @@
-/* Ensure the mobile phone remains pinned until the full internal sequence ends. */
+/* Keep the mobile phone pinned and centered until the full internal sequence ends. */
 @media(max-width:680px){
   .hero{overflow:visible!important}
 
@@ -13,16 +13,35 @@
     transform:none!important;
   }
 
+  /* The sticky stage fills the visible area below the floating navigation. */
   #product.hero-scroll-product .hero-phone-stage{
     position:sticky!important;
-    top:max(88px,calc(env(safe-area-inset-top) + 72px))!important;
+    top:max(76px,calc(env(safe-area-inset-top) + 60px))!important;
     z-index:20;
+    height:calc(100dvh - 84px)!important;
+    min-height:520px;
     align-self:flex-start;
+  }
+
+  /* Center the physical phone inside the sticky viewport. Its size follows
+     both the device width and the currently visible Safari height. */
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    left:50%!important;
+    top:50%!important;
+    width:min(356px,88vw,calc((100dvh - 90px) * 430 / 932))!important;
+    transform:translate(-50%,-50%)!important;
+    transform-origin:center!important;
   }
 }
 
 @media(max-width:390px){
   #product.hero-scroll-product .hero-phone-stage{
-    top:max(84px,calc(env(safe-area-inset-top) + 68px))!important;
+    top:max(72px,calc(env(safe-area-inset-top) + 56px))!important;
+    height:calc(100dvh - 78px)!important;
+    min-height:500px;
+  }
+
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    width:min(330px,90vw,calc((100dvh - 84px) * 430 / 932))!important;
   }
 }
