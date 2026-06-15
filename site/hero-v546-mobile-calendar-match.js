@@ -2,6 +2,8 @@
   const mobileQuery = window.matchMedia('(max-width:680px)');
   const clamp = value => Math.max(0, Math.min(1, value));
   const smoothstep = value => value * value * (3 - 2 * value);
+  const CALENDAR_ROW_HEIGHT = 45;
+  const TIMELINE_BASE_HEIGHT = 214;
 
   const install = () => {
     const product = document.querySelector('#product.hero-scroll-product');
@@ -21,21 +23,7 @@
     screen.dataset.desktopCollapseReady = 'true';
 
     const selectedWeekIndex = Math.max(0, rows.indexOf(selectedWeek));
-    let calendarRowHeight = 45;
-    let timelineBaseHeight = 214;
     let frameRequested = false;
-
-    const refreshMeasurements = () => {
-      rows.forEach(row => {
-        row.style.removeProperty('height');
-        row.style.removeProperty('min-height');
-      });
-      timeline?.style.removeProperty('height');
-
-      calendarRowHeight = selectedWeek.getBoundingClientRect().height || 45;
-      timelineBaseHeight = timeline?.clientHeight || 214;
-      requestUpdate();
-    };
 
     const update = () => {
       frameRequested = false;
@@ -47,46 +35,59 @@
       const scrollRange = Math.max(1, product.offsetHeight - stage.offsetHeight);
       const pageProgress = clamp((window.scrollY - (pageTop - stickyTop)) / scrollRange);
 
-      /* Same calendar segment and the same month-to-week curve as desktop. */
+      /* Same calendar segment and curve as desktop. */
       const calendarSegment = smoothstep(clamp((pageProgress - 0.29) / (0.57 - 0.29)));
       const collapseProgress = smoothstep(clamp(calendarSegment / 0.34));
 
       rows.forEach((row, index) => {
         const isSelected = index === selectedWeekIndex;
         const remaining = isSelected ? 1 : 1 - collapseProgress;
-        const height = Math.max(0, Math.round(calendarRowHeight * remaining));
+        const height = Math.max(0, Math.round(CALENDAR_ROW_HEIGHT * remaining));
 
-        /* v544 restores desktop metrics with !important. Set dynamic values
-           with the same priority so the rows can still fold exactly as on web. */
+        /* Another legacy listener still calculates the old mobile animation.
+           Use important inline values so both controllers cannot fight each
+           other between frames and cause visible jumping. */
         row.style.setProperty('height', `${height}px`, 'important');
         row.style.setProperty('min-height', '0px', 'important');
-        row.style.opacity = isSelected ? '1' : String(Math.max(0, remaining));
-        row.style.transform = isSelected
-          ? 'translate3d(0,0,0) scaleY(1)'
-          : `translate3d(0,${(index < selectedWeekIndex ? 3 : -3) * collapseProgress}px,0) scaleY(${0.92 + 0.08 * remaining})`;
-        row.style.visibility = !isSelected && collapseProgress > 0.995 ? 'hidden' : 'visible';
+        row.style.setProperty('opacity', isSelected ? '1' : String(Math.max(0, remaining)), 'important');
+        row.style.setProperty(
+          'transform',
+          isSelected
+            ? 'translate3d(0,0,0) scaleY(1)'
+            : `translate3d(0,${(index < selectedWeekIndex ? 3 : -3) * collapseProgress}px,0) scaleY(${0.92 + 0.08 * remaining})`,
+          'important'
+        );
+        row.style.setProperty(
+          'visibility',
+          !isSelected && collapseProgress > 0.995 ? 'hidden' : 'visible',
+          'important'
+        );
       });
 
       grid.classList.toggle('is-week-mode', collapseProgress > 0.98);
 
       if (collapseHandle) {
-        collapseHandle.style.height = `${Math.round(14 - 6 * collapseProgress)}px`;
-        collapseHandle.style.opacity = String(1 - 0.45 * collapseProgress);
+        collapseHandle.style.setProperty('height', `${Math.round(14 - 6 * collapseProgress)}px`, 'important');
+        collapseHandle.style.setProperty('opacity', String(1 - 0.45 * collapseProgress), 'important');
       }
 
       if (!timeline || !timelineContent || !timelineTrack || !timelineThumb) return;
 
       const hiddenWeekCount = Math.max(0, rows.length - 1);
-      const expandedHeight = timelineBaseHeight + Math.max(0, calendarRowHeight * hiddenWeekCount - 18);
+      const expandedHeight = TIMELINE_BASE_HEIGHT + Math.max(0, CALENDAR_ROW_HEIGHT * hiddenWeekCount - 18);
       const timelineHeight = Math.round(
-        timelineBaseHeight + (expandedHeight - timelineBaseHeight) * collapseProgress
+        TIMELINE_BASE_HEIGHT + (expandedHeight - TIMELINE_BASE_HEIGHT) * collapseProgress
       );
       timeline.style.setProperty('height', `${timelineHeight}px`, 'important');
 
-      /* Same delayed timeline movement as the desktop version. */
+      /* Same delayed timeline movement as desktop. */
       const timelineProgress = smoothstep(clamp((calendarSegment - 0.16) / 0.84));
       const timelineMaxShift = Math.max(0, timelineContent.scrollHeight - timeline.clientHeight);
-      timelineContent.style.transform = `translate3d(0, ${-Math.round(timelineMaxShift * timelineProgress)}px, 0)`;
+      timelineContent.style.setProperty(
+        'transform',
+        `translate3d(0, ${-Math.round(timelineMaxShift * timelineProgress)}px, 0)`,
+        'important'
+      );
 
       const trackHeight = timelineTrack.clientHeight;
       const ratio = Math.min(
@@ -95,29 +96,26 @@
       );
       const thumbHeight = Math.max(24, Math.round(trackHeight * ratio));
       const thumbTravel = Math.max(0, trackHeight - thumbHeight);
-      timelineThumb.style.height = `${thumbHeight}px`;
-      timelineThumb.style.transform = `translateY(${Math.round(thumbTravel * timelineProgress)}px)`;
-      timelineTrack.style.opacity = timelineMaxShift > 3 ? '.72' : '0';
+      timelineThumb.style.setProperty('height', `${thumbHeight}px`, 'important');
+      timelineThumb.style.setProperty(
+        'transform',
+        `translateY(${Math.round(thumbTravel * timelineProgress)}px)`,
+        'important'
+      );
+      timelineTrack.style.setProperty('opacity', timelineMaxShift > 3 ? '.72' : '0', 'important');
     };
 
-    function requestUpdate() {
+    const requestUpdate = () => {
       if (frameRequested) return;
       frameRequested = true;
       requestAnimationFrame(update);
-    }
+    };
 
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', refreshMeasurements, { passive: true });
-    mobileQuery.addEventListener?.('change', refreshMeasurements);
+    window.addEventListener('resize', requestUpdate, { passive: true });
+    mobileQuery.addEventListener?.('change', requestUpdate);
 
-    if ('ResizeObserver' in window) {
-      const observer = new ResizeObserver(requestUpdate);
-      observer.observe(screen);
-      observer.observe(grid);
-      if (timelineContent) observer.observe(timelineContent);
-    }
-
-    refreshMeasurements();
+    requestUpdate();
     return true;
   };
 
