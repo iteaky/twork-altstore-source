@@ -11,15 +11,11 @@
     height:min(650px,calc(100dvh - 104px))!important;
   }
 
+  /* Width is limited by both screen width and visible Safari height, so the
+     complete 430:932 phone always fits without changing its aspect ratio. */
   #product.hero-scroll-product .hero-phone-stage .device-main{
     top:0!important;
     width:min(286px,80vw,calc((100dvh - 116px) * 430 / 932))!important;
-  }
-
-  /* Keep the complete physical phone inside the visible Safari viewport. */
-  #product.hero-scroll-product .hero-phone-stage .device-main,
-  #product.hero-scroll-product .hero-phone-stage .device-main .device-frame{
-    max-height:calc(100dvh - 106px)!important;
   }
 
   #product.hero-scroll-product .device-main .real-home-preview,
