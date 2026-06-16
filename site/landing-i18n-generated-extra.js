@@ -47,7 +47,8 @@
     const key = node.__tworkExtraKey || sourceMap[match[2]];
     if (!key) return;
     node.__tworkExtraKey = key;
-    node.nodeValue = `${match[1]}${translated(key,language)}${match[3]}`;
+    const next = `${match[1]}${translated(key,language)}${match[3]}`;
+    if (next !== raw) node.nodeValue = next;
   };
 
   const translateTree = (root = document.body, language = currentLanguage()) => {
@@ -65,17 +66,8 @@
 
   const boot = () => {
     translateTree(document.body);
-    const observer = new MutationObserver(records => {
-      const language = currentLanguage();
-      records.forEach(record => {
-        if (record.type === 'characterData') translateNode(record.target,language);
-        record.addedNodes.forEach(node => {
-          if (node.nodeType === Node.ELEMENT_NODE) translateTree(node,language);
-          else if (node.nodeType === Node.TEXT_NODE) translateNode(node,language);
-        });
-      });
-    });
-    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+    window.setTimeout(() => translateTree(document.body),180);
+    window.setTimeout(() => translateTree(document.body),520);
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
