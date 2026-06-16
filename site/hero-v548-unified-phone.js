@@ -11,7 +11,7 @@
 
   const setScreenState = (screen, opacity, y, scale) => {
     const visible = opacity > 0.004;
-    screen.style.opacity = String(opacity);
+    screen.style.opacity = opacity.toFixed(4);
     screen.style.visibility = visible ? 'visible' : 'hidden';
     screen.style.transform = `translate3d(0,${Math.round(y)}px,0) scale(${scale.toFixed(4)})`;
     screen.style.pointerEvents = opacity > 0.995 ? 'auto' : 'none';
@@ -115,10 +115,24 @@
     let lastLayoutWidth = Math.round(document.documentElement.clientWidth || window.innerWidth);
     let productTop = 0;
     let pinEnd = 1;
+    let pinState = '';
 
-    const clearPinClasses = () => {
-      product.classList.remove('twork-phone-pinned', 'twork-phone-ended');
+    let homeAvailableHeight = 1;
+    let homeMaxShift = 0;
+    let homeThumbHeight = 30;
+    let homeThumbTravel = 0;
+
+    let timelineContentHeight = 408;
+    let timelineTrackInset = 16;
+
+    const setPinState = nextState => {
+      if (pinState === nextState) return;
+      pinState = nextState;
+      product.classList.toggle('twork-phone-pinned', nextState === 'pinned');
+      product.classList.toggle('twork-phone-ended', nextState === 'ended');
     };
+
+    const clearPinClasses = () => setPinState('before');
 
     const applyStableGeometry = force => {
       if (!mobileQuery.matches) {
@@ -143,39 +157,53 @@
       product.style.setProperty('--twork-unified-phone-scale', scale.toFixed(4));
     };
 
+    const measureStaticMetrics = () => {
+      const topHeight = homeTopLine?.offsetHeight || 0;
+      homeAvailableHeight = Math.max(1, homeScreen.clientHeight - topHeight - 10);
+      homeMaxShift = Math.max(0, homeContent.scrollHeight - homeAvailableHeight);
+
+      if (homeTrack && homeThumb) {
+        const trackHeight = homeTrack.clientHeight;
+        const ratio = Math.min(1, homeAvailableHeight / Math.max(homeAvailableHeight, homeContent.scrollHeight));
+        homeThumbHeight = Math.max(30, Math.round(trackHeight * ratio));
+        homeThumbTravel = Math.max(0, trackHeight - homeThumbHeight);
+      }
+
+      if (calendarTimelineContent) {
+        timelineContentHeight = Math.max(408, calendarTimelineContent.scrollHeight);
+      }
+      if (calendarTimeline && calendarTimelineTrack) {
+        const trackStyle = getComputedStyle(calendarTimelineTrack);
+        const topInset = Number.parseFloat(trackStyle.top) || 0;
+        const bottomInset = Number.parseFloat(trackStyle.bottom) || 0;
+        timelineTrackInset = Math.max(0, topInset + bottomInset);
+      }
+    };
+
     const measurePinBounds = () => {
       const rect = product.getBoundingClientRect();
-      productTop = window.scrollY + rect.top;
+      productTop = Math.round(window.scrollY + rect.top);
       pinEnd = Math.max(productTop + 1, productTop + product.offsetHeight - lockedViewportHeight);
     };
 
     const applyPinState = scrollY => {
       if (scrollY < productTop) {
-        clearPinClasses();
+        setPinState('before');
       } else if (scrollY >= pinEnd) {
-        product.classList.remove('twork-phone-pinned');
-        product.classList.add('twork-phone-ended');
+        setPinState('ended');
       } else {
-        product.classList.remove('twork-phone-ended');
-        product.classList.add('twork-phone-pinned');
+        setPinState('pinned');
       }
     };
 
     const updateHome = progress => {
-      const topHeight = homeTopLine?.offsetHeight || 0;
-      const availableHeight = Math.max(1, homeScreen.clientHeight - topHeight - 10);
-      const maxShift = Math.max(0, homeContent.scrollHeight - availableHeight);
-      const shift = Math.round(maxShift * progress);
+      const shift = Math.round(homeMaxShift * progress);
       homeContent.style.transform = `translate3d(0,${-shift}px,0)`;
 
       if (!homeTrack || !homeThumb) return;
-      const trackHeight = homeTrack.clientHeight;
-      const ratio = Math.min(1, availableHeight / Math.max(availableHeight, homeContent.scrollHeight));
-      const thumbHeight = Math.max(30, Math.round(trackHeight * ratio));
-      const thumbTravel = Math.max(0, trackHeight - thumbHeight);
-      homeThumb.style.height = `${thumbHeight}px`;
-      homeThumb.style.transform = `translateY(${Math.round(thumbTravel * progress)}px)`;
-      homeTrack.style.opacity = maxShift > 3 ? '.72' : '0';
+      homeThumb.style.height = `${homeThumbHeight}px`;
+      homeThumb.style.transform = `translateY(${Math.round(homeThumbTravel * progress)}px)`;
+      homeTrack.style.opacity = homeMaxShift > 3 ? '.72' : '0';
     };
 
     const updateCalendar = progress => {
@@ -186,7 +214,7 @@
         const remaining = isSelected ? 1 : 1 - collapseProgress;
         row.style.height = `${Math.max(0, CALENDAR_ROW_HEIGHT * remaining).toFixed(2)}px`;
         row.style.minHeight = '0px';
-        row.style.opacity = isSelected ? '1' : String(Math.max(0, remaining));
+        row.style.opacity = isSelected ? '1' : remaining.toFixed(4);
         row.style.transform = isSelected
           ? 'translate3d(0,0,0) scaleY(1)'
           : `translate3d(0,${Math.round((index < selectedWeekIndex ? 3 : -3) * collapseProgress)}px,0) scaleY(${(0.92 + 0.08 * remaining).toFixed(4)})`;
@@ -196,7 +224,7 @@
 
       if (collapseHandle) {
         collapseHandle.style.height = `${(14 - 6 * collapseProgress).toFixed(2)}px`;
-        collapseHandle.style.opacity = String(1 - 0.45 * collapseProgress);
+        collapseHandle.style.opacity = (1 - 0.45 * collapseProgress).toFixed(4);
       }
 
       if (!calendarTimeline || !calendarTimelineContent || !calendarTimelineTrack || !calendarTimelineThumb) return;
@@ -208,11 +236,11 @@
       calendarTimeline.style.height = `${timelineHeight.toFixed(2)}px`;
 
       const timelineProgress = smoothstep(clamp((progress - 0.16) / 0.84));
-      const timelineMaxShift = Math.max(0, calendarTimelineContent.scrollHeight - calendarTimeline.clientHeight);
+      const timelineMaxShift = Math.max(0, timelineContentHeight - timelineHeight);
       calendarTimelineContent.style.transform = `translate3d(0,${-Math.round(timelineMaxShift * timelineProgress)}px,0)`;
 
-      const trackHeight = calendarTimelineTrack.clientHeight;
-      const ratio = Math.min(1, calendarTimeline.clientHeight / Math.max(calendarTimeline.clientHeight, calendarTimelineContent.scrollHeight));
+      const trackHeight = Math.max(1, timelineHeight - timelineTrackInset);
+      const ratio = Math.min(1, timelineHeight / Math.max(timelineHeight, timelineContentHeight));
       const thumbHeight = Math.max(24, Math.round(trackHeight * ratio));
       const thumbTravel = Math.max(0, trackHeight - thumbHeight);
       calendarTimelineThumb.style.height = `${thumbHeight}px`;
@@ -242,7 +270,7 @@
         return;
       }
 
-      const scrollY = window.scrollY;
+      const scrollY = Math.round(window.scrollY);
       applyPinState(scrollY);
       const progress = clamp((scrollY - productTop) / Math.max(1, pinEnd - productTop));
 
@@ -276,6 +304,7 @@
       if (forceHeight) lockedViewportHeight = Math.round(window.visualViewport?.height || window.innerHeight);
       applyStableGeometry(true);
       requestAnimationFrame(() => {
+        measureStaticMetrics();
         measurePinBounds();
         requestUpdate();
       });
@@ -294,6 +323,7 @@
 
     applyStableGeometry(true);
     requestAnimationFrame(() => {
+      measureStaticMetrics();
       measurePinBounds();
       requestUpdate();
     });
