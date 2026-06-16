@@ -49,8 +49,7 @@
       try { element.textContent = new Intl.DateTimeFormat(locale,{weekday:'short'}).format(new Date(2026,5,15 + index)); } catch {}
     }));
   };
-  const run = (root = document.body) => {
-    const language = currentLanguage();
+  const run = (root = document.body, language = currentLanguage()) => {
     const walker = document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){ const p=node.parentElement; return !p || p.closest('script,style,svg,.language-switcher') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }});
     let node;
     while ((node = walker.nextNode())) translateNode(node,language);
@@ -62,12 +61,14 @@
       document.documentElement.dataset.i18nResidual = String(residual);
     }
   };
+
+  window.TWORK_I18N_CLEANUP = (language = currentLanguage()) => run(document.body,language);
+
   const boot = () => {
     run();
     setTimeout(run,350);
-    document.addEventListener('click',event => { if (event.target.closest?.('.language-option')) setTimeout(run,520); },true);
     new MutationObserver(records => records.forEach(record => record.addedNodes.forEach(node => {
-      if (node.nodeType === Node.ELEMENT_NODE) run(node); else if (node.nodeType === Node.TEXT_NODE) translateNode(node,currentLanguage());
+      if (node.nodeType === Node.ELEMENT_NODE) run(node,currentLanguage()); else if (node.nodeType === Node.TEXT_NODE) translateNode(node,currentLanguage());
     }))).observe(document.body,{subtree:true,childList:true});
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
