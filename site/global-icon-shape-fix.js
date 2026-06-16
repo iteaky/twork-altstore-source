@@ -49,7 +49,7 @@
     appendStylesheet('site/hero-v547-timeline-midnight.css?v=20260615-1', 'timeline-midnight');
     appendStylesheet('site/landing-i18n.css?v=20260616-1', 'landing-i18n');
     appendStylesheet('site/landing-i18n-v5.css?v=20260616-2', 'landing-i18n-v5');
-    appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-1', 'mobile-header-interaction-fix');
+    appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-2', 'mobile-header-interaction-fix');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
