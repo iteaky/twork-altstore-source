@@ -1,0 +1,64 @@
+/* Matrix-inspired language decoding without recolouring the site or its text. */
+.matrix-code-fragment{
+  position:fixed;
+  z-index:9999;
+  display:block;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  pointer-events:none;
+  overflow:hidden;
+  white-space:pre-wrap;
+  overflow-wrap:normal;
+  word-break:normal;
+  text-decoration:none;
+  transform-origin:50% 50%;
+  will-change:transform,opacity,filter;
+}
+.matrix-code-fragment.matrix-code-out{
+  animation:matrixCodeOut 280ms cubic-bezier(.3,.03,.18,1) var(--matrix-delay,0ms) both;
+}
+.matrix-code-fragment.matrix-code-in{
+  animation:matrixCodeIn 440ms cubic-bezier(.16,.82,.2,1) var(--matrix-delay,0ms) both;
+}
+.matrix-source-out{
+  animation:matrixSourceOut 280ms cubic-bezier(.3,.03,.18,1) var(--matrix-delay,0ms) both!important;
+}
+.matrix-source-in{
+  animation:matrixSourceIn 440ms cubic-bezier(.16,.82,.2,1) var(--matrix-delay,0ms) both!important;
+}
+@keyframes matrixSourceOut{
+  0%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+  100%{opacity:0;transform:translate3d(0,8px,0);filter:blur(1.4px)}
+}
+@keyframes matrixCodeOut{
+  0%{opacity:0;transform:translate3d(0,-2px,0);filter:blur(.5px)}
+  18%{opacity:1}
+  74%{opacity:.92;filter:blur(0)}
+  100%{opacity:0;transform:translate3d(0,14px,0);filter:blur(1.6px)}
+}
+@keyframes matrixSourceIn{
+  0%{opacity:0;transform:translate3d(0,-7px,0);filter:blur(1.4px)}
+  44%{opacity:.15}
+  100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@keyframes matrixCodeIn{
+  0%{opacity:0;transform:translate3d(0,-14px,0);filter:blur(1.6px)}
+  12%{opacity:1}
+  68%{opacity:.96;filter:blur(0)}
+  100%{opacity:0;transform:translate3d(0,3px,0);filter:blur(.4px)}
+}
+html.language-switch-busy .language-menu{opacity:0!important;visibility:hidden!important}
+html.language-switch-busy .language-switcher-button{box-shadow:0 0 0 3px rgba(var(--accent-rgb),.08)!important;border-color:rgba(var(--accent-rgb),.26)!important}
+/* Older animation layers must never appear. */
+.matrix-language-transition,.matrix-inline-run,.language-morph-scan,.language-change-wave,.locale-morph-target,.language-morph-target,.matrix-scramble-target{display:none!important}
+@media(max-width:680px){
+  .matrix-code-fragment.matrix-code-out,.matrix-source-out{animation-duration:240ms}
+  .matrix-code-fragment.matrix-code-in,.matrix-source-in{animation-duration:380ms}
+}
+@media(prefers-reduced-motion:reduce){
+  .matrix-code-fragment{display:none!important}
+  .matrix-source-out,.matrix-source-in{animation:none!important}
+}
