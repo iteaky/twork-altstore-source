@@ -56,6 +56,7 @@
     appendScript('site/hero-v547-timeline-midnight.js?v=20260615-1', 'timeline-midnight');
     appendScript('site/landing-i18n.js?v=20260616-1', 'landing-i18n');
     appendScript('site/landing-i18n-v2.js?v=20260616-1', 'landing-i18n-v2');
+    appendScript('site/landing-i18n-generated-extra.js?v=20260616-1', 'landing-i18n-generated-extra');
   };
 
   if (document.readyState === 'loading') {
