@@ -38,15 +38,22 @@
     let source = node.__tworkV4Source;
     if (!source && hasRussian(match[2])) { source = match[2]; node.__tworkV4Source = source; }
     if (!source) return;
-    node.nodeValue = `${match[1]}${translateString(source,language)}${match[3]}`;
+    const next = `${match[1]}${translateString(source,language)}${match[3]}`;
+    if (next !== raw) node.nodeValue = next;
   };
   const localizeWeekdays = language => {
     const locale = language === 'zh-Hans' ? 'zh-CN' : language;
     document.querySelectorAll('.hero-cal-weekdays').forEach(container => [...container.children].forEach((element,index) => {
-      try { element.textContent = new Intl.DateTimeFormat(locale,{weekday:'short'}).format(new Date(2026,5,15 + index)); } catch {}
+      try {
+        const next = new Intl.DateTimeFormat(locale,{weekday:'short'}).format(new Date(2026,5,15 + index));
+        if (element.textContent !== next) element.textContent = next;
+      } catch {}
     }));
     document.querySelectorAll('.week-mini').forEach(container => [...container.children].forEach((element,index) => {
-      try { element.textContent = new Intl.DateTimeFormat(locale,{weekday:'short'}).format(new Date(2026,5,15 + index)); } catch {}
+      try {
+        const next = new Intl.DateTimeFormat(locale,{weekday:'short'}).format(new Date(2026,5,15 + index));
+        if (element.textContent !== next) element.textContent = next;
+      } catch {}
     }));
   };
   const run = (root = document.body, language = currentLanguage()) => {
@@ -66,10 +73,8 @@
 
   const boot = () => {
     run();
-    setTimeout(run,350);
-    new MutationObserver(records => records.forEach(record => record.addedNodes.forEach(node => {
-      if (node.nodeType === Node.ELEMENT_NODE) run(node,currentLanguage()); else if (node.nodeType === Node.TEXT_NODE) translateNode(node,currentLanguage());
-    }))).observe(document.body,{subtree:true,childList:true});
+    setTimeout(() => run(),220);
+    setTimeout(() => run(),620);
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
 })();
