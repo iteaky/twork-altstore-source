@@ -1,0 +1,49 @@
+/* Keep the mobile header above every animated product layer and fully interactive. */
+.site-nav{
+  z-index:12000!important;
+  isolation:isolate;
+  pointer-events:auto!important;
+}
+.site-nav .brand,
+.site-nav .desktop-nav,
+.site-nav .nav-actions,
+.site-nav button,
+.site-nav a,
+.site-nav .theme-picker,
+.site-nav .language-switcher{
+  pointer-events:auto!important;
+}
+.language-menu{
+  pointer-events:none!important;
+}
+.language-switcher.is-open .language-menu{
+  pointer-events:auto!important;
+}
+.matrix-language-transition,
+.language-morph-scan,
+.language-change-wave,
+.hero-phone-stage,
+.hero-phone-stage::before,
+.hero-phone-stage::after{
+  pointer-events:none!important;
+}
+.hero-phone-stage .device-main,
+.hero-phone-stage .device-frame,
+.hero-phone-stage .app-screen{
+  pointer-events:none!important;
+}
+@media(max-width:680px){
+  .site-nav{
+    top:max(8px,env(safe-area-inset-top))!important;
+  }
+  .nav-actions{
+    position:relative;
+    z-index:2;
+  }
+  .language-switcher,
+  .theme-picker,
+  .nav-cta{
+    position:relative;
+    z-index:3;
+  }
+}
