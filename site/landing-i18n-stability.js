@@ -2,28 +2,31 @@
   const NativeMutationObserver = window.MutationObserver;
   if (typeof NativeMutationObserver === 'function' && !window.__tworkSafeMutationObserver) {
     window.__tworkSafeMutationObserver = true;
-    window.MutationObserver = class SafeMutationObserver extends NativeMutationObserver {
-      constructor(callback) {
-        const snapshots = new WeakMap();
-        super((records, observer) => {
-          const filtered = records.filter(record => {
-            if (record.type === 'characterData') {
-              const value = record.target.nodeValue || '';
-              if (snapshots.get(record.target) === value) return false;
-              snapshots.set(record.target, value);
-              return true;
-            }
-            if (record.type === 'childList') {
-              const value = record.target.textContent || '';
-              if (snapshots.get(record.target) === value) return false;
-              snapshots.set(record.target, value);
-            }
+
+    function SafeMutationObserver(callback) {
+      const snapshots = new WeakMap();
+      const observer = new NativeMutationObserver((records, nativeObserver) => {
+        const filtered = records.filter(record => {
+          if (record.type === 'characterData') {
+            const value = record.target.nodeValue || '';
+            if (snapshots.get(record.target) === value) return false;
+            snapshots.set(record.target, value);
             return true;
-          });
-          if (filtered.length) callback(filtered, observer);
+          }
+          if (record.type === 'childList') {
+            const value = record.target.textContent || '';
+            if (snapshots.get(record.target) === value) return false;
+            snapshots.set(record.target, value);
+          }
+          return true;
         });
-      }
-    };
+        if (filtered.length) callback(filtered, nativeObserver);
+      });
+      return observer;
+    }
+
+    SafeMutationObserver.prototype = NativeMutationObserver.prototype;
+    window.MutationObserver = SafeMutationObserver;
   }
 
   const clearLanguageState = () => {
@@ -43,7 +46,9 @@
       element.style.removeProperty('--locale-delay');
       element.style.removeProperty('--language-delay');
     });
-    document.querySelector('.language-switcher-button')?.removeAttribute('aria-busy');
+    const button = document.querySelector('.language-switcher-button');
+    button?.removeAttribute('aria-busy');
+    button?.style.removeProperty('pointer-events');
   };
 
   clearLanguageState();
