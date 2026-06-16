@@ -23,8 +23,8 @@
     trainerComment:['Komentár trénera','Trainer comment','Комментарий тренера','Komentář trenéra','Edző megjegyzése','Komentarz trenera','Trainerkommentar','Коментар тренера','Comentario del entrenador','Commentaire du coach','Comentário do treinador','تعليق المدرب','教练备注','トレーナーコメント','트레이너 코멘트'],
     clientLanguage:['Jazyk klienta','Client language','Язык клиента','Jazyk klienta','Ügyfél nyelve','Język klienta','Kundensprache','Мова клієнта','Idioma del cliente','Langue du client','Idioma do cliente','لغة العميل','客户语言','顧客の言語','고객 언어'],
     automaticText:['Automaticky + vlastný text','Automatic + custom text','Авто + свой текст','Automaticky + vlastní text','Automatikus + saját szöveg','Automatycznie + własny tekst','Automatisch + eigener Text','Автоматично + власний текст','Automático + texto propio','Automatique + texte personnalisé','Automático + texto próprio','تلقائي + نص مخصص','自动 + 自定义文本','自動 + 独自テキスト','자동 + 사용자 텍스트'],
-    updatesWithEvent:['Aktualizuje sa s udalosťou','Updates with the event','Обновляется вместе с событием','Aktualizuje se s událostí','Az eseménnyel frissül','Aktualizuje się z wydarzeniem','Aktualisiert sich mit dem Termin','Оновлюється разом із подією','Se actualiza con el evento',"Se met à jour avec l’événement",'Atualiza com o evento','يتحدث مع الحدث','随事件更新','イベントと連動して更新','이벤트와 함께 업데이트'],
-    timeToSend:['Čas odoslať','Time to send','Пора отправить','Čas odeslat','Ideje elküldeni','Czas wysłać','Zeit zum Senden','Час надіслати','Es hora de enviar',"C’est le moment d’envoyer",'Hora de enviar','حان وقت الإرسال','该发送了','送信の時間','보낼 시간'],
+    updatesWithEvent:['Aktualizuje sa s udalosťou','Updates with the event','Обновляется вместе с событием','Aktualizuje se s událostí','Az eseménnyel frissül','Aktualizuje się z wydarzeniem','Aktualisiert sich mit dem Termin','Оновлюється разом із подією','Se actualiza con el evento','Se met à jour avec l’événement','Atualiza com o evento','يتحدث مع الحدث','随事件更新','イベントと連動して更新','이벤트와 함께 업데이트'],
+    timeToSend:['Čas odoslať','Time to send','Пора отправить','Čas odeslat','Ideje elküldeni','Czas wysłać','Zeit zum Senden','Час надіслати','Es hora de enviar','C’est le moment d’envoyer','Hora de enviar','حان وقت الإرسال','该发送了','送信の時間','보낼 시간'],
     scheduled:['Naplánované','Scheduled','Запланированные','Naplánované','Ütemezett','Zaplanowane','Geplant','Заплановані','Programados','Planifiés','Agendados','مجدولة','已计划','予定','예약됨'],
     sent:['Odoslané','Sent','Отправленные','Odeslané','Elküldött','Wysłane','Gesendet','Надіслані','Enviados','Envoyés','Enviados','مرسلة','已发送','送信済み','전송됨'],
     send:['Odoslať','Send','Отправить','Odeslat','Küldés','Wyślij','Senden','Надіслати','Enviar','Envoyer','Enviar','إرسال','发送','送信','전송'],
@@ -39,7 +39,7 @@
   const currentLanguage = () => document.documentElement.dataset.siteLanguage || localStorage.getItem('twork-site-language') || 'en';
   const translated = (key, language) => rows[key]?.[languageIndex[language] ?? 1] || rows[key]?.[1];
 
-  const translateNode = node => {
+  const translateNode = (node, language = currentLanguage()) => {
     if (!node || node.nodeType !== Node.TEXT_NODE) return;
     const raw = node.nodeValue || '';
     const match = raw.match(/^(\s*)(.*?)(\s*)$/s);
@@ -47,28 +47,31 @@
     const key = node.__tworkExtraKey || sourceMap[match[2]];
     if (!key) return;
     node.__tworkExtraKey = key;
-    node.nodeValue = `${match[1]}${translated(key,currentLanguage())}${match[3]}`;
+    node.nodeValue = `${match[1]}${translated(key,language)}${match[3]}`;
   };
 
-  const translateTree = root => {
-    const walker = document.createTreeWalker(root || document.body,NodeFilter.SHOW_TEXT,{
+  const translateTree = (root = document.body, language = currentLanguage()) => {
+    const walker = document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
       acceptNode(node){
         const parent = node.parentElement;
-        return !parent || parent.closest('script,style,.language-switcher,.matrix-inline-run,svg') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+        return !parent || parent.closest('script,style,.language-switcher,svg') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
       }
     });
     let node;
-    while ((node = walker.nextNode())) translateNode(node);
+    while ((node = walker.nextNode())) translateNode(node,language);
   };
+
+  window.TWORK_I18N_GENERATED = (language = currentLanguage()) => translateTree(document.body,language);
 
   const boot = () => {
     translateTree(document.body);
     const observer = new MutationObserver(records => {
+      const language = currentLanguage();
       records.forEach(record => {
-        if (record.type === 'characterData') translateNode(record.target);
+        if (record.type === 'characterData') translateNode(record.target,language);
         record.addedNodes.forEach(node => {
-          if (node.nodeType === Node.ELEMENT_NODE) translateTree(node);
-          else if (node.nodeType === Node.TEXT_NODE) translateNode(node);
+          if (node.nodeType === Node.ELEMENT_NODE) translateTree(node,language);
+          else if (node.nodeType === Node.TEXT_NODE) translateNode(node,language);
         });
       });
     });
