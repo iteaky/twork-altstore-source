@@ -47,11 +47,13 @@
     appendStylesheet('site/hero-v548-unified-phone.css?v=20260615-3', 'unified-phone');
     appendStylesheet('site/hero-v549-mobile-jitter-fix.css?v=20260615-1', 'mobile-jitter-fix');
     appendStylesheet('site/hero-v547-timeline-midnight.css?v=20260615-1', 'timeline-midnight');
+    appendStylesheet('site/landing-i18n.css?v=20260616-1', 'landing-i18n');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
     appendScript('site/hero-v548-unified-phone.js?v=20260615-5', 'unified-phone');
     appendScript('site/hero-v547-timeline-midnight.js?v=20260615-1', 'timeline-midnight');
+    appendScript('site/landing-i18n.js?v=20260616-1', 'landing-i18n');
   };
 
   if (document.readyState === 'loading') {
