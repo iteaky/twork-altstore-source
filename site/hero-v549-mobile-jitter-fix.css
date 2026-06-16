@@ -1,0 +1,32 @@
+/* iOS Safari jitter fix for the scaled virtual phone. */
+@media(max-width:680px){
+  /* .product-theater defines perspective on desktop. Perspective creates a
+     containing block for position:fixed descendants, so the phone was still
+     scrolling inside the section instead of staying on the visual viewport. */
+  #product.hero-scroll-product{
+    perspective:none!important;
+    transform-style:flat!important;
+    backface-visibility:hidden!important;
+  }
+
+  #product.hero-scroll-product .hero-phone-stage{
+    perspective:none!important;
+    transform-style:flat!important;
+    backface-visibility:hidden!important;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  #product.hero-scroll-product .hero-phone-stage .device-main,
+  #product.hero-scroll-product .device-main .device-frame,
+  #product.hero-scroll-product .device-main .app-screen{
+    transform-style:flat!important;
+    backface-visibility:hidden!important;
+    -webkit-backface-visibility:hidden!important;
+  }
+
+  /* Do not animate the outer phone. Only app content changes with scroll. */
+  #product.hero-scroll-product .hero-phone-stage .device-main{
+    transition:none!important;
+    animation:none!important;
+  }
+}
