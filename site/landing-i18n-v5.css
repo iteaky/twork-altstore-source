@@ -21,20 +21,19 @@
 .language-option-name{font-size:13px!important;font-weight:730!important;color:var(--ink)}
 .language-option-check{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent);color:var(--on-accent)!important;font-size:10px!important}
 .language-option:not([aria-checked="true"]) .language-option-check{opacity:0!important}
-/* Subtle in-place transition. The page stays usable and no overlay covers it. */
-.language-change-wave{position:fixed;z-index:9998;left:0;right:0;top:-90px;height:90px;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(var(--accent-rgb),.03) 26%,rgba(var(--accent-rgb),.16) 58%,rgba(var(--accent-rgb),.04) 76%,transparent 100%);opacity:0;animation:tworkLanguageWave 720ms cubic-bezier(.22,.7,.18,1) both}
-.language-change-wave:after{content:"";position:absolute;left:7%;right:7%;bottom:30px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);box-shadow:0 0 16px rgba(var(--accent-rgb),.25)}
-@keyframes tworkLanguageWave{0%{transform:translate3d(0,-16px,0);opacity:0}12%{opacity:.7}88%{opacity:.36}100%{transform:translate3d(0,calc(100dvh + 120px),0);opacity:0}}
-.language-morph-target{will-change:transform,opacity,filter,color;transform-origin:50% 55%}
-.language-morph-target.language-morph-out{animation:tworkLanguageOut 230ms cubic-bezier(.3,.02,.2,1) var(--language-delay,0ms) both}
-.language-morph-target.language-morph-in{animation:tworkLanguageIn 340ms cubic-bezier(.18,.82,.2,1) var(--language-delay,0ms) both}
-@keyframes tworkLanguageOut{0%{transform:translate3d(0,0,0);opacity:1;filter:blur(0)}45%{color:var(--accent);text-shadow:0 0 8px rgba(var(--accent-rgb),.15)}100%{transform:translate3d(0,7px,0);opacity:0;filter:blur(2px);color:var(--accent)}}
-@keyframes tworkLanguageIn{0%{transform:translate3d(0,-6px,0);opacity:0;filter:blur(2px);color:var(--accent)}55%{color:var(--accent)}100%{transform:translate3d(0,0,0);opacity:1;filter:blur(0);color:inherit}}
-html.language-switch-busy .language-switcher-button{pointer-events:none;box-shadow:0 0 0 3px rgba(var(--accent-rgb),.11)!important;border-color:rgba(var(--accent-rgb),.3)!important}
+
+/* Matrix-style decoding happens in the real text. Colours and page background stay unchanged. */
+.matrix-scramble-target{will-change:transform,opacity,filter;transform-origin:50% 55%;font-variant-ligatures:none}
+.matrix-scramble-target.matrix-scramble-out{animation:matrixScrambleOut 280ms cubic-bezier(.34,.02,.2,1) var(--matrix-delay,0ms) both}
+.matrix-scramble-target.matrix-scramble-in{animation:matrixScrambleIn 430ms cubic-bezier(.18,.82,.2,1) var(--matrix-delay,0ms) both}
+@keyframes matrixScrambleOut{0%{transform:translate3d(0,0,0);opacity:1;filter:blur(0)}58%{transform:translate3d(0,1px,0);opacity:.88;filter:blur(.25px)}100%{transform:translate3d(0,10px,0);opacity:0;filter:blur(1.8px)}}
+@keyframes matrixScrambleIn{0%{transform:translate3d(0,-9px,0);opacity:0;filter:blur(1.8px)}38%{opacity:.72;filter:blur(.45px)}100%{transform:translate3d(0,0,0);opacity:1;filter:blur(0)}}
+html.language-switch-busy .language-switcher-button{box-shadow:0 0 0 3px rgba(var(--accent-rgb),.08)!important;border-color:rgba(var(--accent-rgb),.26)!important}
 html.language-switch-busy .language-menu{opacity:0!important;visibility:hidden!important}
+
 /* Disable every older language transition implementation. */
-.matrix-language-transition,.matrix-inline-run,.language-morph-scan{display:none!important}
+.matrix-language-transition,.matrix-inline-run,.language-morph-scan,.language-change-wave,.locale-morph-target,.language-morph-target{display:none!important}
 @media(max-width:900px){.language-switcher-button{min-width:118px!important;max-width:138px}.language-current-name{font-size:11px}.language-menu{right:0!important}}
-@media(max-width:680px){.language-switcher-button{min-width:106px!important;max-width:116px!important;padding-left:9px!important;column-gap:6px}.language-current-name{font-size:10.5px}.language-current-code{min-width:25px;padding:0 5px}.language-menu{position:fixed!important;top:calc(max(8px,env(safe-area-inset-top)) + 69px)!important;left:8px!important;right:8px!important;width:auto!important;max-height:calc(100dvh - 90px)!important}}
+@media(max-width:680px){.language-switcher-button{min-width:106px!important;max-width:116px!important;padding-left:9px!important;column-gap:6px}.language-current-name{font-size:10.5px}.language-current-code{min-width:25px;padding:0 5px}.language-menu{position:fixed!important;top:calc(max(8px,env(safe-area-inset-top)) + 69px)!important;left:8px!important;right:8px!important;width:auto!important;max-height:calc(100dvh - 90px)!important}.matrix-scramble-target.matrix-scramble-out{animation-duration:240ms}.matrix-scramble-target.matrix-scramble-in{animation-duration:370ms}}
 @media(max-width:390px){.language-switcher-button{grid-template-columns:8px minmax(0,1fr) 10px;min-width:78px!important;max-width:88px!important}.language-current-code{display:none}.language-current-name{font-size:10px}.language-selected-dot{width:7px;height:7px}}
-@media(prefers-reduced-motion:reduce){.language-change-wave{display:none!important}.language-morph-target{animation:none!important}}
+@media(prefers-reduced-motion:reduce){.matrix-scramble-target{animation:none!important}}
