@@ -1,0 +1,22 @@
+/* In-place Matrix language transition: the letters of the actual interface fall. */
+.matrix-inline-run{display:inline;white-space:inherit}
+.matrix-inline-word{display:inline-block;white-space:nowrap}
+.matrix-inline-char{display:inline-block;white-space:pre;transform-origin:50% 50%;will-change:transform,opacity,filter,color;text-shadow:0 0 0 transparent}
+.matrix-inline-char.matrix-fall-out{animation:matrixInterfaceFallOut var(--matrix-duration,430ms) cubic-bezier(.2,.7,.15,1) var(--matrix-delay,0ms) both}
+.matrix-inline-char.matrix-fall-in{animation:matrixInterfaceFallIn var(--matrix-duration,480ms) cubic-bezier(.16,.82,.22,1) var(--matrix-delay,0ms) both}
+@keyframes matrixInterfaceFallOut{
+  0%{transform:translate3d(0,0,0);opacity:1;filter:blur(0);color:inherit;text-shadow:0 0 0 transparent}
+  24%{color:#35ef8f;text-shadow:0 0 9px rgba(53,239,143,.8)}
+  100%{transform:translate3d(var(--matrix-drift,0px),var(--matrix-fall,68px),0) rotate(var(--matrix-rotate,0deg));opacity:0;filter:blur(2px);color:#35ef8f;text-shadow:0 0 13px rgba(53,239,143,.9)}
+}
+@keyframes matrixInterfaceFallIn{
+  0%{transform:translate3d(var(--matrix-drift,0px),calc(var(--matrix-fall,68px) * -1),0);opacity:0;filter:blur(3px);color:#35ef8f;text-shadow:0 0 14px rgba(53,239,143,.95)}
+  58%{color:#35ef8f;text-shadow:0 0 8px rgba(53,239,143,.7)}
+  100%{transform:translate3d(0,0,0);opacity:1;filter:blur(0);color:inherit;text-shadow:0 0 0 transparent}
+}
+html.matrix-interface-switching .language-switcher-button{pointer-events:none}
+/* The old full-screen transition must never cover the site. */
+.matrix-language-transition{display:none!important}
+@media(prefers-reduced-motion:reduce){
+  .matrix-inline-char{animation:none!important}
+}
