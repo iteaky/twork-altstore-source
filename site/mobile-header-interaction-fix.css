@@ -13,6 +13,11 @@
 .site-nav .language-switcher{
   pointer-events:auto!important;
 }
+.site-nav button,
+.site-nav a{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
 .language-menu{
   pointer-events:none!important;
 }
