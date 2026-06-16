@@ -1,0 +1,150 @@
+/* Deliberate Matrix-style language decoding: slower glyph cycles, green phosphor glow and a restrained scan wave. */
+.matrix-code-fragment{
+  position:fixed;
+  z-index:10001;
+  display:block;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#72ff9a!important;
+  pointer-events:none;
+  overflow:hidden;
+  white-space:pre-wrap;
+  overflow-wrap:normal;
+  word-break:normal;
+  text-decoration:none;
+  text-shadow:
+    0 0 3px rgba(126,255,162,.98),
+    0 0 9px rgba(34,255,105,.64),
+    0 0 18px rgba(16,185,74,.28);
+  transform-origin:50% 50%;
+  will-change:transform,opacity,filter;
+  contain:layout paint style;
+}
+.matrix-code-fragment::after{
+  content:"";
+  position:absolute;
+  inset:-35% 0 auto;
+  height:42%;
+  background:linear-gradient(180deg,transparent,rgba(188,255,205,.30),transparent);
+  opacity:.66;
+  transform:translateY(-120%);
+  animation:matrixGlyphSweep var(--matrix-duration,820ms) linear var(--matrix-delay,0ms) both;
+}
+.matrix-code-fragment.matrix-code-out{
+  animation:matrixCodeOut var(--matrix-duration,430ms) cubic-bezier(.33,.02,.18,1) var(--matrix-delay,0ms) both;
+}
+.matrix-code-fragment.matrix-code-in{
+  animation:matrixCodeIn var(--matrix-duration,820ms) cubic-bezier(.12,.76,.18,1) var(--matrix-delay,0ms) both;
+}
+.matrix-source-out{
+  animation:matrixSourceOut var(--matrix-duration,430ms) cubic-bezier(.33,.02,.18,1) var(--matrix-delay,0ms) both!important;
+}
+.matrix-source-in{
+  animation:matrixSourceIn var(--matrix-duration,820ms) cubic-bezier(.12,.76,.18,1) var(--matrix-delay,0ms) both!important;
+}
+.matrix-transition-veil{
+  position:fixed;
+  z-index:10000;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  background:
+    repeating-linear-gradient(180deg,rgba(78,255,126,.035) 0 1px,transparent 1px 5px),
+    radial-gradient(ellipse at 50% 42%,rgba(37,255,102,.055),transparent 58%);
+  mix-blend-mode:screen;
+  opacity:0;
+  animation:matrixVeil 1.68s ease-out both;
+}
+.matrix-transition-veil::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:-18vh;
+  height:18vh;
+  background:linear-gradient(180deg,transparent,rgba(99,255,141,.14) 64%,rgba(187,255,204,.24) 82%,transparent);
+  filter:blur(.4px);
+  animation:matrixViewportSweep 1.46s cubic-bezier(.18,.72,.2,1) 90ms both;
+}
+.matrix-transition-veil::after{
+  content:"01001101 01000001 01010100 01010010 01001001 01011000";
+  position:absolute;
+  left:0;
+  right:0;
+  top:10%;
+  color:rgba(108,255,146,.08);
+  font:500 10px/1.7 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  letter-spacing:.22em;
+  text-align:center;
+  white-space:nowrap;
+  opacity:0;
+  animation:matrixBinaryGhost 1.28s ease-out 120ms both;
+}
+@keyframes matrixSourceOut{
+  0%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+  42%{opacity:.88;filter:blur(.15px)}
+  100%{opacity:0;transform:translate3d(0,6px,0);filter:blur(1.15px)}
+}
+@keyframes matrixCodeOut{
+  0%{opacity:0;transform:translate3d(0,-3px,0) scaleY(.985);filter:blur(.7px)}
+  16%{opacity:1}
+  58%{opacity:.98;filter:blur(0)}
+  82%{opacity:.72}
+  100%{opacity:0;transform:translate3d(0,13px,0) scaleY(1.015);filter:blur(1.3px)}
+}
+@keyframes matrixSourceIn{
+  0%{opacity:0;transform:translate3d(0,-8px,0);filter:blur(1.3px)}
+  52%{opacity:.08}
+  76%{opacity:.42;filter:blur(.45px)}
+  100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@keyframes matrixCodeIn{
+  0%{opacity:0;transform:translate3d(0,-15px,0) scaleY(1.025);filter:blur(1.5px)}
+  10%{opacity:.96}
+  32%{opacity:1;filter:blur(0)}
+  72%{opacity:.96}
+  90%{opacity:.50}
+  100%{opacity:0;transform:translate3d(0,2px,0) scaleY(1);filter:blur(.35px)}
+}
+@keyframes matrixGlyphSweep{
+  0%{transform:translateY(-135%);opacity:0}
+  18%{opacity:.72}
+  75%{opacity:.36}
+  100%{transform:translateY(430%);opacity:0}
+}
+@keyframes matrixVeil{
+  0%{opacity:0}
+  12%{opacity:.72}
+  72%{opacity:.48}
+  100%{opacity:0}
+}
+@keyframes matrixViewportSweep{
+  0%{transform:translateY(-12vh);opacity:0}
+  16%{opacity:.7}
+  78%{opacity:.42}
+  100%{transform:translateY(136vh);opacity:0}
+}
+@keyframes matrixBinaryGhost{
+  0%{transform:translateY(-9px);opacity:0}
+  20%{opacity:.65}
+  66%{opacity:.34}
+  100%{transform:translateY(24px);opacity:0}
+}
+html.language-switch-busy .language-menu{opacity:0!important;visibility:hidden!important}
+html.language-switch-busy .language-switcher-button{
+  box-shadow:0 0 0 3px rgba(71,255,126,.10),0 0 20px rgba(42,255,105,.10)!important;
+  border-color:rgba(71,255,126,.34)!important;
+}
+/* Older animation layers must never appear. */
+.matrix-language-transition,.matrix-inline-run,.language-morph-scan,.language-change-wave,.locale-morph-target,.language-morph-target,.matrix-scramble-target{display:none!important}
+@media(max-width:680px){
+  .matrix-code-fragment{font-synthesis:none;text-shadow:0 0 3px rgba(126,255,162,.95),0 0 8px rgba(34,255,105,.54)}
+  .matrix-transition-veil::after{font-size:8px;letter-spacing:.12em}
+}
+@media(prefers-reduced-motion:reduce){
+  .matrix-code-fragment,.matrix-transition-veil{display:none!important}
+  .matrix-source-out,.matrix-source-in{animation:none!important}
+}
