@@ -48,7 +48,7 @@
     appendStylesheet('site/hero-v549-mobile-jitter-fix.css?v=20260615-1', 'mobile-jitter-fix');
     appendStylesheet('site/hero-v547-timeline-midnight.css?v=20260615-1', 'timeline-midnight');
     appendStylesheet('site/landing-i18n.css?v=20260616-1', 'landing-i18n');
-    appendStylesheet('site/landing-i18n-v3.css?v=20260616-1', 'landing-i18n-v3');
+    appendStylesheet('site/landing-i18n-v3.css?v=20260616-2', 'landing-i18n-v3');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
@@ -56,7 +56,8 @@
     appendScript('site/hero-v547-timeline-midnight.js?v=20260615-1', 'timeline-midnight');
     appendScript('site/landing-i18n.js?v=20260616-1', 'landing-i18n');
     appendScript('site/landing-i18n-generated-extra.js?v=20260616-1', 'landing-i18n-generated-extra');
-    appendScript('site/landing-i18n-v3.js?v=20260616-1', 'landing-i18n-v3');
+    appendScript('site/landing-i18n-v3.js?v=20260616-2', 'landing-i18n-v3');
+    appendScript('site/landing-i18n-v4-fixes.js?v=20260616-1', 'landing-i18n-v4-fixes');
   };
 
   if (document.readyState === 'loading') {
