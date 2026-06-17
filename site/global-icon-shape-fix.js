@@ -24,9 +24,6 @@
     return 'en';
   };
 
-  // Establish the language before any of the separately loaded translation
-  // layers execute. This prevents old localStorage values from corrupting the
-  // source DOM during a ?lang=... navigation.
   const initialLanguage = resolveInitialLanguage();
   root.dataset.siteLanguage = initialLanguage;
   root.lang = initialLanguage;
@@ -82,6 +79,7 @@
     appendStylesheet('site/landing-i18n-v5.css?v=20260616-3', 'landing-i18n-v5');
     appendStylesheet('site/landing-i18n-v9.css?v=20260617-4', 'landing-i18n-v9');
     appendStylesheet('site/landing-i18n-v10-visible.css?v=20260617-1', 'landing-i18n-v10-visible');
+    appendStylesheet('site/landing-i18n-complete.css?v=20260617-7', 'landing-i18n-complete');
     appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-2', 'mobile-header-interaction-fix');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
@@ -94,20 +92,21 @@
     appendScript('site/landing-i18n-generated-extra.js?v=20260616-4', 'landing-i18n-generated-extra');
     appendScript('site/landing-i18n-v4-fixes.js?v=20260617-3', 'landing-i18n-v4-fixes');
 
-    appendScript('site/landing-i18n-complete-keys.js?v=20260617-6', 'landing-i18n-complete-keys');
-    appendScript('site/landing-i18n-complete-en.js?v=20260617-6', 'landing-i18n-complete-en');
-    appendScript('site/landing-i18n-complete-sk.js?v=20260617-6', 'landing-i18n-complete-sk');
-    appendScript('site/landing-i18n-complete-central.js?v=20260617-6', 'landing-i18n-complete-central');
-    appendScript('site/landing-i18n-complete-north.js?v=20260617-6', 'landing-i18n-complete-north');
-    appendScript('site/landing-i18n-complete-es.js?v=20260617-6', 'landing-i18n-complete-es');
-    appendScript('site/landing-i18n-complete-fr.js?v=20260617-6', 'landing-i18n-complete-fr');
+    appendScript('site/landing-i18n-complete-keys.js?v=20260617-7', 'landing-i18n-complete-keys');
+    appendScript('site/landing-i18n-complete-en.js?v=20260617-7', 'landing-i18n-complete-en');
+    appendScript('site/landing-i18n-complete-sk.js?v=20260617-7', 'landing-i18n-complete-sk');
+    appendScript('site/landing-i18n-complete-central.js?v=20260617-7', 'landing-i18n-complete-central');
+    appendScript('site/landing-i18n-complete-north.js?v=20260617-7', 'landing-i18n-complete-north');
+    appendScript('site/landing-i18n-complete-es.js?v=20260617-7', 'landing-i18n-complete-es');
+    appendScript('site/landing-i18n-complete-fr.js?v=20260617-7', 'landing-i18n-complete-fr');
 
     for (const part of ['01','02','03','04','05','06','07','08','09','10','11','12a','12b','12c','13']) {
-      appendScript(`site/i18n-final/cyr-${part}.js?v=20260617-6`, `landing-i18n-cyr-${part}`);
+      appendScript(`site/i18n-final/cyr-${part}.js?v=20260617-7`, `landing-i18n-cyr-${part}`);
     }
-    appendScript('site/i18n-final/cyr-decode.js?v=20260617-6', 'landing-i18n-cyr-decode');
-    appendScript('site/landing-i18n-complete.js?v=20260617-6', 'landing-i18n-complete');
-    appendScript('site/landing-i18n-v9.js?v=20260617-6', 'landing-i18n-v9');
+    appendScript('site/i18n-final/cyr-decode.js?v=20260617-7', 'landing-i18n-cyr-decode');
+    appendScript('site/landing-i18n-complete-overrides.js?v=20260617-7', 'landing-i18n-complete-overrides');
+    appendScript('site/landing-i18n-complete.js?v=20260617-7', 'landing-i18n-complete');
+    appendScript('site/landing-i18n-v9.js?v=20260617-7', 'landing-i18n-v9');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
