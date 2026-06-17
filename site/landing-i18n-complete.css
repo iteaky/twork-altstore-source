@@ -1,0 +1,15 @@
+.client-event-comment::before{content:var(--twork-event-comment-label,"Комментарий к событию")!important}
+html[data-site-language="en"]{--twork-event-comment-label:"Event comment"}
+html[data-site-language="sk"]{--twork-event-comment-label:"Komentár k udalosti"}
+html[data-site-language="cs"]{--twork-event-comment-label:"Komentář k události"}
+html[data-site-language="hu"]{--twork-event-comment-label:"Megjegyzés az eseményhez"}
+html[data-site-language="pl"]{--twork-event-comment-label:"Komentarz do wydarzenia"}
+html[data-site-language="de"]{--twork-event-comment-label:"Kommentar zum Termin"}
+html[data-site-language="uk"]{--twork-event-comment-label:"Коментар до події"}
+html[data-site-language="es"]{--twork-event-comment-label:"Comentario del evento"}
+html[data-site-language="fr"]{--twork-event-comment-label:"Commentaire de l’événement"}
+html[data-site-language="pt"]{--twork-event-comment-label:"Comentário do evento"}
+html[data-site-language="ar"]{--twork-event-comment-label:"تعليق على الحدث"}
+html[data-site-language="zh-Hans"]{--twork-event-comment-label:"活动备注"}
+html[data-site-language="ja"]{--twork-event-comment-label:"予定のコメント"}
+html[data-site-language="ko"]{--twork-event-comment-label:"일정 메모"}
