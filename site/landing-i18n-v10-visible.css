@@ -1,0 +1,21 @@
+/* v10: Web Animations API is the single animation source. */
+.locale-v9-layer,
+.locale-v9-layer.is-active{
+  display:block!important;
+}
+.locale-v9-layer.is-active,
+.locale-v9-layer.is-active .locale-v9-veil,
+.locale-v9-layer.is-active .locale-v9-orb,
+.locale-v9-layer.is-active .locale-v9-ring-a,
+.locale-v9-layer.is-active .locale-v9-ring-b,
+.locale-v9-layer.is-active .locale-v9-prism,
+.locale-v9-layer.is-active .locale-v9-lens,
+.locale-v9-layer.is-active .locale-v9-spark-a,
+.locale-v9-layer.is-active .locale-v9-spark-b,
+.locale-v9-layer.is-active .locale-v9-spark-c{
+  animation:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .locale-v9-layer,
+  .locale-v9-layer.is-active{display:block!important}
+}
