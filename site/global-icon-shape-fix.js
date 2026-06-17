@@ -50,6 +50,7 @@
     appendStylesheet('site/landing-i18n.css?v=20260616-1', 'landing-i18n');
     appendStylesheet('site/landing-i18n-v5.css?v=20260616-3', 'landing-i18n-v5');
     appendStylesheet('site/landing-i18n-v9.css?v=20260617-4', 'landing-i18n-v9');
+    appendStylesheet('site/landing-i18n-v10-visible.css?v=20260617-1', 'landing-i18n-v10-visible');
     appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-2', 'mobile-header-interaction-fix');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
@@ -61,7 +62,7 @@
     appendScript('site/landing-i18n.js?v=20260616-2', 'landing-i18n');
     appendScript('site/landing-i18n-generated-extra.js?v=20260616-4', 'landing-i18n-generated-extra');
     appendScript('site/landing-i18n-v4-fixes.js?v=20260617-2', 'landing-i18n-v4-fixes');
-    appendScript('site/landing-i18n-v9.js?v=20260617-4', 'landing-i18n-v9');
+    appendScript('site/landing-i18n-v9.js?v=20260617-5', 'landing-i18n-v9');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
