@@ -1,5 +1,36 @@
 (() => {
   const root = document.documentElement;
+  const supportedLanguages = new Set(['sk','en','ru','cs','hu','pl','de','uk','es','fr','pt','ar','zh-Hans','ja','ko']);
+
+  const normalizeLanguage = value => {
+    if (!value) return null;
+    const normalized = String(value).replace('_','-');
+    if (supportedLanguages.has(normalized)) return normalized;
+    const lower = normalized.toLowerCase();
+    if (lower.startsWith('zh')) return 'zh-Hans';
+    const base = lower.split('-')[0];
+    return supportedLanguages.has(base) ? base : null;
+  };
+
+  const resolveInitialLanguage = () => {
+    const query = normalizeLanguage(new URLSearchParams(location.search).get('lang'));
+    if (query) return query;
+    const saved = normalizeLanguage(localStorage.getItem('twork-site-language'));
+    if (saved) return saved;
+    for (const candidate of navigator.languages || [navigator.language]) {
+      const resolved = normalizeLanguage(candidate);
+      if (resolved) return resolved;
+    }
+    return 'en';
+  };
+
+  // Establish the language before any of the separately loaded translation
+  // layers execute. This prevents old localStorage values from corrupting the
+  // source DOM during a ?lang=... navigation.
+  const initialLanguage = resolveInitialLanguage();
+  root.dataset.siteLanguage = initialLanguage;
+  root.lang = initialLanguage;
+  root.dir = initialLanguage === 'ar' ? 'rtl' : 'ltr';
 
   const apply = () => {
     const icon = document.querySelector('.global-center');
@@ -61,7 +92,7 @@
     appendScript('site/landing-i18n-bridge.js?v=20260617-2', 'landing-i18n-bridge');
     appendScript('site/landing-i18n.js?v=20260616-2', 'landing-i18n');
     appendScript('site/landing-i18n-generated-extra.js?v=20260616-4', 'landing-i18n-generated-extra');
-    appendScript('site/landing-i18n-v4-fixes.js?v=20260617-2', 'landing-i18n-v4-fixes');
+    appendScript('site/landing-i18n-v4-fixes.js?v=20260617-3', 'landing-i18n-v4-fixes');
     appendScript('site/landing-i18n-v9.js?v=20260617-5', 'landing-i18n-v9');
   };
 
