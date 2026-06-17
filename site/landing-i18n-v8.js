@@ -16,6 +16,7 @@
   const currentLanguage = () => root.dataset.siteLanguage || localStorage.getItem('twork-site-language') || 'en';
   const shortCode = language => language === 'zh-Hans' ? 'ZH' : language.toUpperCase();
   const nextFrame = () => new Promise(resolve => window.requestAnimationFrame(resolve));
+  const wait = duration => new Promise(resolve => window.setTimeout(resolve,duration));
 
   const switcherElements = () => {
     const switcher = document.querySelector('.language-switcher');
@@ -127,12 +128,13 @@
     await nextFrame();
   };
 
-  const createRefractionSheen = () => {
-    const sheen = document.createElement('div');
-    sheen.className = 'locale-refraction-sheen';
-    sheen.setAttribute('aria-hidden','true');
-    document.body.appendChild(sheen);
-    return sheen;
+  const createTransitionLayer = () => {
+    const layer = document.createElement('div');
+    layer.className = 'locale-transition-layer';
+    layer.setAttribute('aria-hidden','true');
+    layer.innerHTML = '<span class="locale-transition-glow"></span><span class="locale-transition-lens"></span>';
+    document.body.appendChild(layer);
+    return layer;
   };
 
   const animateElement = (element,keyframes,options) => {
@@ -141,53 +143,67 @@
     return animation.finished.catch(() => {});
   };
 
-  const runFallbackTransition = async (option,language) => {
-    const surfaces = [
-      document.querySelector('.site-nav'),
-      document.querySelector('main'),
-      document.querySelector('.site-footer')
-    ].filter(Boolean);
-    const sheen = createRefractionSheen();
-
-    await Promise.all(surfaces.map(element => animateElement(element,[
-      {opacity:1,filter:'blur(0px)',transform:'translateY(0) scale(1)'},
-      {opacity:.58,filter:'blur(7px)',transform:'translateY(1px) scale(.998)'}
-    ],{duration:155,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'})));
-
-    await applyLanguage(option,language);
-
-    await Promise.all(surfaces.map(element => animateElement(element,[
-      {opacity:.34,filter:'blur(11px)',transform:'translateY(-2px) scale(1.003)'},
-      {opacity:1,filter:'blur(0px)',transform:'translateY(0) scale(1)'}
-    ],{duration:390,easing:'cubic-bezier(.16,.84,.2,1)',fill:'forwards'})));
-
+  const clearSurfaceAnimations = surfaces => {
     surfaces.forEach(element => {
       element.getAnimations().forEach(animation => animation.cancel());
       element.style.removeProperty('opacity');
       element.style.removeProperty('filter');
       element.style.removeProperty('transform');
     });
-    sheen.remove();
   };
 
-  const runViewTransition = async (option,language) => {
-    root.classList.add('locale-view-transition');
-    const transition = document.startViewTransition(() => applyLanguage(option,language));
-    let sheen = null;
+  const runReducedTransition = async (option,language) => {
+    const surface = document.querySelector('main');
+    await animateElement(surface,[{opacity:1},{opacity:.72}],{duration:90,easing:'ease-out',fill:'forwards'});
+    await applyLanguage(option,language);
+    await animateElement(surface,[{opacity:.72},{opacity:1}],{duration:170,easing:'ease-out',fill:'forwards'});
+    clearSurfaceAnimations([surface].filter(Boolean));
+  };
 
-    try {
-      await transition.ready;
-      sheen = createRefractionSheen();
-      await transition.finished;
-    } finally {
-      sheen?.remove();
-      root.classList.remove('locale-view-transition');
-    }
+  const runVisibleTransition = async (option,language) => {
+    const surfaces = [document.querySelector('main'),document.querySelector('.site-footer')].filter(Boolean);
+    const {button} = switcherElements();
+    const code = button?.querySelector('.language-current-code');
+    const layer = createTransitionLayer();
+
+    await nextFrame();
+    layer.classList.add('is-active');
+
+    await Promise.all([
+      ...surfaces.map(element => animateElement(element,[
+        {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'},
+        {opacity:.26,filter:'blur(11px) saturate(.88)',transform:'translate3d(0,3px,0) scale(.995)'}
+      ],{duration:230,easing:'cubic-bezier(.42,0,1,1)',fill:'forwards'})),
+      animateElement(code,[
+        {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'},
+        {opacity:0,filter:'blur(6px)',transform:'translateY(4px) scale(.86)'}
+      ],{duration:170,easing:'cubic-bezier(.42,0,1,1)',fill:'forwards'})
+    ]);
+
+    await applyLanguage(option,language);
+    await wait(70);
+
+    const nextCode = button?.querySelector('.language-current-code');
+    await Promise.all([
+      ...surfaces.map(element => animateElement(element,[
+        {opacity:.10,filter:'blur(18px) saturate(1.10)',transform:'translate3d(0,10px,0) scale(1.008)'},
+        {opacity:.78,filter:'blur(4px) saturate(1.03)',transform:'translate3d(0,1px,0) scale(1.001)',offset:.68},
+        {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'}
+      ],{duration:520,easing:'cubic-bezier(.16,.84,.2,1)',fill:'forwards'})),
+      animateElement(nextCode,[
+        {opacity:0,filter:'blur(7px)',transform:'translateY(-5px) scale(.84)'},
+        {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'}
+      ],{duration:390,easing:'cubic-bezier(.16,.9,.2,1)',fill:'forwards'})
+    ]);
+
+    await wait(90);
+    clearSurfaceAnimations([...surfaces,nextCode].filter(Boolean));
+    layer.remove();
   };
 
   const cleanup = () => {
     window.clearTimeout(safetyTimer);
-    document.querySelectorAll('.locale-refraction-sheen').forEach(element => element.remove());
+    document.querySelectorAll('.locale-transition-layer').forEach(element => element.remove());
     root.classList.remove('language-switch-busy','locale-view-transition');
     removeLegacyAnimation();
     const {button} = switcherElements();
@@ -211,16 +227,11 @@
     button?.setAttribute('aria-busy','true');
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    safetyTimer = window.setTimeout(cleanup,2200);
+    safetyTimer = window.setTimeout(cleanup,2600);
 
     try {
-      if (reduced) {
-        await applyLanguage(option,language);
-      } else if (typeof document.startViewTransition === 'function') {
-        await runViewTransition(option,language);
-      } else {
-        await runFallbackTransition(option,language);
-      }
+      if (reduced) await runReducedTransition(option,language);
+      else await runVisibleTransition(option,language);
     } finally {
       cleanup();
     }
