@@ -93,7 +93,21 @@
     appendScript('site/landing-i18n.js?v=20260616-2', 'landing-i18n');
     appendScript('site/landing-i18n-generated-extra.js?v=20260616-4', 'landing-i18n-generated-extra');
     appendScript('site/landing-i18n-v4-fixes.js?v=20260617-3', 'landing-i18n-v4-fixes');
-    appendScript('site/landing-i18n-v9.js?v=20260617-5', 'landing-i18n-v9');
+
+    appendScript('site/landing-i18n-complete-keys.js?v=20260617-6', 'landing-i18n-complete-keys');
+    appendScript('site/landing-i18n-complete-en.js?v=20260617-6', 'landing-i18n-complete-en');
+    appendScript('site/landing-i18n-complete-sk.js?v=20260617-6', 'landing-i18n-complete-sk');
+    appendScript('site/landing-i18n-complete-central.js?v=20260617-6', 'landing-i18n-complete-central');
+    appendScript('site/landing-i18n-complete-north.js?v=20260617-6', 'landing-i18n-complete-north');
+    appendScript('site/landing-i18n-complete-es.js?v=20260617-6', 'landing-i18n-complete-es');
+    appendScript('site/landing-i18n-complete-fr.js?v=20260617-6', 'landing-i18n-complete-fr');
+
+    for (const part of ['01','02','03','04','05','06','07','08','09','10','11','12a','12b','12c','13']) {
+      appendScript(`site/i18n-final/cyr-${part}.js?v=20260617-6`, `landing-i18n-cyr-${part}`);
+    }
+    appendScript('site/i18n-final/cyr-decode.js?v=20260617-6', 'landing-i18n-cyr-decode');
+    appendScript('site/landing-i18n-complete.js?v=20260617-6', 'landing-i18n-complete');
+    appendScript('site/landing-i18n-v9.js?v=20260617-6', 'landing-i18n-v9');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
