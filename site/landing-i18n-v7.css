@@ -1,150 +1,160 @@
-/* Deliberate Matrix-style language decoding: slower glyph cycles, green phosphor glow and a restrained scan wave. */
-.matrix-code-fragment{
-  position:fixed;
-  z-index:10001;
-  display:block;
-  box-sizing:border-box;
-  margin:0;
+/* 2026 language transition: compact code button + soft refractive glass lens. */
+.language-switcher-button{
+  width:42px;
+  min-width:42px;
+  height:42px;
   padding:0;
-  border:0;
-  background:transparent;
-  color:#72ff9a!important;
+  gap:0;
+  border:1px solid color-mix(in srgb,var(--line) 78%,rgba(var(--accent-rgb),.22));
+  border-radius:14px;
+  background:color-mix(in srgb,var(--bg-soft) 82%,transparent);
+  color:var(--ink);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 8px 24px rgba(0,0,0,.06);
+  backdrop-filter:blur(18px) saturate(1.16);
+  -webkit-backdrop-filter:blur(18px) saturate(1.16);
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s ease,background .22s ease,box-shadow .22s ease;
+}
+.language-switcher-button:hover{
+  transform:translateY(-1px);
+  border-color:rgba(var(--accent-rgb),.34);
+  background:color-mix(in srgb,var(--surface) 82%,transparent);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 12px 30px rgba(var(--accent-rgb),.10);
+}
+.language-switcher-button:active{transform:scale(.94)}
+.language-switcher-button .language-current-code{
+  display:block;
+  min-width:0;
+  color:var(--ink);
+  font:850 11px/1 -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+  letter-spacing:.08em;
+  text-align:center;
+  text-transform:uppercase;
+}
+.language-switcher-button .language-selected-dot,
+.language-switcher-button .language-selected-copy,
+.language-switcher-button .language-current-name,
+.language-switcher-button .language-caret,
+.language-switcher-button .language-globe{display:none!important}
+
+html.language-switch-busy .language-menu{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+html.language-switch-busy .language-switcher-button{
+  border-color:rgba(var(--accent-rgb),.42)!important;
+  background:color-mix(in srgb,var(--surface) 72%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 0 0 4px rgba(var(--accent-rgb),.08),0 16px 38px rgba(var(--accent-rgb),.13)!important;
+}
+
+.locale-glass-lens{
+  --locale-x:50vw;
+  --locale-y:40px;
+  --locale-size:180vmax;
+  position:fixed;
+  z-index:10050;
+  left:var(--locale-x);
+  top:var(--locale-y);
+  width:var(--locale-size);
+  height:var(--locale-size);
+  border-radius:50%;
   pointer-events:none;
   overflow:hidden;
-  white-space:pre-wrap;
-  overflow-wrap:normal;
-  word-break:normal;
-  text-decoration:none;
-  text-shadow:
-    0 0 3px rgba(126,255,162,.98),
-    0 0 9px rgba(34,255,105,.64),
-    0 0 18px rgba(16,185,74,.28);
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.018);
   transform-origin:50% 50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,.24) 0 8%,rgba(var(--accent-rgb),.13) 34%,rgba(var(--accent-rgb),.055) 58%,rgba(var(--accent-rgb),.018) 74%,transparent 78%),
+    color-mix(in srgb,var(--surface) 8%,transparent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.30),
+    inset 0 0 90px rgba(255,255,255,.12),
+    0 0 110px rgba(var(--accent-rgb),.16);
+  backdrop-filter:blur(8px) saturate(1.18);
+  -webkit-backdrop-filter:blur(8px) saturate(1.18);
   will-change:transform,opacity,filter;
   contain:layout paint style;
 }
-.matrix-code-fragment::after{
-  content:"";
+.locale-glass-lens.is-active{
+  animation:localeLensBloom 760ms cubic-bezier(.16,1,.3,1) both;
+}
+.locale-glass-lens.is-leaving{
+  animation:localeLensRelease 280ms cubic-bezier(.4,0,.8,.2) both;
+}
+.locale-glass-ring{
   position:absolute;
-  inset:-35% 0 auto;
-  height:42%;
-  background:linear-gradient(180deg,transparent,rgba(188,255,205,.30),transparent);
-  opacity:.66;
-  transform:translateY(-120%);
-  animation:matrixGlyphSweep var(--matrix-duration,820ms) linear var(--matrix-delay,0ms) both;
-}
-.matrix-code-fragment.matrix-code-out{
-  animation:matrixCodeOut var(--matrix-duration,430ms) cubic-bezier(.33,.02,.18,1) var(--matrix-delay,0ms) both;
-}
-.matrix-code-fragment.matrix-code-in{
-  animation:matrixCodeIn var(--matrix-duration,820ms) cubic-bezier(.12,.76,.18,1) var(--matrix-delay,0ms) both;
-}
-.matrix-source-out{
-  animation:matrixSourceOut var(--matrix-duration,430ms) cubic-bezier(.33,.02,.18,1) var(--matrix-delay,0ms) both!important;
-}
-.matrix-source-in{
-  animation:matrixSourceIn var(--matrix-duration,820ms) cubic-bezier(.12,.76,.18,1) var(--matrix-delay,0ms) both!important;
-}
-.matrix-transition-veil{
-  position:fixed;
-  z-index:10000;
   inset:0;
-  pointer-events:none;
-  overflow:hidden;
-  background:
-    repeating-linear-gradient(180deg,rgba(78,255,126,.035) 0 1px,transparent 1px 5px),
-    radial-gradient(ellipse at 50% 42%,rgba(37,255,102,.055),transparent 58%);
-  mix-blend-mode:screen;
-  opacity:0;
-  animation:matrixVeil 1.68s ease-out both;
+  border-radius:inherit;
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.10),inset 0 0 70px rgba(255,255,255,.10);
+  opacity:.8;
 }
-.matrix-transition-veil::before{
-  content:"";
+.locale-glass-caustic{
   position:absolute;
-  left:0;
-  right:0;
-  top:-18vh;
-  height:18vh;
-  background:linear-gradient(180deg,transparent,rgba(99,255,141,.14) 64%,rgba(187,255,204,.24) 82%,transparent);
-  filter:blur(.4px);
-  animation:matrixViewportSweep 1.46s cubic-bezier(.18,.72,.2,1) 90ms both;
-}
-.matrix-transition-veil::after{
-  content:"01001101 01000001 01010100 01010010 01001001 01011000";
-  position:absolute;
-  left:0;
-  right:0;
-  top:10%;
-  color:rgba(108,255,146,.08);
-  font:500 10px/1.7 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-  letter-spacing:.22em;
-  text-align:center;
-  white-space:nowrap;
+  inset:-14%;
+  background:linear-gradient(118deg,transparent 34%,rgba(255,255,255,.28) 47%,rgba(var(--accent-rgb),.12) 51%,transparent 66%);
+  transform:translateX(-24%) rotate(4deg);
+  filter:blur(2px);
   opacity:0;
-  animation:matrixBinaryGhost 1.28s ease-out 120ms both;
+  animation:localeCausticSweep 760ms cubic-bezier(.2,.7,.2,1) both;
 }
-@keyframes matrixSourceOut{
-  0%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
-  42%{opacity:.88;filter:blur(.15px)}
-  100%{opacity:0;transform:translate3d(0,6px,0);filter:blur(1.15px)}
+
+html.language-glass-out body > *:not(.locale-glass-lens):not(script){
+  animation:localeContentOut 175ms cubic-bezier(.4,0,.8,.2) both;
 }
-@keyframes matrixCodeOut{
-  0%{opacity:0;transform:translate3d(0,-3px,0) scaleY(.985);filter:blur(.7px)}
-  16%{opacity:1}
-  58%{opacity:.98;filter:blur(0)}
-  82%{opacity:.72}
-  100%{opacity:0;transform:translate3d(0,13px,0) scaleY(1.015);filter:blur(1.3px)}
+html.language-glass-in body > *:not(.locale-glass-lens):not(script){
+  animation:localeContentIn 520ms cubic-bezier(.16,1,.3,1) both;
 }
-@keyframes matrixSourceIn{
-  0%{opacity:0;transform:translate3d(0,-8px,0);filter:blur(1.3px)}
-  52%{opacity:.08}
-  76%{opacity:.42;filter:blur(.45px)}
-  100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+
+@keyframes localeLensBloom{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.018);filter:brightness(1)}
+  14%{opacity:.92}
+  58%{opacity:1;filter:brightness(1.03)}
+  100%{opacity:.78;transform:translate(-50%,-50%) scale(1);filter:brightness(1)}
 }
-@keyframes matrixCodeIn{
-  0%{opacity:0;transform:translate3d(0,-15px,0) scaleY(1.025);filter:blur(1.5px)}
-  10%{opacity:.96}
-  32%{opacity:1;filter:blur(0)}
-  72%{opacity:.96}
-  90%{opacity:.50}
-  100%{opacity:0;transform:translate3d(0,2px,0) scaleY(1);filter:blur(.35px)}
+@keyframes localeLensRelease{
+  0%{opacity:.78;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.035)}
 }
-@keyframes matrixGlyphSweep{
-  0%{transform:translateY(-135%);opacity:0}
-  18%{opacity:.72}
-  75%{opacity:.36}
-  100%{transform:translateY(430%);opacity:0}
+@keyframes localeCausticSweep{
+  0%{opacity:0;transform:translateX(-32%) rotate(4deg)}
+  18%{opacity:.64}
+  72%{opacity:.28}
+  100%{opacity:0;transform:translateX(30%) rotate(4deg)}
 }
-@keyframes matrixVeil{
-  0%{opacity:0}
-  12%{opacity:.72}
-  72%{opacity:.48}
-  100%{opacity:0}
+@keyframes localeContentOut{
+  0%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}
+  100%{opacity:.36;transform:translate3d(0,4px,0) scale(.997);filter:blur(4px)}
 }
-@keyframes matrixViewportSweep{
-  0%{transform:translateY(-12vh);opacity:0}
-  16%{opacity:.7}
-  78%{opacity:.42}
-  100%{transform:translateY(136vh);opacity:0}
+@keyframes localeContentIn{
+  0%{opacity:.30;transform:translate3d(0,-5px,0) scale(.997);filter:blur(5px)}
+  54%{opacity:.90;filter:blur(.8px)}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}
 }
-@keyframes matrixBinaryGhost{
-  0%{transform:translateY(-9px);opacity:0}
-  20%{opacity:.65}
-  66%{opacity:.34}
-  100%{transform:translateY(24px);opacity:0}
-}
-html.language-switch-busy .language-menu{opacity:0!important;visibility:hidden!important}
-html.language-switch-busy .language-switcher-button{
-  box-shadow:0 0 0 3px rgba(71,255,126,.10),0 0 20px rgba(42,255,105,.10)!important;
-  border-color:rgba(71,255,126,.34)!important;
-}
-/* Older animation layers must never appear. */
-.matrix-language-transition,.matrix-inline-run,.language-morph-scan,.language-change-wave,.locale-morph-target,.language-morph-target,.matrix-scramble-target{display:none!important}
+
+/* The old matrix layers are retired permanently. */
+.matrix-code-fragment,
+.matrix-transition-veil,
+.matrix-language-transition,
+.matrix-inline-run,
+.language-morph-scan,
+.language-change-wave,
+.locale-morph-target,
+.language-morph-target,
+.matrix-scramble-target{display:none!important}
+.matrix-source-out,.matrix-source-in{animation:none!important}
+
 @media(max-width:680px){
-  .matrix-code-fragment{font-synthesis:none;text-shadow:0 0 3px rgba(126,255,162,.95),0 0 8px rgba(34,255,105,.54)}
-  .matrix-transition-veil::after{font-size:8px;letter-spacing:.12em}
+  .language-switcher-button{width:40px;min-width:40px;height:40px;border-radius:13px}
+  .language-switcher-button .language-current-code{font-size:10px}
+  .locale-glass-lens{backdrop-filter:blur(6px) saturate(1.14);-webkit-backdrop-filter:blur(6px) saturate(1.14)}
+}
+@media(max-width:390px){
+  .language-switcher-button{width:38px;min-width:38px;height:38px;padding:0}
 }
 @media(prefers-reduced-motion:reduce){
-  .matrix-code-fragment,.matrix-transition-veil{display:none!important}
-  .matrix-source-out,.matrix-source-in{animation:none!important}
+  .locale-glass-lens{display:none!important}
+  html.language-glass-out body > *:not(script),
+  html.language-glass-in body > *:not(script){animation:none!important}
+  .language-switcher-button{transition:none!important}
 }
