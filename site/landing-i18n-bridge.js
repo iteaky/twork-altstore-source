@@ -41,15 +41,32 @@
     const handler = option?.__tworkBaseLanguageHandler || handlers.get(option);
     if (typeof handler !== 'function') return false;
 
-    handler.call(option, {
-      type:'click',
-      target:option,
-      currentTarget:option,
-      preventDefault() {},
-      stopPropagation() {},
-      stopImmediatePropagation() {}
-    });
-    return true;
+    const nativeMatchMedia = window.matchMedia;
+    window.matchMedia = query => {
+      const result = nativeMatchMedia.call(window,query);
+      if (query === '(prefers-reduced-motion: reduce)') {
+        return new Proxy(result,{get(target,property){
+          if (property === 'matches') return true;
+          return Reflect.get(target,property,target);
+        }});
+      }
+      return result;
+    };
+
+    try {
+      handler.call(option, {
+        type:'click',
+        target:option,
+        currentTarget:option,
+        preventDefault() {},
+        stopPropagation() {},
+        stopImmediatePropagation() {}
+      });
+    } finally {
+      window.matchMedia = nativeMatchMedia;
+    }
+
+    return document.documentElement.dataset.siteLanguage === option.dataset.language;
   };
 
   const observer = new MutationObserver(() => {
