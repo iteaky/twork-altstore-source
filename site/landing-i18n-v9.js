@@ -58,7 +58,6 @@
     button.dataset.language = language;
     button.setAttribute('aria-label',`${label}: ${name}`);
     button.title = name;
-    button.removeAttribute('aria-busy');
 
     const head = menu.querySelector('.language-menu-head');
     if (head) {
@@ -88,7 +87,7 @@
     root.classList.remove('language-morphing','matrix-interface-switching');
   };
 
-  const triggerBaseSwitch = option => {
+  const invokeBaseSwitch = option => {
     const nativeMatchMedia = window.matchMedia;
     window.matchMedia = query => {
       const result = nativeMatchMedia.call(window,query);
@@ -110,6 +109,21 @@
     }
   };
 
+  const triggerBaseSwitch = async (option,language) => {
+    // Let the original pointer/click dispatch finish before invoking the native
+    // language option. This avoids Safari getting stuck after Cyrillic locales.
+    await wait(0);
+    invokeBaseSwitch(option);
+    await nextFrame();
+
+    // One guarded retry covers WebKit cases where a synthetic click is dropped.
+    if (currentLanguage() !== language) {
+      await wait(32);
+      invokeBaseSwitch(option);
+      await nextFrame();
+    }
+  };
+
   const refreshTranslations = language => {
     try { window.TWORK_I18N_GENERATED?.(language); } catch {}
     try { window.TWORK_I18N_CLEANUP?.(language); } catch {}
@@ -119,17 +133,17 @@
       try { window.TWORK_I18N_GENERATED?.(language); } catch {}
       try { window.TWORK_I18N_CLEANUP?.(language); } catch {}
       updateButton(language);
-    },90);
+    },120);
 
     window.setTimeout(() => {
       try { window.TWORK_I18N_GENERATED?.(language); } catch {}
       try { window.TWORK_I18N_CLEANUP?.(language); } catch {}
       updateButton(language);
-    },260);
+    },340);
   };
 
   const applyLanguage = async (option,language) => {
-    triggerBaseSwitch(option);
+    await triggerBaseSwitch(option,language);
     refreshTranslations(language);
     await nextFrame();
     await nextFrame();
@@ -161,9 +175,9 @@
 
   const runReducedTransition = async (option,language) => {
     const surface = document.querySelector('main');
-    await animateElement(surface,[{opacity:1},{opacity:.72}],{duration:90,easing:'ease-out',fill:'forwards'});
+    await animateElement(surface,[{opacity:1},{opacity:.88}],{duration:150,easing:'ease-out',fill:'forwards'});
     await applyLanguage(option,language);
-    await animateElement(surface,[{opacity:.72},{opacity:1}],{duration:170,easing:'ease-out',fill:'forwards'});
+    await animateElement(surface,[{opacity:.88},{opacity:1}],{duration:260,easing:'ease-out',fill:'forwards'});
     clearSurfaceAnimations([surface].filter(Boolean));
   };
 
@@ -178,12 +192,12 @@
     await Promise.all([
       ...surfaces.map(element => animateElement(element,[
         {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'},
-        {opacity:.24,filter:'blur(11px) saturate(.88)',transform:'translate3d(0,3px,0) scale(.995)'}
-      ],{duration:230,easing:'cubic-bezier(.42,0,1,1)',fill:'forwards'})),
+        {opacity:.70,filter:'blur(4px) saturate(.97)',transform:'translate3d(0,1px,0) scale(.999)'}
+      ],{duration:360,easing:'cubic-bezier(.32,0,.2,1)',fill:'forwards'})),
       animateElement(code,[
         {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'},
-        {opacity:0,filter:'blur(6px)',transform:'translateY(4px) scale(.86)'}
-      ],{duration:170,easing:'cubic-bezier(.42,0,1,1)',fill:'forwards'})
+        {opacity:.08,filter:'blur(3px)',transform:'translateY(2px) scale(.94)'}
+      ],{duration:260,easing:'cubic-bezier(.32,0,.2,1)',fill:'forwards'})
     ]);
 
     await applyLanguage(option,language);
@@ -192,17 +206,17 @@
     const nextCode = button?.querySelector('.language-current-code');
     await Promise.all([
       ...surfaces.map(element => animateElement(element,[
-        {opacity:.08,filter:'blur(18px) saturate(1.10)',transform:'translate3d(0,10px,0) scale(1.008)'},
-        {opacity:.78,filter:'blur(4px) saturate(1.03)',transform:'translate3d(0,1px,0) scale(1.001)',offset:.68},
+        {opacity:.50,filter:'blur(8px) saturate(1.03)',transform:'translate3d(0,3px,0) scale(1.002)'},
+        {opacity:.88,filter:'blur(2px) saturate(1.01)',transform:'translate3d(0,.5px,0) scale(1.0005)',offset:.62},
         {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'}
-      ],{duration:520,easing:'cubic-bezier(.16,.84,.2,1)',fill:'forwards'})),
+      ],{duration:720,easing:'cubic-bezier(.16,.84,.2,1)',fill:'forwards'})),
       animateElement(nextCode,[
-        {opacity:0,filter:'blur(7px)',transform:'translateY(-5px) scale(.84)'},
+        {opacity:0,filter:'blur(4px)',transform:'translateY(-3px) scale(.93)'},
         {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'}
-      ],{duration:390,easing:'cubic-bezier(.16,.9,.2,1)',fill:'forwards'})
+      ],{duration:500,easing:'cubic-bezier(.16,.9,.2,1)',fill:'forwards'})
     ]);
 
-    await wait(90);
+    await wait(120);
     clearSurfaceAnimations([...surfaces,nextCode].filter(Boolean));
     layer.remove();
   };
@@ -219,8 +233,8 @@
 
   const switchLanguage = async (option,language) => {
     if (busy) return;
-    if (language === currentLanguage()) {
-      updateButton(language);
+    if (!language || language === currentLanguage()) {
+      updateButton(language || currentLanguage());
       return;
     }
 
@@ -233,7 +247,7 @@
     button?.setAttribute('aria-busy','true');
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    safetyTimer = window.setTimeout(cleanup,2600);
+    safetyTimer = window.setTimeout(cleanup,3600);
 
     try {
       if (reduced) await runReducedTransition(option,language);
@@ -263,7 +277,8 @@
       if (!option || bypass) return;
       event.preventDefault();
       event.stopImmediatePropagation();
-      void switchLanguage(option,option.dataset.language);
+      const language = option.dataset.language;
+      window.setTimeout(() => void switchLanguage(option,language),0);
     },true);
 
     new MutationObserver(scheduleButtonSync).observe(root,{
