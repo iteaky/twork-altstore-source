@@ -1,4 +1,4 @@
-name: Apply TWORK v528 hero
+name: Apply TWORK landing updates
 
 on:
   push:
@@ -7,6 +7,9 @@ on:
       - 'site/hero-v528-*.css'
       - 'site/hero-v528-*.js'
       - 'site/hero-v528-fragment.html'
+      - 'site/landing-i18n-v9.css'
+      - 'site/landing-i18n-v9.js'
+      - 'site/global-icon-shape-fix.js'
       - 'scripts/apply-hero-v528.py'
       - '.github/workflows/apply-logo-render-fix.yml'
   workflow_dispatch:
@@ -21,16 +24,32 @@ jobs:
       - uses: actions/checkout@v4
       - name: Apply v528 hero markup
         run: python3 scripts/apply-hero-v528.py
+      - name: Refresh language transition loader
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          html = path.read_text()
+          html = re.sub(
+              r'site/global-icon-shape-fix\.js\?v=[^"]+',
+              'site/global-icon-shape-fix.js?v=20260617-3',
+              html,
+          )
+          path.write_text(html)
+          PY
       - name: Validate hero markup
         run: |
           test "$(grep -o 'class="hero-client-grid"' index.html | wc -l | tr -d ' ')" = "1"
           test "$(grep -o 'class="hero-calendar-screen"' index.html | wc -l | tr -d ' ')" = "1"
           test "$(grep -o 'class="real-home-preview"' index.html | wc -l | tr -d ' ')" = "1"
+          grep -q 'global-icon-shape-fix.js?v=20260617-3' index.html
       - name: Commit landing update
         run: |
           if git diff --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Remove orphaned hero blocks"
+          git commit -m "Publish the 2026 language transition"
           git push
