@@ -3,10 +3,10 @@
   if (!bundle?.keys?.length || !bundle?.values) return;
 
   const dictionaries = {
-    pt: 'site/landing-i18n-complete-pt.js?v=20260617-9',
-    'zh-Hans': 'site/landing-i18n-complete-zh-Hans.js?v=20260617-9',
-    ja: 'site/landing-i18n-complete-ja.js?v=20260617-9',
-    ko: 'site/landing-i18n-complete-ko.js?v=20260617-9'
+    pt: 'site/landing-i18n-complete-pt.js?v=20260617-10',
+    'zh-Hans': 'site/landing-i18n-complete-zh-Hans.js?v=20260617-10',
+    ja: 'site/landing-i18n-complete-ja.js?v=20260617-10',
+    ko: 'site/landing-i18n-complete-ko.js?v=20260617-10'
   };
 
   const load = src => new Promise((resolve, reject) => {
@@ -30,6 +30,7 @@
       if (!complete(language)) await load(src);
     }
     window.TWORK_APPLY_COMPLETE_OVERRIDES?.();
-    await load('site/landing-i18n-complete-core.js?v=20260617-9');
+    await load('site/landing-i18n-complete-final-fixes.js?v=20260617-10');
+    await load('site/landing-i18n-complete-core.js?v=20260617-10');
   })().catch(error => console.error('[TWORK i18n]', error));
 })();
