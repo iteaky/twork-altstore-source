@@ -1,3 +1,4 @@
 Triggers the pull-request localization workflow so the new test suite can be verified.
 Retry after fixing the Node.js setup step.
 Retry after fixing language initialization and mixed-word replacements.
+Verification completed: the audit detects real untranslated content.
