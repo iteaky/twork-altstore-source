@@ -57,7 +57,7 @@
     appendScript('site/hero-v548-unified-phone.js?v=20260615-5', 'unified-phone');
     appendScript('site/hero-v547-timeline-midnight.js?v=20260615-1', 'timeline-midnight');
     appendScript('site/landing-i18n-stability.js?v=20260616-2', 'landing-i18n-stability');
-    appendScript('site/landing-i18n-bridge.js?v=20260617-1', 'landing-i18n-bridge');
+    appendScript('site/landing-i18n-bridge.js?v=20260617-2', 'landing-i18n-bridge');
     appendScript('site/landing-i18n.js?v=20260616-2', 'landing-i18n');
     appendScript('site/landing-i18n-generated-extra.js?v=20260616-4', 'landing-i18n-generated-extra');
     appendScript('site/landing-i18n-v4-fixes.js?v=20260617-2', 'landing-i18n-v4-fixes');
