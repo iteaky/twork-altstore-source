@@ -1,0 +1,63 @@
+name: Localization completeness
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'site/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'playwright.config.mjs'
+      - '.github/workflows/i18n-completeness.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'site/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'playwright.config.mjs'
+      - '.github/workflows/i18n-completeness.yml'
+  workflow_dispatch:
+
+jobs:
+  i18n-completeness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Run localization completeness tests
+        run: npm run test:i18n
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: i18n-playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload failure traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: i18n-test-results
+          path: test-results
+          if-no-files-found: ignore
+          retention-days: 14
