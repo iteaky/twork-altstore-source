@@ -1,21 +1,31 @@
 (()=>{
   if (window.TWORK_NATIVE_V4_BOOT) return;
   window.TWORK_NATIVE_V4_BOOT = true;
+
   const inflate = async value => {
-    const bytes = Uint8Array.from(atob(value), c => c.charCodeAt(0));
-    if (typeof DecompressionStream !== 'function') throw new Error('DecompressionStream is unavailable');
+    if (!value) throw new Error('Quiz payload is missing');
+    const bytes = Uint8Array.from(atob(value), character => character.charCodeAt(0));
+    if (typeof DecompressionStream !== 'function') {
+      throw new Error('DecompressionStream is unavailable');
+    }
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
     return new TextDecoder().decode(await new Response(stream).arrayBuffer());
   };
-  (async()=>{
-    const data = window.TWORK_NATIVE_V4_DATA;
-    if (!data) throw new Error('Quiz data is missing');
-    const [css,i18n,js] = await Promise.all([inflate(data.css),inflate(data.i18n),inflate(data.js)]);
+
+  (async () => {
+    const [css, i18n, script] = await Promise.all([
+      inflate(window.__TWQ4_CSS),
+      inflate(window.__TWQ4_I18N),
+      inflate((window.__TWQ4_JS1 || '') + (window.__TWQ4_JS2 || ''))
+    ]);
+
+    document.getElementById('twork-native-quiz-v4-style')?.remove();
     const style = document.createElement('style');
     style.id = 'twork-native-quiz-v4-style';
     style.textContent = css;
     document.head.appendChild(style);
-    (0,eval)(i18n);
-    (0,eval)(js);
+
+    (0, eval)(i18n);
+    (0, eval)(script);
   })().catch(error => console.error('[TWORK native quiz v4]', error));
 })();
