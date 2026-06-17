@@ -1,0 +1,2 @@
+.setup-segment-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:680px){.setup-segment-three{grid-template-columns:1fr}}
