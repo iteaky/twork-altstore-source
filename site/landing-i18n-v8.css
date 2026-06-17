@@ -1,130 +1,150 @@
-/* 2026 language transition: compact code control + restrained glass refraction. */
+/* Compact language code control + visible glass transition tuned for iPhone Safari. */
+.language-switcher{
+  width:46px!important;
+  min-width:46px!important;
+  max-width:46px!important;
+  flex:0 0 46px!important;
+  overflow:visible!important;
+}
 .language-switcher-button{
-  display:inline-grid!important;
-  place-items:center!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
   width:46px!important;
   min-width:46px!important;
   max-width:46px!important;
   height:42px!important;
+  min-height:42px!important;
   padding:0!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
   border:1px solid color-mix(in srgb,var(--line) 86%,transparent)!important;
   border-radius:14px!important;
   background:color-mix(in srgb,var(--surface) 72%,transparent)!important;
   color:var(--ink)!important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.20),
-    0 7px 22px rgba(0,0,0,.055)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 7px 22px rgba(0,0,0,.055)!important;
   -webkit-backdrop-filter:blur(18px) saturate(1.12)!important;
   backdrop-filter:blur(18px) saturate(1.12)!important;
   transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .2s ease,background .2s ease,box-shadow .2s ease!important;
-  view-transition-name:locale-control;
 }
 .language-switcher-button:hover{
   background:color-mix(in srgb,var(--surface) 88%,transparent)!important;
   border-color:rgba(var(--accent-rgb),.30)!important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.26),
-    0 10px 28px rgba(0,0,0,.08)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 10px 28px rgba(0,0,0,.08)!important;
 }
 .language-switcher-button:active{transform:scale(.955)!important}
 .language-switcher-button:focus-visible{outline:2px solid rgba(var(--accent-rgb),.38)!important;outline-offset:3px!important}
 .language-switcher-button .language-current-code{
-  display:block!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  width:100%!important;
   min-width:0!important;
-  height:auto!important;
+  max-width:100%!important;
+  height:100%!important;
   padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
   border:0!important;
   border-radius:0!important;
   background:transparent!important;
   color:var(--ink)!important;
   box-shadow:none!important;
-  font:820 11px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif!important;
-  letter-spacing:.115em!important;
+  font:820 10.5px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif!important;
+  letter-spacing:.075em!important;
+  text-align:center!important;
+  text-indent:.075em!important;
   text-transform:uppercase!important;
-  transform:translateX(.55px);
+  transform:none!important;
 }
 .language-selected-dot,.language-selected-copy,.language-current-name,.language-switcher-button .language-caret,.language-switcher-button .language-globe{display:none!important}
 html.language-switch-busy .language-menu{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
 html.language-switch-busy .language-switcher-button{
-  border-color:rgba(var(--accent-rgb),.34)!important;
-  background:color-mix(in srgb,var(--surface) 92%,rgba(var(--accent-rgb),.08))!important;
+  border-color:rgba(var(--accent-rgb),.38)!important;
+  background:color-mix(in srgb,var(--surface) 90%,rgba(var(--accent-rgb),.10))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 4px rgba(var(--accent-rgb),.08),0 10px 30px rgba(var(--accent-rgb),.10)!important;
 }
 
-/* Browser-native view transition. The old state dissolves; the new state resolves through a soft optical blur. */
-::view-transition-group(root){animation-duration:560ms;animation-timing-function:cubic-bezier(.18,.82,.2,1)}
-::view-transition-old(root){
-  animation:localeRootOut 185ms cubic-bezier(.42,0,1,1) both;
-  transform-origin:50% 30%;
-}
-::view-transition-new(root){
-  animation:localeRootIn 480ms cubic-bezier(.16,.84,.2,1) 58ms both;
-  transform-origin:50% 30%;
-}
-::view-transition-group(locale-control){z-index:10020;animation-duration:420ms}
-::view-transition-old(locale-control){animation:localeCodeOut 145ms cubic-bezier(.4,0,1,1) both}
-::view-transition-new(locale-control){animation:localeCodeIn 330ms cubic-bezier(.16,.9,.2,1) 42ms both}
-
-.locale-refraction-sheen{
+.locale-transition-layer{
   position:fixed;
-  z-index:10010;
-  top:-12vh;
-  bottom:-12vh;
-  left:-34vw;
-  width:28vw;
-  min-width:180px;
+  z-index:11980;
+  inset:0;
   pointer-events:none;
-  border-left:1px solid rgba(255,255,255,.20);
-  border-right:1px solid rgba(var(--accent-rgb),.12);
-  background:linear-gradient(100deg,
-    transparent 0%,
-    rgba(255,255,255,.035) 18%,
-    rgba(255,255,255,.18) 46%,
-    rgba(var(--accent-rgb),.10) 58%,
-    transparent 100%);
-  box-shadow:0 0 54px rgba(var(--accent-rgb),.07);
-  -webkit-backdrop-filter:blur(9px) saturate(1.10);
-  backdrop-filter:blur(9px) saturate(1.10);
-  transform:translate3d(0,0,0) skewX(-8deg);
+  overflow:hidden;
   opacity:0;
-  animation:localeRefractionSweep 620ms cubic-bezier(.2,.72,.18,1) both;
-  will-change:transform,opacity;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(var(--accent-rgb),.035));
+  -webkit-backdrop-filter:blur(0px);
+  backdrop-filter:blur(0px);
+  will-change:opacity,backdrop-filter;
+}
+.locale-transition-layer.is-active{
+  animation:localeLayerPulse 930ms cubic-bezier(.2,.72,.18,1) both;
+}
+.locale-transition-glow{
+  position:absolute;
+  left:50%;
+  top:42%;
+  width:min(78vw,680px);
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.34) 0%,rgba(var(--accent-rgb),.16) 30%,rgba(var(--accent-rgb),.06) 52%,transparent 72%);
+  filter:blur(26px);
+  transform:translate(-50%,-50%) scale(.72);
+  opacity:0;
+}
+.locale-transition-layer.is-active .locale-transition-glow{
+  animation:localeGlowPulse 880ms cubic-bezier(.16,.84,.2,1) both;
+}
+.locale-transition-lens{
+  position:absolute;
+  top:-15vh;
+  bottom:-15vh;
+  left:-48vw;
+  width:44vw;
+  min-width:210px;
+  border-left:1px solid rgba(255,255,255,.34);
+  border-right:1px solid rgba(var(--accent-rgb),.22);
+  background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.10) 18%,rgba(255,255,255,.42) 46%,rgba(var(--accent-rgb),.18) 61%,transparent 100%);
+  box-shadow:0 0 70px rgba(var(--accent-rgb),.16);
+  -webkit-backdrop-filter:blur(14px) saturate(1.16);
+  backdrop-filter:blur(14px) saturate(1.16);
+  transform:skewX(-8deg);
+  opacity:0;
+}
+.locale-transition-layer.is-active .locale-transition-lens{
+  animation:localeLensSweep 850ms cubic-bezier(.18,.76,.18,1) 35ms both;
 }
 
-@keyframes localeRootOut{
-  0%{opacity:1;filter:blur(0) saturate(1);transform:scale(1)}
-  100%{opacity:.22;filter:blur(8px) saturate(.94);transform:scale(.997)}
+@keyframes localeLayerPulse{
+  0%{opacity:0;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
+  18%{opacity:1;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+  52%{opacity:.92;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  100%{opacity:0;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
 }
-@keyframes localeRootIn{
-  0%{opacity:0;filter:blur(13px) saturate(1.08);transform:scale(1.004)}
-  42%{opacity:.82;filter:blur(4px) saturate(1.03)}
-  100%{opacity:1;filter:blur(0) saturate(1);transform:scale(1)}
+@keyframes localeGlowPulse{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.68)}
+  30%{opacity:.86}
+  62%{opacity:.52;transform:translate(-50%,-50%) scale(1.02)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.16)}
 }
-@keyframes localeCodeOut{
-  0%{opacity:1;filter:blur(0);transform:translateY(0) scale(1)}
-  100%{opacity:0;filter:blur(5px);transform:translateY(3px) scale(.92)}
-}
-@keyframes localeCodeIn{
-  0%{opacity:0;filter:blur(7px);transform:translateY(-4px) scale(.91)}
-  72%{opacity:1;filter:blur(.25px);transform:translateY(.3px) scale(1.018)}
-  100%{opacity:1;filter:blur(0);transform:translateY(0) scale(1)}
-}
-@keyframes localeRefractionSweep{
+@keyframes localeLensSweep{
   0%{opacity:0;transform:translate3d(0,0,0) skewX(-8deg)}
-  13%{opacity:.9}
-  74%{opacity:.54}
-  100%{opacity:0;transform:translate3d(168vw,0,0) skewX(-8deg)}
+  12%{opacity:1}
+  76%{opacity:.72}
+  100%{opacity:0;transform:translate3d(182vw,0,0) skewX(-8deg)}
 }
 
-/* The Matrix implementation is intentionally disabled and no longer loaded. */
 .matrix-code-fragment,.matrix-transition-veil,.matrix-language-transition,.matrix-inline-run,.language-morph-scan,.language-change-wave,.locale-morph-target,.language-morph-target,.matrix-scramble-target{display:none!important}
 
 @media(max-width:680px){
-  .language-switcher-button{width:42px!important;min-width:42px!important;max-width:42px!important;height:42px!important;border-radius:13px!important}
-  .language-switcher-button .language-current-code{font-size:10.5px!important;letter-spacing:.10em!important}
-  .locale-refraction-sheen{width:36vw;min-width:150px}
+  .language-switcher{width:44px!important;min-width:44px!important;max-width:44px!important;flex-basis:44px!important}
+  .language-switcher-button{width:44px!important;min-width:44px!important;max-width:44px!important;height:42px!important;border-radius:13px!important}
+  .language-switcher-button .language-current-code{font-size:10px!important;letter-spacing:.055em!important;text-indent:.055em!important}
+  .locale-transition-lens{width:52vw;min-width:190px}
 }
 @media(prefers-reduced-motion:reduce){
-  .locale-refraction-sheen{display:none!important}
-  ::view-transition-old(root),::view-transition-new(root),::view-transition-old(locale-control),::view-transition-new(locale-control){animation:none!important}
+  .locale-transition-layer{display:none!important}
   .language-switcher-button{transition:none!important}
 }
