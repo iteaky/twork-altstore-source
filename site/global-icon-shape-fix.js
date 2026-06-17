@@ -81,8 +81,6 @@
     appendStylesheet('site/landing-i18n-v10-visible.css?v=20260617-1', 'landing-i18n-v10-visible');
     appendStylesheet('site/landing-i18n-complete.css?v=20260617-7', 'landing-i18n-complete');
     appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-2', 'mobile-header-interaction-fix');
-    appendStylesheet('site/onboarding-setup-v1.css?v=20260617-1', 'onboarding-setup-v1');
-    appendStylesheet('site/onboarding-setup-v1-fix.css?v=20260617-2', 'onboarding-setup-v1-fix');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
@@ -109,7 +107,12 @@
     appendScript('site/landing-i18n-complete-overrides.js?v=20260617-7', 'landing-i18n-complete-overrides');
     appendScript('site/landing-i18n-complete.js?v=20260617-7', 'landing-i18n-complete');
     appendScript('site/landing-i18n-v9.js?v=20260617-7', 'landing-i18n-v9');
-    appendScript('site/onboarding-setup-v1.js?v=20260617-1', 'onboarding-setup-v1');
+
+    appendScript('site/onboarding-native-v4-css.js?v=20260617-4', 'onboarding-native-v4-css');
+    appendScript('site/onboarding-native-v4-i18n.js?v=20260617-4', 'onboarding-native-v4-i18n');
+    appendScript('site/onboarding-native-v4-js1.js?v=20260617-4', 'onboarding-native-v4-js1');
+    appendScript('site/onboarding-native-v4-js2.js?v=20260617-4', 'onboarding-native-v4-js2');
+    appendScript('site/onboarding-native-v4-loader.js?v=20260617-4', 'onboarding-native-v4-loader');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
