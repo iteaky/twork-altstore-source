@@ -82,6 +82,7 @@
     appendStylesheet('site/landing-i18n-complete.css?v=20260617-7', 'landing-i18n-complete');
     appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-2', 'mobile-header-interaction-fix');
     appendStylesheet('site/onboarding-setup-v1.css?v=20260617-1', 'onboarding-setup-v1');
+    appendStylesheet('site/onboarding-setup-v1-fix.css?v=20260617-2', 'onboarding-setup-v1-fix');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
