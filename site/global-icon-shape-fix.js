@@ -108,11 +108,11 @@
     appendScript('site/landing-i18n-complete.js?v=20260617-7', 'landing-i18n-complete');
     appendScript('site/landing-i18n-v9.js?v=20260617-7', 'landing-i18n-v9');
 
-    appendScript('site/onboarding-native-v4-css.js?v=20260617-4', 'onboarding-native-v4-css');
-    appendScript('site/onboarding-native-v4-i18n.js?v=20260617-4', 'onboarding-native-v4-i18n');
-    appendScript('site/onboarding-native-v4-js1.js?v=20260617-4', 'onboarding-native-v4-js1');
-    appendScript('site/onboarding-native-v4-js2.js?v=20260617-4', 'onboarding-native-v4-js2');
-    appendScript('site/onboarding-native-v4-loader.js?v=20260617-4', 'onboarding-native-v4-loader');
+    appendScript('site/onboarding-native-v4-css.js?v=20260617-5', 'onboarding-native-v4-css');
+    appendScript('site/onboarding-native-v4-i18n.js?v=20260617-5', 'onboarding-native-v4-i18n');
+    appendScript('site/onboarding-native-v4-js1.js?v=20260617-5', 'onboarding-native-v4-js1');
+    appendScript('site/onboarding-native-v4-js2.js?v=20260617-5', 'onboarding-native-v4-js2');
+    appendScript('site/onboarding-native-v4-loader.js?v=20260617-5', 'onboarding-native-v4-loader');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
