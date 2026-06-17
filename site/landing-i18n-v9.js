@@ -13,6 +13,8 @@
   let busy = false;
   let safetyTimer = 0;
   let syncScheduled = false;
+  let pendingOption = null;
+  let pendingLanguage = null;
 
   const currentLanguage = () => root.dataset.siteLanguage || localStorage.getItem('twork-site-language') || 'en';
   const shortCode = language => language === 'zh-Hans' ? 'ZH' : language.toUpperCase();
@@ -87,7 +89,17 @@
     root.classList.remove('language-morphing','matrix-interface-switching');
   };
 
-  const invokeBaseSwitch = option => {
+  const waitForBaseHandler = async option => {
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      if (typeof option?.__tworkBaseLanguageHandler === 'function') return true;
+      await nextFrame();
+    }
+    return false;
+  };
+
+  const invokeBaseSwitch = async (option,language) => {
+    await waitForBaseHandler(option);
+
     const nativeMatchMedia = window.matchMedia;
     window.matchMedia = query => {
       const result = nativeMatchMedia.call(window,query);
@@ -102,25 +114,26 @@
 
     bypass = true;
     try {
-      option.click();
+      const invoked = window.TWORK_INVOKE_BASE_LANGUAGE?.(option) === true;
+      if (!invoked) option.click();
     } finally {
       bypass = false;
       window.matchMedia = nativeMatchMedia;
     }
-  };
 
-  const triggerBaseSwitch = async (option,language) => {
-    // Let the original pointer/click dispatch finish before invoking the native
-    // language option. This avoids Safari getting stuck after Cyrillic locales.
-    await wait(0);
-    invokeBaseSwitch(option);
     await nextFrame();
-
-    // One guarded retry covers WebKit cases where a synthetic click is dropped.
     if (currentLanguage() !== language) {
-      await wait(32);
-      invokeBaseSwitch(option);
+      await wait(36);
+      const invoked = window.TWORK_INVOKE_BASE_LANGUAGE?.(option) === true;
+      if (!invoked) {
+        bypass = true;
+        try { option.click(); } finally { bypass = false; }
+      }
       await nextFrame();
+    }
+
+    if (currentLanguage() !== language) {
+      throw new Error(`Language switch did not apply: ${language}`);
     }
   };
 
@@ -132,109 +145,157 @@
     window.setTimeout(() => {
       try { window.TWORK_I18N_GENERATED?.(language); } catch {}
       try { window.TWORK_I18N_CLEANUP?.(language); } catch {}
-      updateButton(language);
-    },120);
+      updateButton(currentLanguage());
+    },110);
 
     window.setTimeout(() => {
       try { window.TWORK_I18N_GENERATED?.(language); } catch {}
       try { window.TWORK_I18N_CLEANUP?.(language); } catch {}
-      updateButton(language);
-    },340);
+      updateButton(currentLanguage());
+    },300);
   };
 
   const applyLanguage = async (option,language) => {
-    await triggerBaseSwitch(option,language);
+    await invokeBaseSwitch(option,language);
     refreshTranslations(language);
-    await nextFrame();
     await nextFrame();
   };
 
-  const createTransitionLayer = () => {
+  const createTransitionLayer = button => {
+    const rect = button?.getBoundingClientRect();
+    const originX = rect ? rect.left + rect.width / 2 : window.innerWidth - 42;
+    const originY = rect ? rect.top + rect.height / 2 : 32;
     const layer = document.createElement('div');
     layer.className = 'locale-v9-layer';
     layer.setAttribute('aria-hidden','true');
-    layer.innerHTML = '<span class="locale-v9-glow"></span><span class="locale-v9-lens"></span>';
+    layer.style.setProperty('--locale-origin-x',`${originX}px`);
+    layer.style.setProperty('--locale-origin-y',`${originY}px`);
+    layer.innerHTML = [
+      '<span class="locale-v9-veil"></span>',
+      '<span class="locale-v9-orb"></span>',
+      '<span class="locale-v9-ring locale-v9-ring-a"></span>',
+      '<span class="locale-v9-ring locale-v9-ring-b"></span>',
+      '<span class="locale-v9-prism"></span>',
+      '<span class="locale-v9-lens"></span>',
+      '<span class="locale-v9-spark locale-v9-spark-a"></span>',
+      '<span class="locale-v9-spark locale-v9-spark-b"></span>',
+      '<span class="locale-v9-spark locale-v9-spark-c"></span>'
+    ].join('');
     document.body.appendChild(layer);
     return layer;
   };
 
-  const animateElement = (element,keyframes,options) => {
-    if (!element?.animate) return Promise.resolve();
-    const animation = element.animate(keyframes,options);
-    return animation.finished.catch(() => {});
+  const animateCode = async (code,phase) => {
+    if (!code?.animate) return;
+    const keyframes = phase === 'out'
+      ? [
+          {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'},
+          {opacity:0,filter:'blur(5px)',transform:'translateY(4px) scale(.88)'}
+        ]
+      : [
+          {opacity:0,filter:'blur(5px)',transform:'translateY(-4px) scale(.88)'},
+          {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'}
+        ];
+    const animation = code.animate(keyframes,{
+      duration:phase === 'out' ? 240 : 420,
+      easing:'cubic-bezier(.2,.8,.2,1)',
+      fill:'forwards'
+    });
+    await animation.finished.catch(() => {});
   };
 
-  const clearSurfaceAnimations = surfaces => {
-    surfaces.forEach(element => {
-      element.getAnimations().forEach(animation => animation.cancel());
-      element.style.removeProperty('opacity');
-      element.style.removeProperty('filter');
-      element.style.removeProperty('transform');
-    });
+  const restoreScroll = position => {
+    if (window.scrollX !== position.x || window.scrollY !== position.y) {
+      window.scrollTo(position.x,position.y);
+    }
   };
 
   const runReducedTransition = async (option,language) => {
-    const surface = document.querySelector('main');
-    await animateElement(surface,[{opacity:1},{opacity:.88}],{duration:150,easing:'ease-out',fill:'forwards'});
+    const position = {x:window.scrollX,y:window.scrollY};
     await applyLanguage(option,language);
-    await animateElement(surface,[{opacity:.88},{opacity:1}],{duration:260,easing:'ease-out',fill:'forwards'});
-    clearSurfaceAnimations([surface].filter(Boolean));
+    restoreScroll(position);
   };
 
   const runVisibleTransition = async (option,language,button) => {
-    const surfaces = [document.querySelector('main'),document.querySelector('.site-footer')].filter(Boolean);
-    const code = button?.querySelector('.language-current-code');
-    const layer = createTransitionLayer();
+    const position = {x:window.scrollX,y:window.scrollY};
+    const oldCode = button?.querySelector('.language-current-code');
+    root.classList.add('language-view-transition');
 
-    await nextFrame();
-    layer.classList.add('is-active');
+    let layer;
+    let transition;
+    try {
+      void animateCode(oldCode,'out');
 
-    await Promise.all([
-      ...surfaces.map(element => animateElement(element,[
-        {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'},
-        {opacity:.70,filter:'blur(4px) saturate(.97)',transform:'translate3d(0,1px,0) scale(.999)'}
-      ],{duration:360,easing:'cubic-bezier(.32,0,.2,1)',fill:'forwards'})),
-      animateElement(code,[
-        {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'},
-        {opacity:.08,filter:'blur(3px)',transform:'translateY(2px) scale(.94)'}
-      ],{duration:260,easing:'cubic-bezier(.32,0,.2,1)',fill:'forwards'})
-    ]);
+      if (typeof document.startViewTransition === 'function') {
+        transition = document.startViewTransition(async () => {
+          await applyLanguage(option,language);
+          restoreScroll(position);
+        });
+        await transition.ready;
+        layer = createTransitionLayer(button);
+        await nextFrame();
+        layer.classList.add('is-active');
+        const newCode = button?.querySelector('.language-current-code');
+        void animateCode(newCode,'in');
+        await Promise.all([
+          transition.finished.catch(() => {}),
+          wait(1180)
+        ]);
+      } else {
+        layer = createTransitionLayer(button);
+        await nextFrame();
+        layer.classList.add('is-active');
+        await wait(260);
+        await applyLanguage(option,language);
+        restoreScroll(position);
+        const newCode = button?.querySelector('.language-current-code');
+        void animateCode(newCode,'in');
+        await wait(920);
+      }
 
-    await applyLanguage(option,language);
-    await wait(70);
-
-    const nextCode = button?.querySelector('.language-current-code');
-    await Promise.all([
-      ...surfaces.map(element => animateElement(element,[
-        {opacity:.50,filter:'blur(8px) saturate(1.03)',transform:'translate3d(0,3px,0) scale(1.002)'},
-        {opacity:.88,filter:'blur(2px) saturate(1.01)',transform:'translate3d(0,.5px,0) scale(1.0005)',offset:.62},
-        {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'}
-      ],{duration:720,easing:'cubic-bezier(.16,.84,.2,1)',fill:'forwards'})),
-      animateElement(nextCode,[
-        {opacity:0,filter:'blur(4px)',transform:'translateY(-3px) scale(.93)'},
-        {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'}
-      ],{duration:500,easing:'cubic-bezier(.16,.9,.2,1)',fill:'forwards'})
-    ]);
-
-    await wait(120);
-    clearSurfaceAnimations([...surfaces,nextCode].filter(Boolean));
-    layer.remove();
+      layer?.classList.add('is-resolving');
+      await wait(220);
+    } finally {
+      restoreScroll(position);
+      layer?.remove();
+      root.classList.remove('language-view-transition');
+      oldCode?.getAnimations().forEach(animation => animation.cancel());
+      button?.querySelector('.language-current-code')?.getAnimations().forEach(animation => animation.cancel());
+    }
   };
 
   const cleanup = () => {
     window.clearTimeout(safetyTimer);
     document.querySelectorAll('.locale-v9-layer').forEach(element => element.remove());
-    root.classList.remove('language-switch-busy');
+    root.classList.remove('language-switch-busy','language-view-transition');
     removeLegacyMatrix();
     const {button} = switcherElements();
     button?.removeAttribute('aria-busy');
+    button?.querySelector('.language-current-code')?.getAnimations().forEach(animation => animation.cancel());
     busy = false;
   };
 
+  const runPendingSwitch = () => {
+    if (!pendingOption || !pendingLanguage || pendingLanguage === currentLanguage()) {
+      pendingOption = null;
+      pendingLanguage = null;
+      return;
+    }
+    const option = pendingOption;
+    const language = pendingLanguage;
+    pendingOption = null;
+    pendingLanguage = null;
+    window.setTimeout(() => void switchLanguage(option,language),0);
+  };
+
   const switchLanguage = async (option,language) => {
-    if (busy) return;
     if (!language || language === currentLanguage()) {
       updateButton(language || currentLanguage());
+      return;
+    }
+    if (busy) {
+      pendingOption = option;
+      pendingLanguage = language;
       return;
     }
 
@@ -247,13 +308,20 @@
     button?.setAttribute('aria-busy','true');
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    safetyTimer = window.setTimeout(cleanup,3600);
+    safetyTimer = window.setTimeout(() => {
+      cleanup();
+      runPendingSwitch();
+    },4200);
 
     try {
       if (reduced) await runReducedTransition(option,language);
       else await runVisibleTransition(option,language,button);
+    } catch (error) {
+      console.error('[TWORK language switch]',error);
+      updateButton(currentLanguage());
     } finally {
       cleanup();
+      runPendingSwitch();
     }
   };
 
@@ -277,8 +345,7 @@
       if (!option || bypass) return;
       event.preventDefault();
       event.stopImmediatePropagation();
-      const language = option.dataset.language;
-      window.setTimeout(() => void switchLanguage(option,language),0);
+      void switchLanguage(option,option.dataset.language);
     },true);
 
     new MutationObserver(scheduleButtonSync).observe(root,{
