@@ -135,16 +135,13 @@
     await nextFrame();
   };
 
-  const createRefraction = button => {
-    const rect = button?.getBoundingClientRect();
-    const sheen = document.createElement('div');
-    sheen.className = 'locale-v9-refraction';
-    sheen.setAttribute('aria-hidden','true');
-    if (rect) {
-      sheen.style.setProperty('--locale-origin-x',`${Math.round(rect.left - Math.max(160,window.innerWidth * .18))}px`);
-    }
-    document.body.appendChild(sheen);
-    return sheen;
+  const createTransitionLayer = () => {
+    const layer = document.createElement('div');
+    layer.className = 'locale-v9-layer';
+    layer.setAttribute('aria-hidden','true');
+    layer.innerHTML = '<span class="locale-v9-glow"></span><span class="locale-v9-lens"></span>';
+    document.body.appendChild(layer);
+    return layer;
   };
 
   const animateElement = (element,keyframes,options) => {
@@ -153,56 +150,67 @@
     return animation.finished.catch(() => {});
   };
 
-  const runFallbackTransition = async (option,language,button) => {
-    const surfaces = [
-      document.querySelector('.site-nav'),
-      document.querySelector('main'),
-      document.querySelector('.site-footer')
-    ].filter(Boolean);
-    const sheen = createRefraction(button);
-
-    root.classList.add('locale-v9-fallback-out');
-    await Promise.all(surfaces.map(element => animateElement(element,[
-      {opacity:1,filter:'blur(0px)',transform:'translateY(0) scale(1)'},
-      {opacity:.56,filter:'blur(7px)',transform:'translateY(1px) scale(.998)'}
-    ],{duration:150,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'})));
-
-    root.classList.remove('locale-v9-fallback-out');
-    await applyLanguage(option,language);
-    root.classList.add('locale-v9-fallback-in');
-
-    await Promise.all(surfaces.map(element => animateElement(element,[
-      {opacity:.34,filter:'blur(11px)',transform:'translateY(-2px) scale(1.003)'},
-      {opacity:1,filter:'blur(0px)',transform:'translateY(0) scale(1)'}
-    ],{duration:390,easing:'cubic-bezier(.16,.84,.2,1)',fill:'forwards'})));
-
-    root.classList.remove('locale-v9-fallback-in');
+  const clearSurfaceAnimations = surfaces => {
     surfaces.forEach(element => {
       element.getAnimations().forEach(animation => animation.cancel());
       element.style.removeProperty('opacity');
       element.style.removeProperty('filter');
       element.style.removeProperty('transform');
     });
-    sheen.remove();
   };
 
-  const runViewTransition = async (option,language,button) => {
-    const transition = document.startViewTransition(() => applyLanguage(option,language));
-    let sheen = null;
-    try {
-      await transition.ready;
-      sheen = createRefraction(button);
-      await transition.finished;
-      await wait(35);
-    } finally {
-      sheen?.remove();
-    }
+  const runReducedTransition = async (option,language) => {
+    const surface = document.querySelector('main');
+    await animateElement(surface,[{opacity:1},{opacity:.72}],{duration:90,easing:'ease-out',fill:'forwards'});
+    await applyLanguage(option,language);
+    await animateElement(surface,[{opacity:.72},{opacity:1}],{duration:170,easing:'ease-out',fill:'forwards'});
+    clearSurfaceAnimations([surface].filter(Boolean));
+  };
+
+  const runVisibleTransition = async (option,language,button) => {
+    const surfaces = [document.querySelector('main'),document.querySelector('.site-footer')].filter(Boolean);
+    const code = button?.querySelector('.language-current-code');
+    const layer = createTransitionLayer();
+
+    await nextFrame();
+    layer.classList.add('is-active');
+
+    await Promise.all([
+      ...surfaces.map(element => animateElement(element,[
+        {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'},
+        {opacity:.24,filter:'blur(11px) saturate(.88)',transform:'translate3d(0,3px,0) scale(.995)'}
+      ],{duration:230,easing:'cubic-bezier(.42,0,1,1)',fill:'forwards'})),
+      animateElement(code,[
+        {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'},
+        {opacity:0,filter:'blur(6px)',transform:'translateY(4px) scale(.86)'}
+      ],{duration:170,easing:'cubic-bezier(.42,0,1,1)',fill:'forwards'})
+    ]);
+
+    await applyLanguage(option,language);
+    await wait(70);
+
+    const nextCode = button?.querySelector('.language-current-code');
+    await Promise.all([
+      ...surfaces.map(element => animateElement(element,[
+        {opacity:.08,filter:'blur(18px) saturate(1.10)',transform:'translate3d(0,10px,0) scale(1.008)'},
+        {opacity:.78,filter:'blur(4px) saturate(1.03)',transform:'translate3d(0,1px,0) scale(1.001)',offset:.68},
+        {opacity:1,filter:'blur(0px) saturate(1)',transform:'translate3d(0,0,0) scale(1)'}
+      ],{duration:520,easing:'cubic-bezier(.16,.84,.2,1)',fill:'forwards'})),
+      animateElement(nextCode,[
+        {opacity:0,filter:'blur(7px)',transform:'translateY(-5px) scale(.84)'},
+        {opacity:1,filter:'blur(0)',transform:'translateY(0) scale(1)'}
+      ],{duration:390,easing:'cubic-bezier(.16,.9,.2,1)',fill:'forwards'})
+    ]);
+
+    await wait(90);
+    clearSurfaceAnimations([...surfaces,nextCode].filter(Boolean));
+    layer.remove();
   };
 
   const cleanup = () => {
     window.clearTimeout(safetyTimer);
-    document.querySelectorAll('.locale-v9-refraction').forEach(element => element.remove());
-    root.classList.remove('language-switch-busy','locale-v9-fallback-out','locale-v9-fallback-in');
+    document.querySelectorAll('.locale-v9-layer').forEach(element => element.remove());
+    root.classList.remove('language-switch-busy');
     removeLegacyMatrix();
     const {button} = switcherElements();
     button?.removeAttribute('aria-busy');
@@ -225,16 +233,11 @@
     button?.setAttribute('aria-busy','true');
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    safetyTimer = window.setTimeout(cleanup,2200);
+    safetyTimer = window.setTimeout(cleanup,2600);
 
     try {
-      if (reduced) {
-        await applyLanguage(option,language);
-      } else if (typeof document.startViewTransition === 'function') {
-        await runViewTransition(option,language,button);
-      } else {
-        await runFallbackTransition(option,language,button);
-      }
+      if (reduced) await runReducedTransition(option,language);
+      else await runVisibleTransition(option,language,button);
     } finally {
       cleanup();
     }
@@ -269,9 +272,7 @@
     });
 
     const {switcher} = switcherElements();
-    if (switcher) {
-      new MutationObserver(scheduleButtonSync).observe(switcher,{childList:true,subtree:true});
-    }
+    if (switcher) new MutationObserver(scheduleButtonSync).observe(switcher,{childList:true,subtree:true});
 
     window.addEventListener('pageshow',() => {
       cleanup();
@@ -292,9 +293,6 @@
     window.requestAnimationFrame(waitForSwitcher);
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded',boot,{once:true});
-  } else {
-    boot();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
+  else boot();
 })();
