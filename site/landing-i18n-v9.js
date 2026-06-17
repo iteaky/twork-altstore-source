@@ -185,6 +185,81 @@
     return layer;
   };
 
+  const animateElement = (element,keyframes,options) => {
+    if (!element?.animate) return Promise.resolve();
+    const animation = element.animate(keyframes,{...options,fill:'both'});
+    return animation.finished.catch(() => {});
+  };
+
+  const animateLayer = (layer,reduced = false) => {
+    if (!layer) return Promise.resolve();
+    const q = selector => layer.querySelector(selector);
+
+    if (reduced) {
+      return Promise.all([
+        animateElement(layer,[{opacity:0},{opacity:.72,offset:.35},{opacity:0}],{duration:720,easing:'ease-in-out'}),
+        animateElement(q('.locale-v9-orb'),[
+          {opacity:0,transform:'scale(.92)'},
+          {opacity:.48,transform:'scale(1.08)',offset:.46},
+          {opacity:0,transform:'scale(1.22)'}
+        ],{duration:720,easing:'cubic-bezier(.2,.7,.2,1)'}),
+        animateElement(q('.locale-v9-ring-a'),[
+          {opacity:0,transform:'scale(.9)'},
+          {opacity:.44,transform:'scale(1.35)',offset:.42},
+          {opacity:0,transform:'scale(1.9)'}
+        ],{duration:720,easing:'cubic-bezier(.2,.7,.2,1)'})
+      ]);
+    }
+
+    return Promise.all([
+      animateElement(layer,[{opacity:0},{opacity:1,offset:.10},{opacity:1,offset:.82},{opacity:0}],{duration:1320,easing:'linear'}),
+      animateElement(q('.locale-v9-veil'),[{opacity:0},{opacity:.58,offset:.22},{opacity:.34,offset:.66},{opacity:0}],{duration:1260,easing:'ease-in-out'}),
+      animateElement(q('.locale-v9-orb'),[
+        {opacity:0,transform:'scale(.68) rotate(-6deg)'},
+        {opacity:.78,transform:'scale(1.15) rotate(-2deg)',offset:.17},
+        {opacity:.30,transform:'scale(8.8) rotate(6deg)',offset:.68},
+        {opacity:0,transform:'scale(13.2) rotate(10deg)'}
+      ],{duration:1120,easing:'cubic-bezier(.16,.78,.18,1)'}),
+      animateElement(q('.locale-v9-ring-a'),[
+        {opacity:0,transform:'scale(.82)'},
+        {opacity:.82,transform:'scale(1.12)',offset:.18},
+        {opacity:0,transform:'scale(8.6)'}
+      ],{duration:940,easing:'cubic-bezier(.16,.8,.2,1)',delay:35}),
+      animateElement(q('.locale-v9-ring-b'),[
+        {opacity:0,transform:'scale(.70)'},
+        {opacity:.46,transform:'scale(1.20)',offset:.24},
+        {opacity:0,transform:'scale(12.4)'}
+      ],{duration:1140,easing:'cubic-bezier(.16,.8,.2,1)',delay:120}),
+      animateElement(q('.locale-v9-prism'),[
+        {opacity:0,transform:'translate3d(0,0,0) skewX(-12deg)'},
+        {opacity:.52,offset:.16},
+        {opacity:.28,offset:.68},
+        {opacity:0,transform:'translate3d(178vw,0,0) skewX(-12deg)'}
+      ],{duration:1180,easing:'cubic-bezier(.18,.74,.18,1)',delay:75}),
+      animateElement(q('.locale-v9-lens'),[
+        {opacity:0,transform:'scale(.45) rotate(-16deg)'},
+        {opacity:.52,offset:.25},
+        {opacity:.18,transform:'scale(2.55) rotate(18deg)',offset:.66},
+        {opacity:0,transform:'scale(3.45) rotate(30deg)'}
+      ],{duration:1220,easing:'cubic-bezier(.2,.76,.18,1)'}),
+      animateElement(q('.locale-v9-spark-a'),[
+        {opacity:0,transform:'translate3d(0,0,0) scale(.4)'},
+        {opacity:.78,offset:.28},
+        {opacity:0,transform:'translate3d(-84px,58px,0) scale(1.4)'}
+      ],{duration:760,easing:'cubic-bezier(.18,.78,.18,1)',delay:120}),
+      animateElement(q('.locale-v9-spark-b'),[
+        {opacity:0,transform:'translate3d(0,0,0) scale(.4)'},
+        {opacity:.62,offset:.30},
+        {opacity:0,transform:'translate3d(-126px,-38px,0) scale(1.1)'}
+      ],{duration:900,easing:'cubic-bezier(.18,.78,.18,1)',delay:170}),
+      animateElement(q('.locale-v9-spark-c'),[
+        {opacity:0,transform:'translate3d(0,0,0) scale(.4)'},
+        {opacity:.68,offset:.24},
+        {opacity:0,transform:'translate3d(68px,94px,0) scale(1.25)'}
+      ],{duration:820,easing:'cubic-bezier(.18,.78,.18,1)',delay:220})
+    ]);
+  };
+
   const animateCode = async (code,phase) => {
     if (!code?.animate) return;
     const keyframes = phase === 'out'
@@ -210,54 +285,29 @@
     }
   };
 
-  const runReducedTransition = async (option,language) => {
-    const position = {x:window.scrollX,y:window.scrollY};
-    await applyLanguage(option,language);
-    restoreScroll(position);
-  };
-
-  const runVisibleTransition = async (option,language,button) => {
+  const runTransition = async (option,language,button,reduced) => {
     const position = {x:window.scrollX,y:window.scrollY};
     const oldCode = button?.querySelector('.language-current-code');
+    const layer = createTransitionLayer(button);
     root.classList.add('language-view-transition');
 
-    let layer;
-    let transition;
     try {
+      await nextFrame();
+      layer.classList.add('is-active');
+      const layerAnimation = animateLayer(layer,reduced);
       void animateCode(oldCode,'out');
 
-      if (typeof document.startViewTransition === 'function') {
-        transition = document.startViewTransition(async () => {
-          await applyLanguage(option,language);
-          restoreScroll(position);
-        });
-        await transition.ready;
-        layer = createTransitionLayer(button);
-        await nextFrame();
-        layer.classList.add('is-active');
-        const newCode = button?.querySelector('.language-current-code');
-        void animateCode(newCode,'in');
-        await Promise.all([
-          transition.finished.catch(() => {}),
-          wait(1180)
-        ]);
-      } else {
-        layer = createTransitionLayer(button);
-        await nextFrame();
-        layer.classList.add('is-active');
-        await wait(260);
-        await applyLanguage(option,language);
-        restoreScroll(position);
-        const newCode = button?.querySelector('.language-current-code');
-        void animateCode(newCode,'in');
-        await wait(920);
-      }
+      await wait(reduced ? 150 : 300);
+      await applyLanguage(option,language);
+      restoreScroll(position);
 
-      layer?.classList.add('is-resolving');
-      await wait(220);
+      const newCode = button?.querySelector('.language-current-code');
+      void animateCode(newCode,'in');
+      await layerAnimation;
+      await wait(70);
     } finally {
       restoreScroll(position);
-      layer?.remove();
+      layer.remove();
       root.classList.remove('language-view-transition');
       oldCode?.getAnimations().forEach(animation => animation.cancel());
       button?.querySelector('.language-current-code')?.getAnimations().forEach(animation => animation.cancel());
@@ -314,8 +364,7 @@
     },4200);
 
     try {
-      if (reduced) await runReducedTransition(option,language);
-      else await runVisibleTransition(option,language,button);
+      await runTransition(option,language,button,reduced);
     } catch (error) {
       console.error('[TWORK language switch]',error);
       updateButton(currentLanguage());
