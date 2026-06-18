@@ -21,4 +21,20 @@ jobs:
       - name: Install browser
         run: npx playwright install --with-deps chromium
       - name: Run quiz CTA tests
-        run: npx playwright test --config=playwright.config.cjs tests/quiz-cta.spec.js --project=chromium
+        shell: bash
+        run: |
+          set +e
+          npx playwright test --config=playwright.config.cjs tests/quiz-cta.spec.js --project=chromium > quiz-test.log 2>&1
+          status=$?
+          cat quiz-test.log
+          exit $status
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quiz-cta-diagnostics
+          path: |
+            quiz-test.log
+            test-results
+            playwright-report
+          if-no-files-found: warn
