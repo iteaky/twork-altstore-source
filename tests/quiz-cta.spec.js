@@ -1,6 +1,6 @@
-const { test, expect } = require('@playwright/test');
-const fs = require('node:fs');
-const path = require('node:path');
+import { test, expect } from '@playwright/test';
+import fs from 'node:fs';
+import path from 'node:path';
 
 test('landing ships a fresh loader URL for the quiz bundle', async () => {
   const html = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
@@ -21,6 +21,15 @@ test('clicking the setup CTA opens the onboarding quiz', async ({ page }) => {
   });
 
   await expect(cta).toBeVisible();
+
+  const before = await page.evaluate(() => ({
+    loader: [...document.scripts].map(script => script.src).filter(Boolean).filter(src => src.includes('global-icon-shape-fix')),
+    nativeLauncherType: typeof window.TWORK_OPEN_NATIVE_QUIZ,
+    ctaCount: document.querySelectorAll('[data-quiz-end-open]').length,
+    ctaAttributes: [...document.querySelectorAll('[data-quiz-end-open]')].map(element => [...element.attributes].reduce((result, attribute) => ({ ...result, [attribute.name]: attribute.value }), {}))
+  }));
+  console.log('QUIZ_CTA_BEFORE', JSON.stringify(before));
+
   await cta.click();
 
   await expect.poll(async () => page.evaluate(() => {
@@ -43,6 +52,23 @@ test('clicking the setup CTA opens the onboarding quiz', async ({ page }) => {
     message: `The setup CTA did not open the quiz. Browser errors: ${errors.join(' | ')}`,
     timeout: 10000
   }).toBe(true);
+
+  const after = await page.evaluate(() => ({
+    bodyClass: document.body.className,
+    htmlClass: document.documentElement.className,
+    nativeLauncherType: typeof window.TWORK_OPEN_NATIVE_QUIZ,
+    dialogs: [...document.querySelectorAll('dialog,[role="dialog"],[aria-modal="true"]')].map(element => ({
+      id: element.id,
+      className: typeof element.className === 'string' ? element.className : '',
+      hidden: element.hidden,
+      ariaHidden: element.getAttribute('aria-hidden'),
+      display: getComputedStyle(element).display,
+      visibility: getComputedStyle(element).visibility,
+      opacity: getComputedStyle(element).opacity,
+      text: (element.textContent || '').trim().slice(0, 160)
+    }))
+  }));
+  console.log('QUIZ_CTA_AFTER', JSON.stringify(after));
 
   expect(errors.filter(message => !/favicon/i.test(message))).toEqual([]);
 });
