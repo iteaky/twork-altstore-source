@@ -81,7 +81,7 @@
     appendStylesheet('site/landing-i18n-v10-visible.css?v=20260617-1', 'landing-i18n-v10-visible');
     appendStylesheet('site/landing-i18n-complete.css?v=20260617-7', 'landing-i18n-complete');
     appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-2', 'mobile-header-interaction-fix');
-    appendStylesheet('site/onboarding-quiz-end-v1.css?v=20260618-1', 'onboarding-quiz-end-v1');
+    appendStylesheet('site/onboarding-quiz-end-v1.css?v=20260618-2', 'onboarding-quiz-end-v1');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
@@ -113,11 +113,10 @@
     appendScript('site/onboarding-native-v4-i18n.js?v=20260617-5', 'onboarding-native-v4-i18n');
     appendScript('site/onboarding-native-v4-js1.js?v=20260617-5', 'onboarding-native-v4-js1');
     appendScript('site/onboarding-native-v4-js2.js?v=20260617-5', 'onboarding-native-v4-js2');
-    appendScript('site/onboarding-native-v4-loader.js?v=20260618-2', 'onboarding-native-v4-loader');
-    appendScript('site/onboarding-quiz-end-open-fix-v4.js?v=20260618-2', 'onboarding-quiz-end-open-fix-v4');
-    appendScript('site/onboarding-quiz-end-v1.js?v=20260618-2', 'onboarding-quiz-end-v1');
-    appendScript('site/onboarding-quiz-end-visible-fix-v2.js?v=20260618-2', 'onboarding-quiz-end-visible-fix-v2');
-    appendScript('site/onboarding-quiz-end-open-fix-v3.js?v=20260618-1', 'onboarding-quiz-end-open-fix-v3');
+    appendScript('site/onboarding-native-v4-loader.js?v=20260618-3', 'onboarding-native-v4-loader');
+    appendScript('site/onboarding-quiz-end-open-fix-v4.js?v=20260618-3', 'onboarding-quiz-end-open-fix-v4');
+    appendScript('site/onboarding-quiz-end-v1.js?v=20260618-3', 'onboarding-quiz-end-v1');
+    appendScript('site/onboarding-quiz-end-visible-fix-v2.js?v=20260618-3', 'onboarding-quiz-end-visible-fix-v2');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
