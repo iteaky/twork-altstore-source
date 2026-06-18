@@ -114,8 +114,9 @@
     appendScript('site/onboarding-native-v4-js1.js?v=20260617-5', 'onboarding-native-v4-js1');
     appendScript('site/onboarding-native-v4-js2.js?v=20260617-5', 'onboarding-native-v4-js2');
     appendScript('site/onboarding-native-v4-loader.js?v=20260617-5', 'onboarding-native-v4-loader');
-    appendScript('site/onboarding-quiz-end-v1.js?v=20260618-1', 'onboarding-quiz-end-v1');
-    appendScript('site/onboarding-quiz-end-visible-fix-v2.js?v=20260618-1', 'onboarding-quiz-end-visible-fix-v2');
+    appendScript('site/onboarding-quiz-end-v1.js?v=20260618-2', 'onboarding-quiz-end-v1');
+    appendScript('site/onboarding-quiz-end-visible-fix-v2.js?v=20260618-2', 'onboarding-quiz-end-visible-fix-v2');
+    appendScript('site/onboarding-quiz-end-open-fix-v3.js?v=20260618-1', 'onboarding-quiz-end-open-fix-v3');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
