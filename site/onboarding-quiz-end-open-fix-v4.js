@@ -41,8 +41,6 @@
     const button = event.target.closest(selector);
     if (!button) return;
     prepare();
-    // Do not stop propagation: the native quiz listener opens
-    // elements marked with data-twq4-open.
     window.setTimeout(openWhenReady, 0);
   }, true);
 
