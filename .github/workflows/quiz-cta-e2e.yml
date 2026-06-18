@@ -18,8 +18,6 @@ jobs:
           node-version: '22'
       - name: Install test runner
         run: npm install --no-save @playwright/test@1.52.0
-      - name: Install browser
-        run: npx playwright install --with-deps chromium
       - name: Run quiz CTA tests
         shell: bash
         run: |
