@@ -1,0 +1,44 @@
+name: Patch quiz loader cache key
+
+on:
+  push:
+    branches:
+      - codex/quiz-cta-e2e
+    paths:
+      - '.quiz-loader-refresh'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/quiz-cta-e2e
+      - name: Update loader cache key
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          source = path.read_text(encoding='utf-8')
+          import re
+          updated, count = re.subn(
+              r'site/global-icon-shape-fix\.js\?v=[0-9-]+',
+              'site/global-icon-shape-fix.js?v=20260618-6',
+              source,
+              count=1,
+          )
+          if count != 1:
+              raise SystemExit('Could not find landing loader script in index.html')
+          path.write_text(updated, encoding='utf-8')
+          PY
+      - name: Commit patched index
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Refresh landing quiz loader cache key'
+          git push origin HEAD:codex/quiz-cta-e2e
