@@ -150,11 +150,13 @@
   };
 
   (async () => {
-    const [css, i18n, script] = await Promise.all([
+    const [css, i18n, scriptPart1, scriptPart2] = await Promise.all([
       inflate(window.__TWQ4_CSS),
       inflate(window.__TWQ4_I18N),
-      inflate((window.__TWQ4_JS1 || '') + (window.__TWQ4_JS2 || ''))
+      inflate(window.__TWQ4_JS1),
+      inflate(window.__TWQ4_JS2)
     ]);
+    const script = scriptPart1 + scriptPart2;
 
     document.getElementById('twork-native-quiz-v4-style')?.remove();
     const style = document.createElement('style');
