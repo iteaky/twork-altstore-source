@@ -14,7 +14,8 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: {
-        browserName: 'chromium'
+        browserName: 'chromium',
+        channel: 'chrome'
       }
     }
   ],
