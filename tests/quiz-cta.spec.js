@@ -22,15 +22,41 @@ test('clicking the setup CTA opens the onboarding quiz', async ({ page }) => {
 
   await expect(cta).toBeVisible();
 
-  const before = await page.evaluate(() => ({
-    loader: [...document.scripts].map(script => script.src).filter(Boolean).filter(src => src.includes('global-icon-shape-fix')),
-    nativeLauncherType: typeof window.TWORK_OPEN_NATIVE_QUIZ,
-    ctaCount: document.querySelectorAll('[data-quiz-end-open]').length,
-    ctaAttributes: [...document.querySelectorAll('[data-quiz-end-open]')].map(element => [...element.attributes].reduce((result, attribute) => ({ ...result, [attribute.name]: attribute.value }), {}))
-  }));
-  console.log('QUIZ_CTA_BEFORE', JSON.stringify(before));
+  const before = await page.evaluate(() => {
+    const payloadNames = ['__TWQ4_CSS', '__TWQ4_I18N', '__TWQ4_JS1', '__TWQ4_JS2'];
+    const payloads = Object.fromEntries(payloadNames.map(name => {
+      const value = window[name];
+      let atobStatus = 'missing';
+      if (typeof value === 'string') {
+        try {
+          atob(value);
+          atobStatus = 'valid';
+        } catch (error) {
+          atobStatus = `${error.name}: ${error.message}`;
+        }
+      }
+      return [name, {
+        type: typeof value,
+        length: typeof value === 'string' ? value.length : 0,
+        invalidCharacters: typeof value === 'string' ? [...new Set(value.match(/[^A-Za-z0-9+/=]/g) || [])] : [],
+        atobStatus
+      }];
+    }));
 
-  await cta.click();
+    return {
+      loader: [...document.scripts].map(script => script.src).filter(Boolean).filter(src => src.includes('global-icon-shape-fix')),
+      nativeLauncherType: typeof window.TWORK_OPEN_NATIVE_QUIZ,
+      ctaCount: document.querySelectorAll('[data-quiz-end-open]').length,
+      ctaAttributes: [...document.querySelectorAll('[data-quiz-end-open]')].map(element => [...element.attributes].reduce((result, attribute) => ({ ...result, [attribute.name]: attribute.value }), {})),
+      payloads
+    };
+  });
+  console.log('QUIZ_CTA_BEFORE', JSON.stringify(before));
+  console.log('QUIZ_CTA_ERRORS_BEFORE', JSON.stringify(errors));
+
+  await page.evaluate(() => {
+    document.querySelector('[data-quiz-end-open]')?.click();
+  });
 
   await expect.poll(async () => page.evaluate(() => {
     const visible = element => {
