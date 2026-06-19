@@ -76,7 +76,7 @@
     appendStylesheet('site/landing-i18n-complete.css?v=20260617-7', 'landing-i18n-complete');
     appendStylesheet('site/mobile-header-interaction-fix.css?v=20260616-2', 'mobile-header-interaction-fix');
     appendStylesheet('site/onboarding-quiz-end-v1.css?v=20260618-4', 'onboarding-quiz-end-v1');
-    appendStylesheet('site/onboarding-quiz-v6.css?v=20260618-1', 'onboarding-quiz-v6');
+    appendStylesheet('site/onboarding-quiz-v6.css?v=20260619-1', 'onboarding-quiz-v6');
 
     appendScript('site/hero-v542-club-scroll.js?v=20260615-2', 'club');
     appendScript('site/hero-v543-desktop-pin.js?v=20260615-1', 'desktop-pin');
@@ -104,8 +104,8 @@
     appendScript('site/landing-i18n-complete.js?v=20260617-7', 'landing-i18n-complete');
     appendScript('site/landing-i18n-v9.js?v=20260617-7', 'landing-i18n-v9');
 
-    appendScript('site/onboarding-quiz-v6-i18n.js?v=20260618-1', 'onboarding-quiz-v6-i18n');
-    appendScript('site/onboarding-quiz-v6.js?v=20260618-1', 'onboarding-quiz-v6');
+    appendScript('site/onboarding-quiz-v6-i18n.js?v=20260619-1', 'onboarding-quiz-v6-i18n');
+    appendScript('site/onboarding-quiz-v6.js?v=20260619-1', 'onboarding-quiz-v6');
     appendScript('site/onboarding-quiz-end-v2.js?v=20260618-1', 'onboarding-quiz-end-v2');
   };
 
