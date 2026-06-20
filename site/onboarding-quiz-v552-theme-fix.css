@@ -1,0 +1,8 @@
+.twq6-root[data-theme-style="classic"]{--tw-accent:#007aff;--tw-accent-2:#5ac8fa;--tw-soft:rgba(0,122,255,.12)}
+.twq6-root[data-theme-style="classic"][data-theme-scheme="dark"],.twq6-root[data-theme-style="classic"][data-theme-scheme="system"]{--tw-accent:#0a84ff;--tw-accent-2:#64d2ff;--tw-soft:rgba(10,132,255,.16)}
+@media(prefers-color-scheme:light){.twq6-root[data-theme-style="classic"][data-theme-scheme="system"]{--tw-accent:#007aff;--tw-accent-2:#5ac8fa;--tw-soft:rgba(0,122,255,.12)}}
+.twq6-root[data-theme-style="brand"]{--tw-accent:#f64f93;--tw-accent-2:#d11a80;--tw-soft:rgba(246,79,147,.14)}
+.twq6-root[data-theme-style="brand"][data-theme-scheme="dark"],.twq6-root[data-theme-style="brand"][data-theme-scheme="system"]{--tw-accent:#0abab5;--tw-accent-2:#5eebd4;--tw-soft:rgba(10,186,181,.16)}
+@media(prefers-color-scheme:light){.twq6-root[data-theme-style="brand"][data-theme-scheme="system"]{--tw-accent:#f64f93;--tw-accent-2:#d11a80;--tw-soft:rgba(246,79,147,.14)}}
+.twq6-root .twq6-app-icon-card>i{border:1px solid var(--tw-line);background:transparent;color:transparent}
+.twq6-root .twq6-app-icon-card[aria-pressed="true"]>i{border-color:var(--tw-accent);background:var(--tw-accent);color:#fff}
