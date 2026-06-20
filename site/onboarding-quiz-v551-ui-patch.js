@@ -8,7 +8,7 @@
     ru:{price:'Стоимость',serviceType:'Тип услуги',start:'Время начала работы',end:'Время окончания работы',service:'Услуга',calendarName:'Название календаря',imessage:'iMessage / SMS',copy:'Скопировать текст'},
     cs:{price:'Cena',serviceType:'Typ služby',start:'Začněte pracovní dobu',end:'Konec pracovní doby',service:'Služba',calendarName:'Název kalendáře',imessage:'iMessage / SMS',copy:'Kopírovat text'},
     hu:{price:'Ár',serviceType:'Szolgáltatási típus',start:'Kezdjük a munkaidőt',end:'Munkaidő vége',service:'Szolgálat',calendarName:'Naptár név',imessage:'iMessage / SMS',copy:'Szöveg másolása'},
-    pl:{price:'Cena',serviceType:'Typ obsługi',start:'Czas pracy',end:'Koniec czasu pracy',service:'Służba',calendarName:'Nazwa kalendarza',imessage:'iMessage / SMS',copy:'Kopiuj tekst'},
+    pl:{price:'Cena',serviceType:'Typ obsługi',start:'Czas pracy',end:'Koniec czasu pracy',service:'Służba',calendarName:'Nazwa kalendarza',imessage:'iMessage / SMS',copy:'Skopiuj tekst'},
     de:{price:'Preis',serviceType:'Dienstart',start:'Arbeitsbeginn',end:'Arbeitsende',service:'Dienst',calendarName:'Kalendername',imessage:'iMessage / SMS',copy:'Kopiertext'},
     uk:{price:'Ціна',serviceType:'Тип служби',start:'Починайте працювати',end:'Кінець робочого часу',service:'Служба',calendarName:'Назва календаря',imessage:'iMessage / SMS',copy:'Скопіювати текст'},
     es:{price:'Precio',serviceType:'Tipo de servicio',start:'Empezar a trabajar',end:'Horario final de trabajo',service:'Servicio',calendarName:'Nombre del calendario',imessage:'iMessage / SMS',copy:'Copiar texto'},
