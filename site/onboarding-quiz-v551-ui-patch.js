@@ -7,17 +7,17 @@
     en:{price:'Price',serviceType:'Service type',start:'Start working time',end:'End working time',service:'Service',calendarName:'Calendar name',imessage:'iMessage / SMS',copy:'Copy text'},
     ru:{price:'Стоимость',serviceType:'Тип услуги',start:'Время начала работы',end:'Время окончания работы',service:'Услуга',calendarName:'Название календаря',imessage:'iMessage / SMS',copy:'Скопировать текст'},
     cs:{price:'Cena',serviceType:'Typ služby',start:'Začněte pracovní dobu',end:'Konec pracovní doby',service:'Služba',calendarName:'Název kalendáře',imessage:'iMessage / SMS',copy:'Kopírovat text'},
-    hu:{price:'Ár',serviceType:'Szolgáltatás típusa',start:'Kezdjük a munkaidőt',end:'Munkaidő vége',service:'Szolgálat',calendarName:'Naptár név',imessage:'iMessage / SMS',copy:'Szöveg másolása'},
-    pl:{price:'Cena',serviceType:'Typ usługi',start:'Czas pracy',end:'Koniec czasu pracy',service:'Służba',calendarName:'Nazwa kalendarza',imessage:'iMessage / SMS',copy:'Kopiuj tekst'},
-    de:{price:'Preis',serviceType:'Dienstleistungstyp',start:'Arbeitsbeginn',end:'Arbeitsende',service:'Dienst',calendarName:'Kalendername',imessage:'iMessage / SMS',copy:'Text kopieren'},
-    uk:{price:'Ціна',serviceType:'Тип послуги',start:'Починайте працювати',end:'Кінець робочого часу',service:'Служба',calendarName:'Назва календаря',imessage:'iMessage / SMS',copy:'Копіювати текст'},
+    hu:{price:'Ár',serviceType:'Szolgáltatási típus',start:'Kezdjük a munkaidőt',end:'Munkaidő vége',service:'Szolgálat',calendarName:'Naptár név',imessage:'iMessage / SMS',copy:'Szöveg másolása'},
+    pl:{price:'Cena',serviceType:'Typ obsługi',start:'Czas pracy',end:'Koniec czasu pracy',service:'Służba',calendarName:'Nazwa kalendarza',imessage:'iMessage / SMS',copy:'Kopiuj tekst'},
+    de:{price:'Preis',serviceType:'Dienstart',start:'Arbeitsbeginn',end:'Arbeitsende',service:'Dienst',calendarName:'Kalendername',imessage:'iMessage / SMS',copy:'Kopiertext'},
+    uk:{price:'Ціна',serviceType:'Тип служби',start:'Починайте працювати',end:'Кінець робочого часу',service:'Служба',calendarName:'Назва календаря',imessage:'iMessage / SMS',copy:'Скопіювати текст'},
     es:{price:'Precio',serviceType:'Tipo de servicio',start:'Empezar a trabajar',end:'Horario final de trabajo',service:'Servicio',calendarName:'Nombre del calendario',imessage:'iMessage / SMS',copy:'Copiar texto'},
     fr:{price:'Prix',serviceType:'Type de service',start:'Début du travail',end:'Fin de temps de travail',service:'Prestation',calendarName:'Nom du calendrier',imessage:'iMessage / SMS',copy:'Copier le texte'},
     pt:{price:'Preço',serviceType:'Tipo de serviço',start:'Horário de trabalho',end:'Horário final de trabalho',service:'Serviço',calendarName:'Nome do calendário',imessage:'iMessage / SMS',copy:'Copiar texto'},
     ar:{price:'السعر',serviceType:'نوع الخدمة',start:'ابدأ العمل',end:'وقت نهاية العمل',service:'الخدمة',calendarName:'اسم التقويم',imessage:'iMessage / SMS',copy:'نسخ النص'},
     'zh-Hans':{price:'价格',serviceType:'服务类型',start:'开始工作时间',end:'工作结束时间',service:'服役经历',calendarName:'日历名称',imessage:'iMessage / SMS',copy:'复制文本'},
-    ja:{price:'価格',serviceType:'サービスの種類',start:'作業開始',end:'作業終了時間',service:'運用',calendarName:'カレンダー名',imessage:'iMessage / SMS',copy:'テキストをコピー'},
-    ko:{price:'가격',serviceType:'서비스 유형',start:'근무 시작 시간',end:'근무 종료 시간',service:'운용',calendarName:'달력 이름',imessage:'iMessage / SMS',copy:'텍스트 복사'}
+    ja:{price:'価格',serviceType:'サービスの種類',start:'作業開始',end:'作業終了時間',service:'運用',calendarName:'カレンダー名',imessage:'iMessage / SMS',copy:'本文のコピー'},
+    ko:{price:'가격',serviceType:'서비스 유형',start:'근무 시작 시간',end:'근무 종료 시간',service:'운용',calendarName:'달력 이름',imessage:'iMessage / SMS',copy:'본문 복사'}
   };
 
   const paths = {
