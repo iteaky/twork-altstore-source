@@ -83,8 +83,9 @@
     appendScript('site/hero-v548-unified-phone.js?v=20260615-5', 'unified-phone');
     appendScript('site/hero-v547-timeline-midnight.js?v=20260615-1', 'timeline-midnight');
     appendScript('site/landing-i18n-stability.js?v=20260616-2', 'landing-i18n-stability');
+    appendScript('site/landing-i18n-dataset-fix.js?v=20260620-1', 'landing-i18n-dataset-fix');
     appendScript('site/landing-i18n-bridge.js?v=20260617-2', 'landing-i18n-bridge');
-    appendScript('site/landing-i18n.js?v=20260616-2', 'landing-i18n');
+    appendScript('site/landing-i18n.js?v=20260620-1', 'landing-i18n');
     appendScript('site/landing-i18n-generated-extra.js?v=20260616-4', 'landing-i18n-generated-extra');
     appendScript('site/landing-i18n-v4-fixes.js?v=20260617-3', 'landing-i18n-v4-fixes');
 
@@ -104,8 +105,8 @@
     appendScript('site/landing-i18n-complete.js?v=20260617-7', 'landing-i18n-complete');
     appendScript('site/landing-i18n-v9.js?v=20260617-7', 'landing-i18n-v9');
 
-    appendScript('site/onboarding-quiz-v6-i18n.js?v=20260619-1', 'onboarding-quiz-v6-i18n');
-    appendScript('site/onboarding-quiz-v6.js?v=20260619-1', 'onboarding-quiz-v6');
+    appendScript('site/onboarding-quiz-v6-i18n.js?v=20260620-1', 'onboarding-quiz-v6-i18n');
+    appendScript('site/onboarding-quiz-v6.js?v=20260620-1', 'onboarding-quiz-v6');
     appendScript('site/onboarding-quiz-end-v2.js?v=20260618-1', 'onboarding-quiz-end-v2');
   };
 
