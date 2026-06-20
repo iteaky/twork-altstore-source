@@ -24,6 +24,8 @@
 
     try {
       oldRoot.remove();
+      document.getElementById('twork-onboarding-quiz-v6-style')?.remove();
+      document.querySelector('[data-twork-quiz-v552-theme-style]')?.remove();
       document.documentElement.classList.remove('twq6-open', 'quiz-open');
       document.body.classList.remove('twq6-open', 'quiz-open');
       window.TWORK_ONBOARDING_QUIZ_V6 = false;
