@@ -1,0 +1,1 @@
+window.__TWORK_QUIZ_V552_THEME_FIX__=true;
