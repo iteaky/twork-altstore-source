@@ -18,11 +18,11 @@ jobs:
           node-version: '22'
       - name: Install test runner
         run: npm install --no-save @playwright/test@1.52.0
-      - name: Run quiz CTA tests
+      - name: Run quiz tests
         shell: bash
         run: |
           set +e
-          npx playwright test --config=playwright.config.cjs tests/quiz-cta.spec.js --project=chromium > quiz-test.log 2>&1
+          npx playwright test --config=playwright.config.cjs tests/quiz-cta.spec.js tests/quiz-i18n-completeness.spec.mjs --project=chromium > quiz-test.log 2>&1
           status=$?
           cat quiz-test.log
           exit $status
