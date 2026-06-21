@@ -19,6 +19,7 @@ test('setup button opens the onboarding quiz', async ({ page }) => {
   const quiz = page.locator('#twork-onboarding-quiz-v6');
   await expect(quiz).toBeVisible();
   await expect(quiz).toHaveAttribute('aria-hidden', 'false');
-  await expect(quiz.getByText(/первая настройка|first setup|prvé nastavenie/i)).toBeVisible();
+  await expect(quiz.locator('.twq6-page h2')).toBeVisible();
+  await expect(quiz.locator('.twq6-page')).not.toContainText(/\bl10n\.[A-Za-z0-9_]+\b/);
   await expect(page.locator('body')).toHaveClass(/quiz-open/);
 });
