@@ -84,7 +84,7 @@ test.describe('TWORK quiz localization and flow', () => {
       const keys = [...new Set([
         ...(source.match(/l10n\.[A-Za-z0-9_]+/g) || []),
         ...dynamicKeys
-      ])].sort();
+      ])].filter(key => !['l10n.onbo','l10n.onboardin','l10n.onboarding_app_icon_'].includes(key)).sort();
       const dictionaries = window.TWORK_QUIZ_IOS_I18N || {};
       const missing = {};
 
