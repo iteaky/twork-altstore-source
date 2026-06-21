@@ -32,10 +32,13 @@
     return copy[base]?base:'en';
   };
   const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let renderedLanguage='';
   function render(){
     const main=document.querySelector('main');if(!main)return;
-    const t=copy[language()]||copy.en;
+    const currentLanguage=language();
+    const t=copy[currentLanguage]||copy.en;
     let section=document.getElementById('setup-quiz-end');
+    if(section&&renderedLanguage===currentLanguage&&section.dataset.quizLanguage===currentLanguage)return;
     if(!section){
       section=document.createElement('section');
       section.id='setup-quiz-end';
@@ -43,10 +46,12 @@
       const final=main.querySelector('.final-section');
       final?final.insertAdjacentElement('afterend',section):main.appendChild(section);
     }
-    section.lang=language();
-    section.dir=language()==='ar'?'rtl':'ltr';
+    renderedLanguage=currentLanguage;
+    section.dataset.quizLanguage=currentLanguage;
+    section.lang=currentLanguage;
+    section.dir=currentLanguage==='ar'?'rtl':'ltr';
     section.innerHTML=`<div class="container"><div class="quiz-end-card"><div class="quiz-end-copy"><p class="overline">${esc(t.over)}</p><h2>${esc(t.title)}</h2><p>${esc(t.lead)}</p><div class="quiz-end-actions"><button class="quiz-end-primary" type="button" data-quiz-end-open data-twq6-open>${esc(t.start)}</button><div class="quiz-end-meta"><span>${esc(t.time)}</span><span>${esc(t.privacy)}</span></div></div></div><div class="quiz-end-file" aria-hidden="true"><div class="quiz-end-file-card"><div class="quiz-end-file-icon">TW</div><h3>${esc(t.file)}</h3><p>${esc(t.desc)}</p><div class="quiz-end-file-list"><span>${esc(t.a)}</span><span>${esc(t.b)}</span><span>${esc(t.c)}</span></div><div class="quiz-end-file-badge">↗</div></div></div></div></div>`;
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render,{once:true});else render();
-  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-site-language','lang']});
+  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-site-language']});
 })();
