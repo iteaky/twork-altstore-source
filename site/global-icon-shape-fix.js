@@ -107,7 +107,7 @@
 
     appendScript('site/onboarding-quiz-v6-i18n.js?v=20260620-1', 'onboarding-quiz-v6-i18n');
     appendScript('site/onboarding-quiz-v6.js?v=20260620-1', 'onboarding-quiz-v6');
-    appendScript('site/onboarding-quiz-end-v2.js?v=20260618-1', 'onboarding-quiz-end-v2');
+    appendScript('site/onboarding-quiz-end-v2.js?v=20260621-1', 'onboarding-quiz-end-v2');
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
