@@ -105,7 +105,7 @@
     appendScript('site/landing-i18n-complete.js?v=20260617-7', 'landing-i18n-complete');
     appendScript('site/landing-i18n-v9.js?v=20260617-7', 'landing-i18n-v9');
 
-    appendScript('site/onboarding-quiz-v6-i18n.js?v=20260620-1', 'onboarding-quiz-v6-i18n');
+    appendScript('site/onboarding-quiz-v6-i18n.js?v=20260828-4', 'onboarding-quiz-v6-i18n');
     appendScript('site/quiz-i18n-core.js?v=20260621-1', 'quiz-i18n-core');
     appendScript('site/quiz-i18n-europe-1.js?v=20260621-1', 'quiz-i18n-europe-1');
     appendScript('site/quiz-i18n-europe-2.js?v=20260621-1', 'quiz-i18n-europe-2');
