@@ -88,12 +88,8 @@
     const points = $('.essential-points', copy);
 
     if (title) title.textContent = 'Календарь клиента — не только расписание.';
-    if (description) {
-      description.textContent = 'Для каждого клиента создаётся отдельный календарь только с его тренировками. В комментарии к событию TWORK показывает актуальную информацию, которую клиент обычно ищет в личном кабинете.';
-    }
-    if (points) {
-      points.innerHTML = '<span>Номер занятия в абонементе: например, 7 из 8</span><span>Предупреждение, когда после тренировки останется 1 или 0 занятий</span><span>Сумма долга, постоянная информация и комментарий тренера</span><span>Текст на языке клиента и синхронизация при переносе или отмене</span>';
-    }
+    if (description) description.textContent = 'Для каждого клиента создаётся отдельный календарь только с его тренировками. В комментарии к событию TWORK показывает актуальную информацию, которую клиент обычно ищет в личном кабинете.';
+    if (points) points.innerHTML = '<span>Номер занятия в абонементе: например, 7 из 8</span><span>Предупреждение, когда после тренировки останется 1 или 0 занятий</span><span>Сумма долга, постоянная информация и комментарий тренера</span><span>Текст на языке клиента и синхронизация при переносе или отмене</span>';
     if (copy && !$('.client-calendar-benefit', copy)) {
       const benefit = document.createElement('div');
       benefit.className = 'client-calendar-benefit';
@@ -170,6 +166,24 @@
   const subjectField = $('input[name="_subject"]', accessForm);
   const nextField = $('input[name="_next"]', accessForm);
 
+  const emailField = $('input[type="email"]', accessForm);
+  const emailLabel = emailField?.closest('label');
+  if (emailField) {
+    emailField.placeholder = 'email вашего Apple Account';
+    emailField.setAttribute('aria-describedby', 'apple-email-help');
+  }
+  if (emailLabel) {
+    const labelText = Array.from(emailLabel.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+    if (labelText) labelText.textContent = 'Email Apple Account (для TestFlight)';
+    if (!$('#apple-email-help', emailLabel)) {
+      const help = document.createElement('small');
+      help.id = 'apple-email-help';
+      help.style.cssText = 'display:block;margin-top:-2px;color:var(--muted);font-size:11px;font-weight:500;line-height:1.4';
+      help.textContent = 'Укажите email, с которым вы вошли в App Store на iPhone. На него мы выдадим доступ к тестовой версии TWORK.';
+      emailField.insertAdjacentElement('afterend', help);
+    }
+  }
+
   let platformField = $('input[name="Интересующая платформа"]', accessForm);
   if (accessForm && !platformField) {
     platformField = document.createElement('input');
@@ -185,7 +199,14 @@
     if (modalIntro) {
       modalIntro.innerHTML = android
         ? 'Оставьте email — мы сообщим, если появится версия TWORK для Android.'
-        : 'Оставьте несколько деталей для раннего доступа к версии TWORK для iPhone. Заявка придёт на <b>twork.crm@gmail.com</b>.';
+        : 'Оставьте несколько деталей — мы добавим ваш Apple Account в TestFlight и откроем доступ к тестовой версии TWORK для iPhone.';
+    }
+    if (emailLabel) emailLabel.style.display = '';
+    if (emailField) {
+      emailField.placeholder = android ? 'name@example.com' : 'email вашего Apple Account';
+      if (emailLabel?.firstChild?.nodeType === Node.TEXT_NODE) emailLabel.firstChild.textContent = android ? 'Email' : 'Email Apple Account (для TestFlight)';
+      const help = $('#apple-email-help', emailLabel);
+      if (help) help.style.display = android ? 'none' : 'block';
     }
     if (platformField) platformField.value = android ? 'Android' : 'iOS';
     if (subjectField) subjectField.value = android ? 'Запрос версии TWORK для Android' : 'Новая заявка на ранний доступ TWORK';
@@ -218,9 +239,7 @@
   const params = new URLSearchParams(location.search);
   if (params.get('access') === 'sent') {
     const toast = $('#success-toast');
-    if (toast && params.get('platform') === 'android') {
-      toast.textContent = 'Запрос на Android-версию отправлен. Сообщим, если она появится.';
-    }
+    if (toast && params.get('platform') === 'android') toast.textContent = 'Запрос на Android-версию отправлен. Сообщим, если она появится.';
     toast?.classList.add('show');
     history.replaceState({}, '', location.pathname + location.hash);
     window.setTimeout(() => toast?.classList.remove('show'), 6000);
