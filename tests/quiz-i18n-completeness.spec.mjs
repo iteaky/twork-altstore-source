@@ -43,6 +43,11 @@ async function visibleTokens(root) {
 }
 
 async function continueMinimal(root) {
+  const welcome = root.locator('.tw564-welcome-primary:visible').first();
+  if (await welcome.count()) {
+    await welcome.click();
+    return;
+  }
   const recommended = root.locator('.tw564-recommended:visible').first();
   if (await recommended.count()) {
     await recommended.click();
@@ -75,7 +80,6 @@ test.describe('TWORK onboarding V564 parity', () => {
       const root = await openQuiz(page, language);
       expect(await visibleTokens(root), `${language}: raw localization tokens`).toEqual([]);
       if (language === 'ar') await expect(root).toHaveAttribute('dir', 'rtl');
-      await root.locator('[data-action="close"]').click();
     }
   });
 
@@ -86,19 +90,14 @@ test.describe('TWORK onboarding V564 parity', () => {
     const audit = await page.evaluate(languages => {
       const keys = [
         'l10n.onboarding_subscriptions_usage_title',
-        'l10n.onboarding_services_title',
-        'l10n.onboarding_club_group_training_setup',
+        'l10n.onboarding_group_training_setup',
         'l10n.onboarding_club_default_client_payment',
-        'l10n.onboarding_club_duty_title',
-        'l10n.onboarding_club_fixed_payment_title',
-        'l10n.onboarding_club_prices_title',
+        'l10n.onboarding_club_operations_title',
         'l10n.onboarding_club_summary_title',
-        'l10n.onboarding_training_location_title',
-        'l10n.configure_private_training_prices',
-        'l10n.onboarding_price_source_title',
-        'l10n.onboarding_subscription_package_format',
-        'l10n.onboarding_finish_primary',
-        'l10n.participant_ranges_overlap'
+        'l10n.onboarding_club_summary_subtitle',
+        'l10n.onboarding_calendar_title',
+        'l10n.onboarding_notifications_title',
+        'l10n.onboarding_done_title'
       ];
       const dictionaries = window.TWORK_QUIZ_IOS_I18N || {};
       return Object.fromEntries(languages.map(language => [

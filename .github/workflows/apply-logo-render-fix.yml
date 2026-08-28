@@ -1,17 +1,8 @@
 name: Apply TWORK landing updates
 
+# This patcher targets the retired v528 hero markup. Keep it available for
+# explicit maintenance only; it must not run on unrelated landing updates.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'site/hero-v528-*.css'
-      - 'site/hero-v528-*.js'
-      - 'site/hero-v528-fragment.html'
-      - 'site/landing-i18n-v9.css'
-      - 'site/landing-i18n-v9.js'
-      - 'site/global-icon-shape-fix.js'
-      - 'scripts/apply-hero-v528.py'
-      - '.github/workflows/apply-logo-render-fix.yml'
   workflow_dispatch:
 
 permissions:

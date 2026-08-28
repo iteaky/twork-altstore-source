@@ -78,7 +78,7 @@ async function captureAudit(page) {
       .trim();
     const hasLetter = value => /\p{L}/u.test(value);
     const excluded = element => Boolean(element?.closest?.(
-      'script,style,noscript,template,svg,.language-switcher,.locale-v9-layer,.matrix-language-transition'
+      'script,style,noscript,template,svg,.language-switcher,.locale-v9-layer,.matrix-language-transition,#twork-onboarding-quiz-v6'
     ));
     const isCustom = element => Boolean(element?.closest?.(
       'article,[class*="card"],[class*="preview"],[class*="screen"],[class*="modal"],[role="dialog"],[class*="calendar"],[class*="club"],[class*="message"]'
