@@ -36,6 +36,24 @@
   .nav-cta:after{font-size:12px!important}
   .hero{padding-top:132px!important}
 
+  /* Early-access modal must stay above the fixed header and keep its close control reachable on iPhone. */
+  .access-backdrop{
+    z-index:1000!important;
+    padding-top:calc(12px + env(safe-area-inset-top))!important;
+  }
+  .access-modal{
+    max-height:calc(100dvh - 24px - env(safe-area-inset-top))!important;
+    padding-top:72px!important;
+  }
+  .access-close{
+    position:absolute!important;
+    z-index:3!important;
+    top:16px!important;
+    right:16px!important;
+    width:44px!important;
+    height:44px!important;
+  }
+
   /* Give the single hero phone enough room without returning to an oversized hero. */
   .product-theater{height:600px!important}
   .device-main{width:min(286px,80vw)!important}
