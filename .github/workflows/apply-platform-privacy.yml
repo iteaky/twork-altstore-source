@@ -1,8 +1,9 @@
 name: Apply iOS offline privacy landing updates
 
+# The landing now owns this markup directly. Retain the patcher for an
+# explicit maintenance run only, so it cannot race other publishing jobs.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
