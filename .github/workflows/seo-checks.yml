@@ -9,12 +9,13 @@ on:
       - "ru/**"
       - "privacy/**"
       - "support/**"
-      - "privacy/**"
-      - "support/**"
       - "seo/**"
       - "sitemap.xml"
       - "llms.txt"
       - "scripts/check_seo.py"
+      - "scripts/submit_indexnow.py"
+      - "5d041d250abd4aed8860868e17ea73d8.txt"
+      - ".github/workflows/indexnow.yml"
       - ".github/workflows/seo-checks.yml"
   push:
     branches: [main]
@@ -28,6 +29,9 @@ on:
       - "sitemap.xml"
       - "llms.txt"
       - "scripts/check_seo.py"
+      - "scripts/submit_indexnow.py"
+      - "5d041d250abd4aed8860868e17ea73d8.txt"
+      - ".github/workflows/indexnow.yml"
 jobs:
   validate-static-seo:
     runs-on: ubuntu-latest
@@ -39,3 +43,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: python3 scripts/check_seo.py
+      - run: python3 scripts/submit_indexnow.py --dry-run

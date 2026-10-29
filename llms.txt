@@ -9,13 +9,18 @@
 - Privacy policy: https://iteaky.github.io/twork-altstore-source/privacy/
 - Support: https://iteaky.github.io/twork-altstore-source/support/
 
+## Practical guide to choosing a trainer CRM
+- [How to choose a personal trainer CRM](https://iteaky.github.io/twork-altstore-source/guides/choosing-trainer-crm/)
+- [Как выбрать CRM для тренера](https://iteaky.github.io/twork-altstore-source/ru/guides/choosing-trainer-crm/)
+- [Ako vybrať CRM pre osobného trénera](https://iteaky.github.io/twork-altstore-source/sk/guides/choosing-trainer-crm/)
+
 ## Feature explanations
-- [Personal trainer CRM for iPhone](https://iteaky.github.io/twork-altstore-source/features/personal-trainer-crm/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/personal-trainer-crm/)
-- [Training schedule and session management](https://iteaky.github.io/twork-altstore-source/features/training-schedule/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/training-schedule/)
-- [Training packages, subscriptions and payment records](https://iteaky.github.io/twork-altstore-source/features/subscriptions-and-payments/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/subscriptions-and-payments/)
-- [Apple Calendar sharing for training clients](https://iteaky.github.io/twork-altstore-source/features/apple-calendar/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/apple-calendar/)
-- [Trainer and fitness-club financial settlements](https://iteaky.github.io/twork-altstore-source/features/club-finances/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/club-finances/)
-- [Online coaching across time zones](https://iteaky.github.io/twork-altstore-source/features/online-training-timezones/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/online-training-timezones/)
+- [Personal trainer CRM for iPhone](https://iteaky.github.io/twork-altstore-source/features/personal-trainer-crm/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/personal-trainer-crm/) · [Slovenčina](https://iteaky.github.io/twork-altstore-source/sk/features/personal-trainer-crm/)
+- [Training schedule and session management](https://iteaky.github.io/twork-altstore-source/features/training-schedule/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/training-schedule/) · [Slovenčina](https://iteaky.github.io/twork-altstore-source/sk/features/training-schedule/)
+- [Training packages, subscriptions and payment records](https://iteaky.github.io/twork-altstore-source/features/subscriptions-and-payments/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/subscriptions-and-payments/) · [Slovenčina](https://iteaky.github.io/twork-altstore-source/sk/features/subscriptions-and-payments/)
+- [Apple Calendar sharing for training clients](https://iteaky.github.io/twork-altstore-source/features/apple-calendar/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/apple-calendar/) · [Slovenčina](https://iteaky.github.io/twork-altstore-source/sk/features/apple-calendar/)
+- [Trainer and fitness-club financial settlements](https://iteaky.github.io/twork-altstore-source/features/club-finances/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/club-finances/) · [Slovenčina](https://iteaky.github.io/twork-altstore-source/sk/features/club-finances/)
+- [Online coaching across time zones](https://iteaky.github.io/twork-altstore-source/features/online-training-timezones/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/online-training-timezones/) · [Slovenčina](https://iteaky.github.io/twork-altstore-source/sk/features/online-training-timezones/)
 
 ## Product scope
 - iOS/iPhone only. Local-first client, schedule, subscription and financial records; optional Apple Calendar integration.

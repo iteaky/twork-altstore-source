@@ -3,15 +3,17 @@
 import html.parser
 import json
 from pathlib import Path
-from urllib.parse import urlsplit, unquote
+from urllib.parse import urlsplit, unquote, urljoin
 from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://iteaky.github.io/twork-altstore-source/"
 URLS = [BASE, BASE + "en/", BASE + "sk/"]
+GUIDES = [BASE + "guides/choosing-trainer-crm/", BASE + "ru/guides/choosing-trainer-crm/", BASE + "sk/guides/choosing-trainer-crm/"]
+URLS.extend(GUIDES)
 SLUGS = ["personal-trainer-crm","training-schedule","subscriptions-and-payments","apple-calendar","club-finances","online-training-timezones"]
 for slug in SLUGS:
-    URLS.extend((BASE + "features/" + slug + "/", BASE + "ru/features/" + slug + "/"))
+    URLS.extend((BASE + "features/" + slug + "/", BASE + "ru/features/" + slug + "/", BASE + "sk/features/" + slug + "/"))
 URLS.extend((BASE + "support/", BASE + "privacy/"))
 
 def local_path(url):
@@ -27,6 +29,7 @@ class AuditHTML(html.parser.HTMLParser):
         super().__init__()
         self.meta = {}
         self.links = []
+        self.anchors = []
         self.titles = []
         self.h1 = 0
         self.jsonld = []
@@ -40,6 +43,8 @@ class AuditHTML(html.parser.HTMLParser):
             self.meta[a.get("name") or a.get("property")] = a.get("content")
         if tag == "link":
             self.links.append(a)
+        if tag == "a" and "href" in a:
+            self.anchors.append(a["href"])
         if tag == "a":
             href = a.get("href", "")
             if href.startswith(BASE):
@@ -81,6 +86,22 @@ def main():
             if link.get("rel") == "alternate" and link.get("hreflang"):
                 other = link.get("href", "")
                 assert other in URLS, (page, other)
+        for anchor in p.anchors:
+            if anchor.startswith(("mailto:", "tel:", "#", "javascript:")):
+                continue
+            destination = urljoin(url, anchor).split("#", 1)[0].split("?", 1)[0]
+            if destination.startswith(BASE):
+                target = local_path(destination)
+                assert target is not None and target.is_file(), f"Broken internal link {anchor} on {url}"
+        for link in p.links:
+            if link.get("rel") != "alternate" or link.get("hreflang") not in ("en", "ru", "sk"):
+                continue
+            other_url = link.get("href")
+            if other_url == url:
+                continue
+            peer = AuditHTML()
+            peer.feed(local_path(other_url).read_text(encoding="utf-8"))
+            assert any(x.get("rel") == "alternate" and x.get("hreflang") == p.lang and x.get("href") == url for x in peer.links), f"Non reciprocal hreflang {url} -> {other_url}"
         print("OK", p.lang, url)
     print("All", len(URLS), "canonical HTML pages validated; sitemap and JSON-LD parse successfully.")
 
