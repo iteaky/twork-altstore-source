@@ -4,12 +4,25 @@ on:
     workflows: ["pages build and deployment"]
     types: [completed]
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "sitemap.xml"
+      - "index.html"
+      - "en/**"
+      - "ru/**"
+      - "sk/**"
+      - "features/**"
+      - "guides/**"
+      - "scripts/submit_indexnow.py"
+      - "5d041d250abd4aed8860868e17ea73d8.txt"
+      - ".github/workflows/indexnow.yml"
 permissions:
   contents: read
 jobs:
   notify-search-engines:
     if: >-
-      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'workflow_dispatch' || github.event_name == 'push' ||
       (github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
@@ -21,4 +34,17 @@ jobs:
         with:
           python-version: "3.12"
       - name: Confirm published key and sitemap, then send IndexNow notification
-        run: python3 scripts/submit_indexnow.py --submit
+        shell: bash
+        run: |
+          # GitHub Pages may publish after the push workflow begins.
+          # A successful request exits immediately. Only failed attempts retry.
+          for attempt in $(seq 1 12); do
+            if python3 scripts/submit_indexnow.py --submit; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 12 ]; then
+              echo "IndexNow submission could not be verified" >&2
+              exit 1
+            fi
+            sleep 15
+          done
