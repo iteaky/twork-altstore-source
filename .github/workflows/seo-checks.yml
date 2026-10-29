@@ -1,0 +1,41 @@
+name: SEO and GEO static checks
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "en/**"
+      - "sk/**"
+      - "features/**"
+      - "ru/**"
+      - "privacy/**"
+      - "support/**"
+      - "privacy/**"
+      - "support/**"
+      - "seo/**"
+      - "sitemap.xml"
+      - "llms.txt"
+      - "scripts/check_seo.py"
+      - ".github/workflows/seo-checks.yml"
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "en/**"
+      - "sk/**"
+      - "features/**"
+      - "ru/**"
+      - "seo/**"
+      - "sitemap.xml"
+      - "llms.txt"
+      - "scripts/check_seo.py"
+jobs:
+  validate-static-seo:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 scripts/check_seo.py
