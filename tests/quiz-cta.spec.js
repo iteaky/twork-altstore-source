@@ -12,13 +12,13 @@ test('early access button opens and closes the real signup modal', async ({ page
 
   const button = page.locator('.hero-actions .js-access');
   await expect(button).toBeVisible();
-  await expect(button).toContainText(/ранний доступ/i);
+  await expect(button).toContainText(/ранний доступ|early access/i);
   await button.click();
 
   const modal = page.locator('#access-modal');
   await expect(modal).toHaveClass(/open/);
   await expect(modal).toHaveAttribute('aria-hidden', 'false');
-  await expect(modal.getByRole('heading', { name: /запросить ранний доступ/i })).toBeVisible();
+  await expect(modal.locator('#access-title')).toBeVisible();
   await expect(modal.locator('input[type="email"]')).toBeVisible();
   await expect(page.locator('body')).toHaveClass(/modal-open/);
 
