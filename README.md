@@ -29,6 +29,10 @@ This public repository also hosts the AltStore Classic beta source. The actual i
 
 The AltStore beta and TestFlight early-access channels are separate; their release versions and availability may differ.
 
+## Search-engine discovery
+
+The site publishes a [multilingual sitemap](https://iteaky.github.io/twork-altstore-source/sitemap.xml) and automatically attempts IndexNow URL notification after successful GitHub Pages deployment. This informs participating search engines of changed pages, without guaranteeing index coverage or rankings.
+
 ## Site maintenance
 
 - [Canonical XML sitemap](https://iteaky.github.io/twork-altstore-source/sitemap.xml) · [AI-readable feature directory](https://iteaky.github.io/twork-altstore-source/llms.txt)

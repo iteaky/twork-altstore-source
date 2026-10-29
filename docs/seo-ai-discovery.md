@@ -38,3 +38,6 @@ The site was not reachable through the inspection tool on 2026-10-29. This is an
 - Expanded the multilingual sitemap to 26 pages; improved internal link and reciprocal hreflang checks.
 - Google/Bing index coverage and ChatGPT inclusion are not guaranteed by deployment. Site verification, sitemap submission and external editorial mentions remain owner-authorized next steps.
 - `robots.txt` policy for the GitHub Pages project is managed at the hostname root and cannot be changed by a subfolder `robots.txt` file.
+
+## Account-free IndexNow discovery
+A public verification key is hosted at the project root `https://iteaky.github.io/twork-altstore-source/5d041d250abd4aed8860868e17ea73d8.txt` and included in each IndexNow submission as `keyLocation`. This subpath placement limits authorization to the TWORK project; it does not control other GitHub Pages sites. After a successful GitHub Pages deployment of `main`, the `indexnow.yml` workflow checks the live key and full sitemap, then submits canonical URLs through `https://api.indexnow.org/indexnow`. Run `python3 scripts/submit_indexnow.py --dry-run` without network. A manual workflow dispatch is also available. IndexNow helps participating engines discover changes; it is not a Google index submission and does not guarantee search indexing or ChatGPT/Claude recommendations.
