@@ -1,0 +1,42 @@
+name: Website Analytics privacy and event QA
+on:
+  pull_request:
+    paths:
+      - 'analytics/**'
+      - 'index.html'
+      - 'en/**'
+      - 'sk/**'
+      - 'features/**'
+      - 'ru/**'
+      - 'privacy/**'
+      - 'support/**'
+      - 'web-app/index.html'
+      - 'tests/website-analytics.spec.mjs'
+      - '.github/workflows/site-analytics-checks.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'analytics/**'
+      - 'index.html'
+      - 'en/**'
+      - 'sk/**'
+      - 'features/**'
+      - 'ru/**'
+      - 'privacy/**'
+      - 'support/**'
+      - 'web-app/index.html'
+      - 'tests/website-analytics.spec.mjs'
+jobs:
+  privacy-gate-and-events:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright runner
+        run: npm install --no-save @playwright/test@1.52.0
+      - name: Run website analytics privacy checks
+        run: npx playwright test --config=playwright.config.cjs tests/website-analytics.spec.mjs --project=chromium
