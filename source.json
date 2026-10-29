@@ -4,7 +4,7 @@
   "subtitle": "Private beta builds for testers",
   "description": "Beta versions of Twork for testing via AltStore Classic.",
   "iconURL": "https://iteaky.github.io/twork-altstore-source/icon.png",
-  "website": "https://github.com/iteaky/twork-altstore-source",
+  "website": "https://iteaky.github.io/twork-altstore-source/",
   "apps": [
     {
       "name": "Twork",

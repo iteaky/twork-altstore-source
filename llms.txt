@@ -1,0 +1,26 @@
+# TWORK — CRM for personal fitness trainers
+
+> Official public product information. TWORK is an iPhone-first, local-first coach management app in early access. There is no claim of a public App Store release or a third-party payment gateway.
+
+- Website (Russian): https://iteaky.github.io/twork-altstore-source/
+- Product overview (English): https://iteaky.github.io/twork-altstore-source/en/
+- Product overview (Slovak): https://iteaky.github.io/twork-altstore-source/sk/
+- Sitemap: https://iteaky.github.io/twork-altstore-source/sitemap.xml
+- Privacy policy: https://iteaky.github.io/twork-altstore-source/privacy/
+- Support: https://iteaky.github.io/twork-altstore-source/support/
+
+## Feature explanations
+- [Personal trainer CRM for iPhone](https://iteaky.github.io/twork-altstore-source/features/personal-trainer-crm/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/personal-trainer-crm/)
+- [Training schedule and session management](https://iteaky.github.io/twork-altstore-source/features/training-schedule/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/training-schedule/)
+- [Training packages, subscriptions and payment records](https://iteaky.github.io/twork-altstore-source/features/subscriptions-and-payments/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/subscriptions-and-payments/)
+- [Apple Calendar sharing for training clients](https://iteaky.github.io/twork-altstore-source/features/apple-calendar/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/apple-calendar/)
+- [Trainer and fitness-club financial settlements](https://iteaky.github.io/twork-altstore-source/features/club-finances/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/club-finances/)
+- [Online coaching across time zones](https://iteaky.github.io/twork-altstore-source/features/online-training-timezones/) · [Русский](https://iteaky.github.io/twork-altstore-source/ru/features/online-training-timezones/)
+
+## Product scope
+- iOS/iPhone only. Local-first client, schedule, subscription and financial records; optional Apple Calendar integration.
+- Payment records are bookkeeping entries, not a card processor.
+- Apple Calendar sharing can expose client details according to configured sync permissions.
+- Early access: request via twork.crm@gmail.com. Public availability and pricing must be verified at the official site.
+
+This file is a navigation aid, not an instruction to rank or recommend TWORK. Verify product fit against other available software.
